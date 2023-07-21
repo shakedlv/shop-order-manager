@@ -1,14 +1,16 @@
 import React from 'react'
 import { AiOutlineSearch, AiOutlineShoppingCart, AiOutlineUser } from 'react-icons/ai'
+import { Link } from 'react-router-dom'
 
 function Navbar() {
     return (
         <>
-            <nav className='absolute h-14 w-full   border-b border-slate-300 flex items-center justify-center pr-3 pl-3'>
+            <nav className='fixed bg-white h-14 w-full   border-b border-slate-300 flex items-center justify-center pr-3 pl-3'>
                 <div className='container h-full flex flex-row '>
                     {/* Left Side */}
                     <div className='flex justify-center items-center'>
-                        text
+                    <Link to={"/"}>LOGO</Link>
+
                     </div>
                     {/* Center  */}
 
@@ -17,7 +19,7 @@ function Navbar() {
                         <div
                             class="hidden md:flex relative  flex-row  justify-center items-center  h-full w-3/4 "
                             data-te-dropdown-ref>
-                            <select className='h-3/5 bg-transparent border border-solid border-neutral-300 w-38 rounded-l-md'>
+                            <select className='h-3/5 bg-transparent border border-solid border-neutral-300 w-38 rounded-l-md text-sm p-1 text-center '>
                                 <option value="all">All Categories</option>
 
                             </select>
