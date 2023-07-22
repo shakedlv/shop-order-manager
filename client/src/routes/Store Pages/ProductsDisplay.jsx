@@ -13,7 +13,7 @@ function ProductsDisplay() {
                 <input
                     type="text"
                     placeholder='Search for products'
-                    class="hidden md:inline-block relative h-10 m-0 -mr-0.5  w-full rounded-md min-w-0 flex-auto  border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none"
+                    className="hidden md:inline-block relative h-10 m-0 -mr-0.5  w-full rounded-md min-w-0 flex-auto  border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none"
                     aria-label="Text input with dropdown button" />
                 <AiOutlineSearch className='md:hidden h-8  min-w-fit   p-2 border border-solid border-neutral-300 rounded-full' />
 

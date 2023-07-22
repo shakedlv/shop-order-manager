@@ -1,8 +1,10 @@
 import React from 'react'
 import 'flowbite';
-import {AiOutlineArrowLeft, AiOutlineDashboard, AiOutlineShop, AiOutlineShoppingCart} from 'react-icons/ai'
-import {BsBag} from 'react-icons/bs'
+import { AiOutlineArrowLeft, AiOutlineDashboard, AiOutlineShop, AiOutlineShoppingCart } from 'react-icons/ai'
+import { BsBag } from 'react-icons/bs'
 import { Link } from 'react-router-dom';
+import { CiSettings } from 'react-icons/ci'
+
 function Sidenav() {
     return (
         <>
@@ -30,23 +32,23 @@ function Sidenav() {
             <aside id="logo-sidebar" className="fixed top-0 left-0 z-40 w-[22dvw] h-screen pt-16 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700" aria-label="Sidebar">
                 <div className="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
                     <ul className="space-y-2 font-medium">
-                       
-                    <li>
+
+                        <li>
                             <Link to={"/"} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                            <AiOutlineArrowLeft className='h-[1.5rem] w-[1.5rem]'/>
+                                <AiOutlineArrowLeft className='h-[1.5rem] w-[1.5rem]' />
 
                                 <span className="flex-1 ml-3 whitespace-nowrap">Go To Store</span>
                             </Link>
                         </li>
                         <li>
                             <a href="#" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                                <AiOutlineDashboard className='h-[1.5rem] w-[1.5rem]'/>
+                                <AiOutlineDashboard className='h-[1.5rem] w-[1.5rem]' />
                                 <span className="ml-3">Overview</span>
                             </a>
                         </li>
                         <li>
                             <a href="#" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                                <AiOutlineShop className='h-[1.5rem] w-[1.5rem]'/>
+                                <AiOutlineShop className='h-[1.5rem] w-[1.5rem]' />
 
                                 <span className="flex-1 ml-3 whitespace-nowrap">Kanban</span>
                                 <span className="inline-flex items-center justify-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">Pro</span>
@@ -54,7 +56,7 @@ function Sidenav() {
                         </li>
                         <li>
                             <a href="#" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                            <AiOutlineShop className='h-[1.5rem] w-[1.5rem]'/>
+                                <AiOutlineShop className='h-[1.5rem] w-[1.5rem]' />
 
                                 <span className="flex-1 ml-3 whitespace-nowrap">Open Orders</span>
                                 <span className="inline-flex items-center justify-center w-3 h-3 p-3 ml-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">3</span>
@@ -62,24 +64,30 @@ function Sidenav() {
                         </li>
                         <li>
                             <a href="#" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                            <AiOutlineShoppingCart className='h-[1.5rem] w-[1.5rem]'/>
+                                <AiOutlineShoppingCart className='h-[1.5rem] w-[1.5rem]' />
 
                                 <span className="flex-1 ml-3 whitespace-nowrap">All orders</span>
                             </a>
                         </li>
                         <li>
                             <a href="#" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                            <BsBag className='h-[1.5rem] w-[1.5rem]'/>
+                                <BsBag className='h-[1.5rem] w-[1.5rem]' />
 
                                 <span className="flex-1 ml-3 whitespace-nowrap">Products</span>
                             </a>
                         </li>
+                        <li>
+                            <a href="#" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                <CiSettings className='h-[1.5rem] w-[1.5rem]' />
 
+                                <span className="flex-1 ml-3 whitespace-nowrap">Store Settings</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </aside>
 
- 
+
 
         </>
     )
