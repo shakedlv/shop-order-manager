@@ -4,6 +4,7 @@ import { useNavigate, Navigate } from "react-router-dom";
 import api from '../../utils/api'
 function Login() {
     const isAuthenticated = Boolean(localStorage.getItem("user_token"));
+	const isAdmin = localStorage.getItem("user_isAdmin") === "true";
 
 
     const [username, setUsername] = useState("");
@@ -42,7 +43,15 @@ function Login() {
 
     useEffect(() => {
         if (isAuthenticated) {
-            nav("/");
+            if(isAdmin)
+            {
+                nav("/dashboard");
+            }
+            else
+            {
+                nav("/");
+
+            }
         }
     }, [isAuthenticated])
 

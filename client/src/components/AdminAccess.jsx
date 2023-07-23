@@ -4,7 +4,7 @@ import AccessDenied from '../routes/AccessDenied';
 
 function AdminAccess({ children }) {
 	const isAuthenticated = Boolean(localStorage.getItem("user_token"));
-	const isAdmin = localStorage.getItem("user_isAdmin") == "true";
+	const isAdmin = localStorage.getItem("user_isAdmin") === "true";
 
 	if (isAuthenticated) {
         if(isAdmin)

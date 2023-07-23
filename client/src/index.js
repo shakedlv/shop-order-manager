@@ -12,6 +12,7 @@ import DashboardTemplate from './routes/Dashboard Pages/DashboardTemplate';
 import Overview from './routes/Dashboard Pages/Overview';
 import Login from './routes/Store Pages/Login';
 import AdminAccess from './components/AdminAccess.jsx';
+import About from './routes/Store Pages/About';
 
 
 const router = createBrowserRouter([
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
+      },
+      {
+        path: "/about",
+        element: <About />,
       },
     ],
 
