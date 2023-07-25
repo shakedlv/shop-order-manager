@@ -31,6 +31,9 @@ builder.Services.AddControllers();
 
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -45,11 +48,11 @@ builder.Services.AddCors((o) => {
 });
 var app = builder.Build();
 
-//using (var scope = app.Services.CreateScope())
-//{
-//    var context = scope.ServiceProvider.GetRequiredService<ApiDbContext>();
-//    context.Database.Migrate();
-//}
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<MainContext>();
+    context.Database.Migrate();
+}
 
 app.UseSwagger();
 app.UseSwaggerUI();
