@@ -13,7 +13,8 @@ import Overview from './routes/Dashboard Pages/Overview';
 import Login from './routes/Store Pages/Login';
 import AdminAccess from './components/AdminAccess.jsx';
 import About from './routes/Store Pages/About';
-
+import { Provider } from 'react-redux';
+import store from './features/store'
 
 const router = createBrowserRouter([
   {
@@ -53,10 +54,13 @@ const router = createBrowserRouter([
   }
 ]);
 
+
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <RouterProvider router={router} />
-
+  <Provider store={store}>
+    <RouterProvider router={router} />
+  </Provider>
 );
 
 

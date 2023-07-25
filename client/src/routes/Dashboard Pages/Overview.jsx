@@ -1,6 +1,8 @@
 import React from 'react'
 
 function Overview() {
+    console.log("text")
+
     return (
         <div className="sm:ml-[25dvw] overflow-y-hidden">
             <div className="mt-16 max-w-[70dvw]">
