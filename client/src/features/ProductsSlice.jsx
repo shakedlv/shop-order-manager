@@ -11,13 +11,13 @@ const shopSlice = createSlice({
             state.products=action.payload;
         },
         setCategories: (state, action) => {
-            state.products=action.payload;
+            state.categories=action.payload;
         },
         addProduct: (state, action) => {
             state.products.push(action.payload);
         },
         addCategories: (state, action) => {
-            state.products.push(action.payload);
+            state.categories.push(action.payload);
         },
     },
 });

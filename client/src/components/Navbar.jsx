@@ -1,8 +1,10 @@
 import React from 'react'
 import { AiOutlineSearch, AiOutlineShoppingCart, AiOutlineUser } from 'react-icons/ai'
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
 
 function Navbar() {
+    const categories = useSelector((s) => s.shop.categories);
     return (
         <>
             <nav className='fixed bg-white h-14 w-full   border-b border-slate-300 flex items-center justify-center pr-3 pl-3'>
@@ -21,7 +23,9 @@ function Navbar() {
                             data-te-dropdown-ref>
                             <select className='h-3/5 bg-transparent border border-solid border-neutral-300 w-38 rounded-l-md text-sm p-1 text-center '>
                                 <option value="all">All Categories</option>
-
+                                {categories.map((cat)=>{
+                                    return <option key={cat['id']} value={cat['id']}>{cat['displayName']}</option>
+                                })}
                             </select>
                             <input
                                 type="text"

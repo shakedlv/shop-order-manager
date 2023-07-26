@@ -1,7 +1,10 @@
 import React from 'react'
 import CategoryTab from './CategoryTab'
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux';
 function CategoriesSlider() {
+  const categories = useSelector((s) => s.shop.categories);
+
   return (
     <div className='container w-full p-2'>
       <div className='flex flex-row justify-between mb-2'>
@@ -10,12 +13,10 @@ function CategoriesSlider() {
 
       </div>
       <div className='flex flex-row gap-2 overflow-x-scroll p-2'>
-        <CategoryTab title={"Veg"} />
-        <CategoryTab title={"Veg"} />
-        <CategoryTab title={"Veg"} />
-        <CategoryTab title={"Veg"} />
-        <CategoryTab title={"Veg"} />
-        <CategoryTab title={"Veg"} />
+        {categories.map((cat) => {
+          return <CategoryTab key={cat['id']} title={cat['displayName']} />
+        })}
+
       </div>
     </div>
   )
