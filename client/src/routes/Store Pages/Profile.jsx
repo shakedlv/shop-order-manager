@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Label, TextInput, Avatar, Toast } from 'flowbite-react';
 import api from '../../utils/api';
 import { HiCheck, HiExclamation } from 'react-icons/hi'
 import { Toaster, toast } from 'react-hot-toast';
 function Profile() {
+  const isAdmin = localStorage.getItem("user_isAdmin") === "true";
+
   const nav = useNavigate();
 
   const HandleLogout = () => {
@@ -134,12 +136,15 @@ function Profile() {
 
       {loading ? " loading" :
         <>
-          <div>
+          <div className=' flex flex-col gap-2'>
             <Avatar img="" className='m-3 ' />
 
             <button onClick={() => HandleLogout()} className='px-3 py-1 border border-gray-400 rounded-md hover:bg-slate-700 hover:text-white hover:ease-in transition-all '>
               logout
             </button>
+            {isAdmin ? <Link to={"/dashboard"} className='px-3 py-1 border border-gray-400 rounded-md hover:bg-slate-700 hover:text-white hover:ease-in transition-all '>
+              Admin Dashboard
+            </Link> : <></>}
           </div>
           <div>
             <form className="flex max-w-md flex-col gap-4 m-12">

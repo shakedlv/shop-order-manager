@@ -45,15 +45,7 @@ function Login() {
 
     useEffect(() => {
         if (isAuthenticated) {
-            if(isAdmin)
-            {
-                nav("/dashboard");
-            }
-            else
-            {
-                nav("/profile");
-
-            }
+            nav("/profile");
         }
     }, [isAuthenticated])
 

@@ -21,7 +21,7 @@ function Navbar() {
                         <div
                             className="hidden md:flex relative  flex-row  justify-center items-center  h-full w-3/4 "
                             data-te-dropdown-ref>
-                            <select className='h-3/5 bg-transparent border border-solid border-neutral-300 w-38 rounded-l-md text-sm p-1 text-center '>
+                            <select className='h-3/5 bg-transparent border  border-neutral-300 w-38 rounded-l-md text-sm p-1 text-center '>
                                 <option value="all">All Categories</option>
                                 {categories.map((cat)=>{
                                     return <option key={cat['id']} value={cat['id']}>{cat['displayName']}</option>
@@ -29,11 +29,11 @@ function Navbar() {
                             </select>
                             <input
                                 type="text"
-                                className="relative h-3/5 m-0 -mr-0.5 block w-full min-w-0 flex-auto  border border-solid border-l-transparent border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none"
-                                aria-label="Text input with dropdown button" />
-                            <AiOutlineSearch className='h-3/5  min-w-fit  border-l-transparent p-2 border border-solid border-neutral-300 rounded-r-md' />
+                                className="h-3/5 m-0 -mr-0.5 block w-full min-w-0 flex-auto  border   border-gray-300   bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700  transition duration-200 ease-in-out  "
+                               />
+                            <AiOutlineSearch className='h-3/5  min-w-fit  border-l-transparent p-2 border  border-neutral-300 rounded-r-md hover:bg-slate-300 hover:border-black' />
                         </div>
-                        <AiOutlineSearch className='md:hidden h-3/5  min-w-fit   p-2 border border-solid border-neutral-300 rounded-full' />
+                        <AiOutlineSearch className='md:hidden h-3/5  min-w-fit   p-2 border  border-neutral-300 rounded-full hover:bg-slate-300 hover:border-black' />
 
                     </div>
                     {/* Right Side */}

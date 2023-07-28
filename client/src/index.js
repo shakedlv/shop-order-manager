@@ -19,6 +19,7 @@ import { Provider } from 'react-redux';
 import store from './features/store'
 import Products from './routes/Dashboard Pages/Products';
 import Profile from './routes/Store Pages/Profile';
+import ProductInfo from './routes/Store Pages/ProductInfo';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
       {
         path: "/profile",
         element: <UserAccess><Profile/></UserAccess>,
+      },
+      {
+        path: "/product/view/:id",
+        element: <ProductInfo/>,
       },
     ],
 
