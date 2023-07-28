@@ -5,7 +5,7 @@ function Overview() {
 
     return (
         <div className="sm:ml-[25dvw] overflow-y-hidden">
-            <div className="mt-16 max-w-[70dvw]">
+            <div className="mt-16 sm:max-w-full sm:w-full px-3 lg:px-0  md:max-w-[70dvw]">
                 <div className="grid grid-cols-2 gap-3 mb-4">
                     <div className="flex items-center justify-center h-24 rounded  dark:bg-gray-800 bg-red-200">
                         <p className="text-2xl text-gray-400  flex flex-col justify-center items-center">

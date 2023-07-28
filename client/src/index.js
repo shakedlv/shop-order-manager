@@ -11,11 +11,14 @@ import StoreTemplate from './routes/Store Pages/StoreTemplate';
 import DashboardTemplate from './routes/Dashboard Pages/DashboardTemplate';
 import Overview from './routes/Dashboard Pages/Overview';
 import Login from './routes/Store Pages/Login';
-import AdminAccess from './components/AdminAccess.jsx';
+import AdminAccess from './components/AdminAccess';
+import UserAccess from './components/UserAccess';
+
 import About from './routes/Store Pages/About';
 import { Provider } from 'react-redux';
 import store from './features/store'
-
+import Products from './routes/Dashboard Pages/Products';
+import Profile from './routes/Store Pages/Profile';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -38,6 +41,10 @@ const router = createBrowserRouter([
         path: "/about",
         element: <About />,
       },
+      {
+        path: "/profile",
+        element: <UserAccess><Profile/></UserAccess>,
+      },
     ],
 
   },
@@ -49,6 +56,10 @@ const router = createBrowserRouter([
         path: "/dashboard",
         element: <Overview />,
       },
+      {
+        path: "/dashboard/products",
+        element: <Products />,
+      }, 
 
     ],
   }

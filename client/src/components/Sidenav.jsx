@@ -1,11 +1,20 @@
 import React from 'react'
 import 'flowbite';
-import { AiOutlineArrowLeft, AiOutlineDashboard, AiOutlineShop, AiOutlineShoppingCart } from 'react-icons/ai'
+import { AiOutlineArrowLeft, AiOutlineDashboard, AiOutlineLogout, AiOutlineShop, AiOutlineShoppingCart, AiOutlineUser } from 'react-icons/ai'
 import { BsBag } from 'react-icons/bs'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { CiSettings } from 'react-icons/ci'
 
 function Sidenav() {
+    const nav = useNavigate();
+
+    const HandleLogout =()=>
+    {
+        localStorage.setItem("user_token", "");
+        localStorage.setItem("user_isAdmin", "");
+        nav("/")
+    }
+    
     return (
         <>
 
@@ -70,18 +79,32 @@ function Sidenav() {
                             </a>
                         </li>
                         <li>
-                            <a href="#" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <Link to={"/dashboard/products"} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                 <BsBag className='h-[1.5rem] w-[1.5rem]' />
 
                                 <span className="flex-1 ml-3 whitespace-nowrap">Products</span>
-                            </a>
+                            </Link>
                         </li>
                         <li>
                             <a href="#" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                 <CiSettings className='h-[1.5rem] w-[1.5rem]' />
 
-                                <span className="flex-1 ml-3 whitespace-nowrap">Store Settings</span>
+                                <span className="flex-1 ml-3 whitespace-nowrap">Settings</span>
                             </a>
+                        </li>
+                        <li>
+                            <Link to={"/profile"} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                <AiOutlineUser className='h-[1.5rem] w-[1.5rem]' />
+
+                                <span className="flex-1 ml-3 whitespace-nowrap">Profile</span>
+                            </Link>
+                        </li>
+                        <li>
+                            <button onClick={()=>HandleLogout()} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                <AiOutlineLogout className='h-[1.5rem] w-[1.5rem]' />
+
+                                <span className="flex-1 ml-3 whitespace-nowrap">Logout</span>
+                            </button>
                         </li>
                     </ul>
                 </div>

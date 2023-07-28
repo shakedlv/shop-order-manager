@@ -24,6 +24,8 @@ function Login() {
             .then((result) => {
                 if (result.status === 200) {
                     localStorage.setItem("user_token", result.data['token']);
+                    localStorage.setItem("user_id", result.data['id']);
+
                     localStorage.setItem("user_isAdmin", result.data['isAdmin']);
                     nav("/");
 
@@ -49,7 +51,7 @@ function Login() {
             }
             else
             {
-                nav("/");
+                nav("/profile");
 
             }
         }

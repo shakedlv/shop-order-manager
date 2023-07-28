@@ -58,10 +58,12 @@ namespace api.Controllers
         {
             var sha = SHA256.Create();
             var asByteArray = Encoding.Default.GetBytes(password);
-            var hashed = sha .ComputeHash(asByteArray);
+            var hashed = sha.ComputeHash(asByteArray);
             return Convert.ToBase64String(hashed);
         }
-        
+
+
+
         [HttpPut]
         public IActionResult Update(User user)
         {
@@ -70,12 +72,14 @@ namespace api.Controllers
                 return BadRequest();
             }
 
-            var exists = _userRepo.FindByCondition(u => u.Id == user.Id).Any();
-            if (!exists)
+
+            var olduser = _userRepo.FindByCondition(u => u.Id == user.Id).AsNoTracking().FirstOrDefault();
+            if (olduser  == null)
             {
                 return NotFound();
             }
 
+            user.Password = HashPassword(user.Password);
             _userRepo.Update(user);
 
             return NoContent();
@@ -94,4 +98,7 @@ namespace api.Controllers
             return NoContent();
         }
     }
+
+    
 }
+
