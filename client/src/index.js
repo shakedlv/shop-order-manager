@@ -20,6 +20,7 @@ import store from './features/store'
 import Products from './routes/Dashboard Pages/Products';
 import Profile from './routes/Store Pages/Profile';
 import ProductInfo from './routes/Store Pages/ProductInfo';
+import Register from './routes/Store Pages/Register';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
       {
         path: "/product/view/:id",
         element: <ProductInfo/>,
+      },
+      {
+        path: "/register",
+        element: <Register/>,
       },
     ],
 

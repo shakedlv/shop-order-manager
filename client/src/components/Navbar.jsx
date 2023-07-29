@@ -7,7 +7,7 @@ function Navbar() {
     const categories = useSelector((s) => s.shop.categories);
     return (
         <>
-            <nav className=' fixed bg-white h-14 w-full   border-b border-slate-300 flex items-center justify-center px-3'>
+            <nav className=' fixed bg-white h-14 w-full   border-b border-slate-300 flex items-center justify-center px-3 z-50'>
                 <div className='container h-full flex flex-row px-3'>
                     {/* Left Side */}
                     <div className='flex justify-center items-center'>

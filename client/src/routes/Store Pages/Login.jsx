@@ -1,10 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Label, TextInput } from 'flowbite-react';
+
 import api from '../../utils/api'
+import InputGroup from "../../components/UI/InputGroup";
 function Login() {
     const isAuthenticated = Boolean(localStorage.getItem("user_token"));
-	const isAdmin = localStorage.getItem("user_isAdmin") === "true";
 
 
     const [username, setUsername] = useState("");
@@ -13,11 +15,11 @@ function Login() {
     const nav = useNavigate();
     const handleLogin = (e) => {
         e.preventDefault();
-
         const loginData = {
             username,
             password,
         };
+        console.log(loginData)
 
         api
             .post("Login", loginData)
@@ -57,18 +59,15 @@ function Login() {
                         Sign in to your account
                     </h1>
                     <p className="text-red-400">{error}</p>
-                    <form className="space-y-4 md:space-y-6" action="#">
-                        <div>
-                            <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Username</label>
-                            <input type="text" name="username" id="username" autoComplete="new-username" onChange={(e) => { setUsername(e.target.value) }}
-                                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required="" />
-                        </div>
-                        <div>
-                            <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                            <input type="password" name="password" id="password" placeholder="••••••••"
-                                autoComplete="new-password" onChange={(e) => { setPassword(e.target.value) }}
-                                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="" />
-                        </div>
+                    <div className="space-y-4 md:space-y-6" action="#" autoComplete="off">
+                        <InputGroup id={"username"} label={"Username"} type={"text"}
+                            placeholder={"Enter Username"} onChangeEvent={(e) => { setUsername(e.target.value) }} />
+                        <InputGroup id={"password"} label={"password"} type={"password"}
+                            placeholder={"*************"} onChangeEvent={(e) => { setPassword(e.target.value) }} />
+
+
+
+
                         <div className="flex items-center justify-between">
                             <div className="flex items-start">
                                 <div className="flex items-center h-5">
@@ -83,9 +82,9 @@ function Login() {
                         <button onClick={(e) => handleLogin(e)}
                             className="w-full text-black font-medium rounded-lg text-sm px-5 py-2.5 text-center border border-gray-300 hover:border-gray-600 hover:bg-gray-300">Sign in</button>
                         <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                            Don’t have an account yet? <a href="#" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign up</a>
+                            Don’t have an account yet? <Link to={"/register"} className="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign up</Link>
                         </p>
-                    </form>
+                    </div>
                 </div>
             </div>
         </main>

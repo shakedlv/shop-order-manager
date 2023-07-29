@@ -44,6 +44,18 @@ namespace api.Controllers
         [HttpPost]
         public IActionResult Create(User user)
         {
+            var olduser = _userRepo.FindByCondition(u => u.Email == user.Email ).AsNoTracking().FirstOrDefault();
+            if(olduser != null)
+            {
+                return BadRequest();
+
+            }
+            olduser = _userRepo.FindByCondition(u => u.Username == user.Username).AsNoTracking().FirstOrDefault();
+            if (olduser != null)
+            {
+                return BadRequest();
+
+            }
             if (user == null)
             {
                 return BadRequest();
