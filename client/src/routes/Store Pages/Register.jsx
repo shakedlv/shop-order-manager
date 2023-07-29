@@ -9,7 +9,7 @@ function Register() {
         if (isAuthenticated) {
             nav("/profile");
         }
-    }, [isAuthenticated])
+    }, )
 
 
     const [username, setUsername] = useState("")

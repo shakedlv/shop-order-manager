@@ -21,6 +21,7 @@ import Products from './routes/Dashboard Pages/Products';
 import Profile from './routes/Store Pages/Profile';
 import ProductInfo from './routes/Store Pages/ProductInfo';
 import Register from './routes/Store Pages/Register';
+import Users from './routes/Dashboard Pages/User';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -70,7 +71,10 @@ const router = createBrowserRouter([
         path: "/dashboard/products",
         element: <Products />,
       }, 
-
+      {
+        path: "/dashboard/users",
+        element: <Users />,
+      }, 
     ],
   }
 ]);

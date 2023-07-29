@@ -1,7 +1,5 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Label, TextInput } from 'flowbite-react';
 
 import api from '../../utils/api'
 import InputGroup from "../../components/UI/InputGroup";
@@ -49,7 +47,7 @@ function Login() {
         if (isAuthenticated) {
             nav("/profile");
         }
-    }, [isAuthenticated])
+    }, )
 
     return (
         <main className="bg-neutral-50 w-full h-screen  flex flex-col items-center md:justify-center gap-2">
@@ -77,7 +75,7 @@ function Login() {
                                     <label htmlFor="remember" className="text-gray-500 dark:text-gray-300">Remember me</label>
                                 </div>
                             </div>
-                            <a href="#" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</a>
+                            <Link to="/forgotpassword" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</Link>
                         </div>
                         <button onClick={(e) => handleLogin(e)}
                             className="w-full text-black font-medium rounded-lg text-sm px-5 py-2.5 text-center border border-gray-300 hover:border-gray-600 hover:bg-gray-300">Sign in</button>

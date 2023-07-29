@@ -50,7 +50,7 @@ function DashboardTemplate() {
     return (
        <>
             <Sidenav />
-            <Outlet />
+            {loading ? <></> :  <Outlet />}
         </>
 
     )

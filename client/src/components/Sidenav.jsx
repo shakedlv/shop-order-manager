@@ -1,6 +1,6 @@
 import React from 'react'
 import 'flowbite';
-import { AiOutlineArrowLeft, AiOutlineDashboard, AiOutlineLogout, AiOutlineShop, AiOutlineShoppingCart, AiOutlineUser } from 'react-icons/ai'
+import { AiOutlineArrowLeft, AiOutlineDashboard, AiOutlineLogout, AiOutlineShop, AiOutlineShoppingCart, AiOutlineUser, AiOutlineUsergroupAdd } from 'react-icons/ai'
 import { BsBag } from 'react-icons/bs'
 import { Link, useNavigate } from 'react-router-dom';
 import { CiSettings } from 'react-icons/ci'
@@ -50,18 +50,10 @@ function Sidenav() {
                             </Link>
                         </li>
                         <li>
-                            <a href="#" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <Link to={"/dashboard"} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                 <AiOutlineDashboard className='h-[1.5rem] w-[1.5rem]' />
                                 <span className="ml-3">Overview</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                                <AiOutlineShop className='h-[1.5rem] w-[1.5rem]' />
-
-                                <span className="flex-1 ml-3 whitespace-nowrap">Kanban</span>
-                                <span className="inline-flex items-center justify-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">Pro</span>
-                            </a>
+                            </Link>
                         </li>
                         <li>
                             <a href="#" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
@@ -77,6 +69,13 @@ function Sidenav() {
 
                                 <span className="flex-1 ml-3 whitespace-nowrap">All orders</span>
                             </a>
+                        </li>
+                        <li>
+                            <Link to={"/dashboard/users"} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                <AiOutlineUsergroupAdd className='h-[1.5rem] w-[1.5rem]' />
+
+                                <span className="flex-1 ml-3 whitespace-nowrap">Manage Users</span>
+                            </Link>
                         </li>
                         <li>
                             <Link to={"/dashboard/products"} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">

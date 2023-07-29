@@ -10,7 +10,6 @@ function ProductsDisplay() {
 
     const [currentPage, setCurrentPage] = useState(1)
     const [productsPerPage, setProductsPerPage] = useState(25)
-    const onPageChange = (page) => setCurrentPage(page);
 
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -19,19 +18,17 @@ function ProductsDisplay() {
 
     const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
     
-    const paginate = (pagenumber) => {
-        setCurrentPage(pagenumber)
-    }
+
 
     const HandlePriceOrderChange = (e)=>{
         var  priceOrder =  e.target.value
-        console.log("Make Price Order ")
+        console.log("Make Price Order " + priceOrder)
 
     }
 
     const HandleFilterProductrsChange = (e) =>{
         var categoriesFilter = e.target.value;
-       console.log("Make Category filter")
+       console.log("Make Category filter" + categoriesFilter)
         
     }
 

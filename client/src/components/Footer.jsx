@@ -44,11 +44,11 @@ function Footer() {
                     </span>
                     <div className="flex mt-4 space-x-5 sm:justify-center sm:mt-0">
     
-                        <a href="https://www.linkedin.com/in/shaked-levy/" target='_blank' className="text-gray-500 hover:text-gray-900 ">
+                        <a href="https://www.linkedin.com/in/shaked-levy/" target='_blank' rel="noreferrer" className="text-gray-500 hover:text-gray-900 ">
                             <AiFillLinkedin/>
                             <span className="sr-only">LinkedIn page</span>
                         </a>
-                        <a href="https://github.com/shakedlv" target='_blank' className="text-gray-500 hover:text-gray-900 ">
+                        <a href="https://github.com/shakedlv" target='_blank' rel="noreferrer" className="text-gray-500 hover:text-gray-900 ">
                             <AiFillGithub/>
                             <span className="sr-only">GitHub account</span>
                         </a>

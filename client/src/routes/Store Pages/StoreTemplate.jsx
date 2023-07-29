@@ -54,7 +54,8 @@ export default function StoreTemplate() {
   return (
     <>
     <Navbar />
-    <Outlet />
+    {loading ? <></> :<Outlet /> }
+    
     <Footer/>
   </>
   )

@@ -3,16 +3,14 @@ import { useParams } from 'react-router-dom'
 import api from '../../utils/api'
 import { Breadcrumb } from 'flowbite-react';
 
-function ProductInfo({ }) {
+function ProductInfo() {
     const { id } = useParams()
 
     const [product, setProduct] = useState({})
-    const [loading, setLoading] = useState(true)
     useEffect(() => {
         api.get('Products/' + id).then((result) => {
             if (result.status === 200) {
                 setProduct(result.data);
-                setLoading(false);
             }
             else {
                 console.log("Product not found")
@@ -20,7 +18,7 @@ function ProductInfo({ }) {
         }).catch((ex) => {
             console.log("Product not found")
         })
-    }, [])
+    }, )
 
     return (
         <main className={"bg-neutral-50 w-full min-h-[80dvh]  pt-20 flex flex-col px-6 gap-2 "}>
