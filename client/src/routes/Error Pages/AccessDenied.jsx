@@ -1,6 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
+/* TO-DO
+      Better error pages
+ */
 function AccessDenied() {
   return (
     <div className='min-h-screen min-w-full flex flex-col justify-center items-center font-bold gap-y-2'>

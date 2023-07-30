@@ -5,6 +5,14 @@ import ProductSlider from '../../components/Products/ProductSlider'
 import { useDispatch, useSelector } from 'react-redux';
 import api from '../../utils/api'
 import {setCategories, setProducts} from '../../features/ProductsSlice'
+
+
+/* TO-DO
+    Make Favourites editable in admin dashboard
+    Make Quick travel to filtered products page when pressing a category
+    Make category display page
+ */
+
 function HomePage() {
     const [loading, setLoading] = useState(true)
     const products = useSelector((s) => s.shop.products);

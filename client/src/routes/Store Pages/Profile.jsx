@@ -4,6 +4,12 @@ import { Label, TextInput, Avatar } from 'flowbite-react';
 import api from '../../utils/api';
 import { HiCheck, HiExclamation } from 'react-icons/hi'
 import { Toaster, toast } from 'react-hot-toast';
+
+
+/* TO-DO
+    Display open orders 
+ */
+
 function Profile() {
   const isAdmin = localStorage.getItem("user_isAdmin") === "true";
 

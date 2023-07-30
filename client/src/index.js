@@ -22,10 +22,11 @@ import Profile from './routes/Store Pages/Profile';
 import ProductInfo from './routes/Store Pages/ProductInfo';
 import Register from './routes/Store Pages/Register';
 import Users from './routes/Dashboard Pages/User';
+import NotFound from './routes/Error Pages/NotFound';
 const router = createBrowserRouter([
   {
     path: "/",
-    errorElement: <div className='min-h-screen min-w-full flex justify-center items-center text-xl font-bold'>404</div>,
+    errorElement: <NotFound/>,
     element: <StoreTemplate />,
     children: [
       {

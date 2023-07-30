@@ -4,6 +4,10 @@ import { AiOutlineSearch } from 'react-icons/ai'
 import { useSelector } from 'react-redux';
 import { Pagination } from 'flowbite-react';
 
+
+/* TO-DO
+    Filter , sorting and search
+ */
 function ProductsDisplay() {
     const products = useSelector((s) => s.shop.products);
     const categories = useSelector((s) => s.shop.categories);

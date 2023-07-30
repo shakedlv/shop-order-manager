@@ -3,6 +3,11 @@ import InputGroup from '../../components/UI/InputGroup'
 import { isValidPassword, isValidUsername, validEmail } from '../../utils/Regex'
 import api from '../../utils/api'
 import { useNavigate } from 'react-router-dom'
+
+/* TO-DO
+    Better validation and errors handling
+ */
+
 function Register() {
     const isAuthenticated = Boolean(localStorage.getItem("user_token"));
     useEffect(() => {

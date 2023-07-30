@@ -1,6 +1,6 @@
 import React from 'react'
 import { Navigate } from 'react-router-dom'
-import AccessDenied from '../routes/AccessDenied';
+import AccessDenied from '../routes/Error Pages/AccessDenied';
 
 function AdminAccess({ children }) {
 	const isAuthenticated = Boolean(localStorage.getItem("user_token"));

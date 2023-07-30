@@ -3,6 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 
 import api from '../../utils/api'
 import InputGroup from "../../components/UI/InputGroup";
+
+
+/* TO-DO
+    Make Forgot password page
+    Change localstorage to somthing that delete itself 
+    use the remember me to save info
+ */
 function Login() {
     const isAuthenticated = Boolean(localStorage.getItem("user_token"));
 

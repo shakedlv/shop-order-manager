@@ -3,6 +3,11 @@ import { useParams } from 'react-router-dom'
 import api from '../../utils/api'
 import { Breadcrumb } from 'flowbite-react';
 
+/* TO-DO
+    Make Quick travel to filtered products page when pressing a category
+    Add to cart
+ */
+
 function ProductInfo() {
     const { id } = useParams()
 
