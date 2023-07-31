@@ -7,6 +7,9 @@ const shopSlice = createSlice({
         categories: [],
     },
     reducers: {
+        fetch:(state)=>{
+
+        },
         setProducts: (state, action) => {
             state.products=action.payload;
         },

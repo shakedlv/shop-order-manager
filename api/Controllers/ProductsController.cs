@@ -59,7 +59,7 @@ namespace api.Controllers
                 return BadRequest();
             }
 
-            var exists = _productRepo.FindByCondition(u => u.Id == product.Id).Any();
+            var exists = _productRepo.FindByCondition(u => u.Id == product.Id).AsNoTracking().Any();
             if (!exists)
             {
                 return NotFound();

@@ -14,8 +14,8 @@ namespace api.Models.DTO
         [Required] public string Description { get; set; }
 
         public int? CategoryId { get; set; }
-        public Category Category { get; set; }
-        [Required] public string MainPicturePath { get; set; }
+        public Category? Category { get; set; }
+        [AllowNull] public string? MainPicturePath { get; set; }
         [AllowNull,NotMapped] public ICollection<string>? PicturesPaths { get; set; }
         [Required,DefaultValue(1.0f)] public float Price { get; set;}
 
