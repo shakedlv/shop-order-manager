@@ -2,11 +2,8 @@ import React, { useEffect, useState } from 'react'
 import InputGroup from '../../components/UI/InputGroup'
 import { isValidPassword, isValidUsername, validEmail } from '../../utils/Regex'
 import api from '../../utils/api'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
-/* TO-DO
-    Better validation and errors handling
- */
 
 function Register() {
     const isAuthenticated = Boolean(localStorage.getItem("user_token"));
@@ -14,7 +11,7 @@ function Register() {
         if (isAuthenticated) {
             nav("/profile");
         }
-    }, )
+    },)
 
 
     const [username, setUsername] = useState("")
@@ -60,8 +57,7 @@ function Register() {
         e.preventDefault();
         setErrors([])
         var errorsList = []
-        if (!validEmail.test(email))
-        {
+        if (!validEmail.test(email)) {
             errorsList.push("Enter a valid email")
 
         }
@@ -99,25 +95,25 @@ function Register() {
                 console.log(ex)
             })
         }
-       
+
 
     }
     return (
         <main className="bg-neutral-50 w-full   flex flex-col items-center md:justify-center gap-2">
 
             <div className="w-full bg-white mt-12  sm:max-w-md xl:p-0 p-3">
-               {errors.length > 0 ?  <div className='bg-red-100  border-2 text-red-800 border-red-500 rounded-xl  w-full min-h-[64px] p-2'>
+                {errors.length > 0 ? <div className='bg-red-100  border-2 text-red-800 border-red-500 rounded-xl  w-full min-h-[64px] p-2'>
                     Failed to create account :
                     <ul className='list-disc list-inside'>
                         {
-                            errors.map((e,index)=>{
+                            errors.map((e, index) => {
                                 return <li key={index}>{e}</li>
                             })
                         }
 
                     </ul>
                 </div>
-                 : <></>}
+                    : <></>}
                 <InputGroup id={"username"} label={"Username"} type={"text"}
                     placeholder={"Username"} onChangeEvent={(e) => { setUsername(e.target.value) }} />
                 <InputGroup id={"email"} label={"Email"} type={"email"}
@@ -134,6 +130,9 @@ function Register() {
                 </div>
                 <button onClick={(e) => handleRegister(e)}
                     className="w-full text-black font-medium rounded-lg text-sm px-5 py-2.5 text-center border border-gray-300 hover:border-gray-600 hover:bg-gray-300">Create Account</button>
+                <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                    Already a member <Link to={"/login"} className="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign in</Link>
+                </p>
             </div>
         </main>
 

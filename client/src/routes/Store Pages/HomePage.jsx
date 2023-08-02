@@ -8,7 +8,6 @@ import {setCategories, setProducts} from '../../features/ProductsSlice'
 
 
 /* TO-DO
-    Make Favourites editable in admin dashboard
     Make Quick travel to filtered products page when pressing a category
     Make category display page
  */

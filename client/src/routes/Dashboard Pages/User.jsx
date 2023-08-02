@@ -4,19 +4,23 @@ import { Button, Modal, Table } from 'flowbite-react';
 import { HiCheck, HiExclamation, HiOutlineExclamationCircle, HiX } from 'react-icons/hi';
 import { Pagination } from 'flowbite-react';
 import { Toaster, toast } from 'react-hot-toast';
+import SearchableDropdown from '../../components/UI/SearchableDropdown';
+import { notifyFaild, notifySuccsess } from '../../utils/notify';
 
 /* TO-DO
-    Add new admin
+    Refetch Data
  */
 
 function Users() {
-    const [users, setUsers] = useState([])
+    const [admins, setAdmin] = useState([])
+    const [notAdmins, setNotAdmins] = useState([])
+
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
     useEffect(() => {
         api.get("Users").then((result) => {
-            var _users = result.data
-            setUsers(_users.filter((user) => user.isAdmin))
+            setNotAdmins(result.data.filter((user) => user.isAdmin === false))
+            setAdmin(result.data.filter((user) => user.isAdmin))
             setLoading(false)
         }).catch((ex) => {
             setError("Failed to get response from server!")
@@ -31,68 +35,52 @@ function Users() {
     const totalPages = Math.ceil(Users.length / usersPerPage);
 
 
-    const currentUsers = users.slice(indexOfFirstUsers, indexOfLastUsers);
-    const [openAdminModel, setopenAdminModel] = useState("");
+    const currentUsers = admins.slice(indexOfFirstUsers, indexOfLastUsers);
+    const [openModal, setOpenModal] = useState("");
     const [userModel, setUserModel] = useState({})
 
-    const OpenAdminModel = (user)=>{
+    const OpenAdminModel = (user) => {
         setUserModel(user);
-        setopenAdminModel("admin");
+        setOpenModal("admin");
     }
 
-    const HandleRemove = (user)=>{
+    const HandleRemove = (user) => {
         user['isAdmin'] = false;
-        api.put("Users",user).then((result)=>{
-            notifySuccsess();
-            setopenAdminModel("");
-        }).catch((ex)=>{
-            notifyFaild();
+        api.put("Users", user).then((result) => {
+            notifySuccsess("Removed Admin Succsessfuly");
+            setOpenModal("");
+        }).catch((ex) => {
+            notifyFaild("Failed to remove admin !");
         })
     }
 
-    const notifySuccsess = () => {
-        toast.custom(
-            (t) => (
-                <div id="toast-danger" className="flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
-                    <div className="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 bg-red-100 rounded-lg dark:text-red-200">
-                        <HiCheck />
-                    </div>
-                    <div className="ml-3 text-sm font-normal"> Admin Removed Succsessfuly !</div>
-                    <button onClick={() => toast.dismiss(t.id)} type="button" className="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-danger" aria-label="Close">
-                        <span className="sr-only">Close</span>
-                        <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                        </svg>
-                    </button>
-                </div>
-            ),
-            { id: "unique-notification", position: "top-center" }
-        );
+    const [userToAdmin, setUserToAdmin] = useState({})
+
+    
+    const HandleSetNewAdmin = (user) => {
+        console.log(user)
+        user['isAdmin'] = true;
+        api.put("Users", user).then((result) => {
+            notifySuccsess("Admin Updated Succsessfuly !");
+            setOpenModal("");
+            setUserToAdmin({});
+        }).catch((ex) => {
+            notifyFaild("Failed to set  admin !");
+        })
     }
-    const notifyFaild = () => {
-        toast.custom(
-            (t) => (
-                <div id="toast-danger" className="flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
-                    <div className="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 bg-red-100 rounded-lg dark:text-red-200">
-                        <HiExclamation />
-                    </div>
-                    <div className="ml-3 text-sm font-normal"> Failed to remove admin !</div>
-                    <button onClick={() => toast.dismiss(t.id)} type="button" className="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-danger" aria-label="Close">
-                        <span className="sr-only">Close</span>
-                        <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                        </svg>
-                    </button>
-                </div>
-            ),
-            { id: "unique-notification", position: "top-center" }
-        );
-    }
+
+
 
     return (
         <div className="sm:ml-[25dvw] overflow-y-hidden">
             <div className="mt-16 sm:max-w-full sm:w-full px-3 lg:px-0  md:max-w-[70dvw]">
+                <div className='flex flex-row justify-end'>
+                    <button onClick={()=>{setOpenModal("add")}}
+                    className='p-2 border border-green-400 hover:bg-green-100 rounded-md'>
+                        Add New Admin
+                    </button>
 
+                </div>
                 {loading ? "Loading" : error.length !== 0 ? error :
                     <Table>
                         <Table.Head className='border-b border-b-gray-100'>
@@ -117,7 +105,7 @@ function Users() {
                         </Table.Head>
                         <Table.Body className="divide-y">
                             {currentUsers.map((user) => {
-                                return <Table.Row className="bg-white">
+                                return <Table.Row className="bg-white" key={user['id']}>
                                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                                         {user['username']}
                                     </Table.Cell>
@@ -135,7 +123,7 @@ function Users() {
                                     </Table.Cell>
                                     <Table.Cell>
                                         <button
-                                            onClick={()=>{OpenAdminModel(user)}}
+                                            onClick={() => { OpenAdminModel(user) }}
                                             className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
                                             href="/tables"
                                         >
@@ -156,7 +144,7 @@ function Users() {
                 onPageChange={page => { setCurrentPage(page) }}
                 totalPages={totalPages}
             /></div>
-            <Modal show={openAdminModel === 'delete'} size="md" popup onClose={() => setopenAdminModel("")}>
+            <Modal dismissible show={openModal === 'admin'} onClose={() => setOpenModal("")}>
                 <Modal.Header />
                 <Modal.Body>
                     <div className="text-center">
@@ -169,10 +157,31 @@ function Users() {
                                 Yes, I'm sure
                             </Button>
                             <Button color="gray" onClick={() => {
-                                setopenAdminModel("");
+                                setOpenModal("");
                                 setUserModel({});
                             }}>
                                 No, cancel
+                            </Button>
+                        </div>
+                    </div>
+                </Modal.Body>
+            </Modal>
+            <Modal dismissible show={openModal === 'add'} onClose={() => setOpenModal("")}>
+                <Modal.Header />
+                <Modal.Body>
+                    <div className="text-center">
+                        <span className="mb-5 text-lg font-normal flex flex-row justify-center text-gray-500 dark:text-gray-400">
+                            <SearchableDropdown array={notAdmins} id={"users"} label={"Select User"} parameter={"username"}
+                            onSelectEvent={setUserToAdmin}/> 
+                        </span>
+                        <div className="flex justify-center gap-4">
+                            <Button color="success" onClick={() => {HandleSetNewAdmin(userToAdmin)}}>
+                                Add New Admin
+                            </Button>
+                            <Button color="failure" onClick={() => {
+                                setOpenModal("");
+                            }}>
+                                Cancel
                             </Button>
                         </div>
                     </div>
