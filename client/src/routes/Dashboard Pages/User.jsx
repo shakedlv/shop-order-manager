@@ -6,33 +6,25 @@ import { Pagination } from 'flowbite-react';
 import { Toaster } from 'react-hot-toast';
 import SearchableDropdown from '../../components/UI/SearchableDropdown';
 import { notifyFaild, notifySuccsess } from '../../utils/notify';
-
-/* TO-DO
-    Refetch Data
- */
+import { useFetch } from '../../hooks/hooks';
 
 function Users() {
+    const { data: users, error: error, loading: loading , refetch : getUsers } = useFetch("Users")
+
     const [admins, setAdmin] = useState([])
     const [notAdmins, setNotAdmins] = useState([])
 
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState("")
+
     useEffect(() => {
-        api.get("Users").then((result) => {
-            setNotAdmins(result.data.filter((user) => user.isAdmin === false))
-            setAdmin(result.data.filter((user) => user.isAdmin))
-            setLoading(false)
-        }).catch((ex) => {
-            setError("Failed to get response from server!")
-            setLoading(false)
-        })
-    }, [])
+        setNotAdmins(users ? users.filter((user) => user.isAdmin === false) : [])
+        setAdmin(users ? users.filter((user) => user.isAdmin): [])
+    }, [users])
     const [currentPage, setCurrentPage] = useState(1)
     const [usersPerPage, setUsersPerPage] = useState(25)
 
     const indexOfLastUsers = currentPage * usersPerPage;
     const indexOfFirstUsers = indexOfLastUsers - usersPerPage;
-    const totalPages = Math.ceil(Users.length / usersPerPage);
+    const totalPages = users ?  Math.ceil(users.length / usersPerPage) : 1;
 
 
     const currentUsers = admins.slice(indexOfFirstUsers, indexOfLastUsers);
@@ -52,6 +44,8 @@ function Users() {
         }).catch((ex) => {
             notifyFaild("Failed to remove admin !");
         })
+
+        getUsers();
     }
 
     const [userToAdmin, setUserToAdmin] = useState({})
@@ -67,6 +61,8 @@ function Users() {
         }).catch((ex) => {
             notifyFaild("Failed to set  admin !");
         })
+        getUsers();
+
     }
 
 
@@ -81,7 +77,7 @@ function Users() {
                     </button>
 
                 </div>
-                {loading ? "Loading" : error.length !== 0 ? error :
+                {loading ? "Loading" : error ? error :
                     <Table>
                         <Table.Head className='border-b border-b-gray-100'>
                             <Table.HeadCell>

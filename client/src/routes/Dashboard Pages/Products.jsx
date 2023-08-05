@@ -10,7 +10,7 @@ import { useFetch } from '../../hooks/hooks';
 
 
 /* TO-DO
-    refetch data on update ? how can i realtime but fest ?    
+      
     handle pictures
 
     Add new category,
@@ -18,8 +18,8 @@ import { useFetch } from '../../hooks/hooks';
     Edit category,
  */
 function Products() {
-    const {data:products,error:p_error,loading:p_loading} = useFetch("Products")
-    const {data:categories,error:c_error,loading:c_loading} = useFetch("Categories")
+    const { data: products, error: p_error, loading: p_loading , refetch : getProducts } = useFetch("Products")
+    const { data: categories, error: c_error, loading: c_loading ,refetch : getCategories } = useFetch("Categories")
 
 
     const [currentPage, setCurrentPage] = useState(1)
@@ -27,7 +27,7 @@ function Products() {
 
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-    const totalPages = products ? Math.ceil(products.length / productsPerPage): 1;
+    const totalPages = products ? Math.ceil(products.length / productsPerPage) : 1;
 
 
     const currentProducts = products ? products.slice(indexOfFirstProduct, indexOfLastProduct) : [];
@@ -89,26 +89,28 @@ function Products() {
             HandleClearForm();
 
         }).catch((ex) => { notifyFaild("Failed to update product!") })
+        getProducts();
 
     }
     const [openDeleteModal, setOpenDeleteModal] = useState("");
     const [productDelete, setProductDelete] = useState({})
 
-    const OpenDelete =(product)=>{
+    const OpenDelete = (product) => {
         setOpenDeleteModal("delete");
         setProductDelete(product)
     }
-    const CloseDelete = () =>{
+    const CloseDelete = () => {
         setOpenDeleteModal("");
         setProductDelete({});
     }
-    const HandleDelete = (id) => [
+    const HandleDelete = (id) => {
         api.delete("Products/" + id).then(result => {
             notifySuccsess("Product Deleted Succsessfuly!");
-            CloseDelete();}
-            )
-            .catch(er => notifyFaild("Failed to delete product!"))
-    ]
+            CloseDelete();
+        }
+        ).catch(er => notifyFaild("Failed to delete product!"));
+        getProducts();
+        }
 
 
 
@@ -188,7 +190,7 @@ function Products() {
                                     </button>
                                 </Table.Cell>
                             </Table.Row>
-                        }): <></>}
+                        }) : <></>}
                     </Table.Body>
 
                 </Table>
@@ -212,7 +214,7 @@ function Products() {
                             className='h-2/3 bg-transparent border  border-neutral-300 w-38 rounded-md text-sm p-1 text-center ' onChange={(e) => { setCategoryId(e.target.value) }}>
                             {categories ? categories.map((cat) => {
                                 return <option key={cat['id']} value={cat['id']}>{cat['displayName']}</option>
-                            }): <></>}
+                            }) : <></>}
                         </select>
                         <InputGroup id={"price"} label={"Price"} value={price} type={"number"} onChangeEvent={(e) => { setPrice(e.target.value) }} />
 
@@ -224,8 +226,8 @@ function Products() {
                         Cancle
                     </Button>
                 </Modal.Footer>
-            </Modal>      
-            
+            </Modal>
+
             <Modal show={openDeleteModal === 'delete'} size="md" popup onClose={() => setOpenDeleteModal("")}>
                 <Modal.Header />
                 <Modal.Body>
