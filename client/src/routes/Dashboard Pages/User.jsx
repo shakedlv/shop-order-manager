@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import api from '../../utils/api'
 import { Button, Modal, Table } from 'flowbite-react';
-import { HiCheck, HiExclamation, HiOutlineExclamationCircle, HiX } from 'react-icons/hi';
+import { HiCheck, HiOutlineExclamationCircle, HiX } from 'react-icons/hi';
 import { Pagination } from 'flowbite-react';
-import { Toaster, toast } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 import SearchableDropdown from '../../components/UI/SearchableDropdown';
 import { notifyFaild, notifySuccsess } from '../../utils/notify';
 

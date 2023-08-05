@@ -1,17 +1,21 @@
 import React from 'react'
 import { AiOutlineSearch, AiOutlineShoppingCart, AiOutlineUser } from 'react-icons/ai'
-import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
+import { useFetch } from '../hooks/hooks';
 
 function Navbar() {
-    const categories = useSelector((s) => s.shop.categories);
+    const { data: categories, error, loading } = useFetch("Categories")
+
+    if (loading) return <h3>LOADING</h3>
+    if (error) return <h3>{error}</h3>
+    if (!categories) return <h3> empty </h3>
     return (
         <>
             <nav className=' fixed bg-white h-14 w-full   border-b border-slate-300 flex items-center justify-center px-3 z-50'>
                 <div className='container h-full flex flex-row px-3'>
                     {/* Left Side */}
                     <div className='flex justify-center items-center'>
-                    <Link to={"/"}>LOGO</Link>
+                        <Link to={"/"}>LOGO</Link>
 
                     </div>
                     {/* Center  */}
@@ -23,14 +27,14 @@ function Navbar() {
                             data-te-dropdown-ref>
                             <select className='h-3/5 bg-transparent border  border-neutral-300 w-38 rounded-l-md text-sm p-1 text-center '>
                                 <option value="all">All Categories</option>
-                                {categories.map((cat)=>{
+                                {categories.map((cat) => {
                                     return <option key={cat['id']} value={cat['id']}>{cat['displayName']}</option>
                                 })}
                             </select>
                             <input
                                 type="text"
                                 className="h-3/5 m-0 -mr-0.5 block w-full min-w-0 flex-auto  border   border-gray-300   bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700  transition duration-200 ease-in-out  "
-                               />
+                            />
                             <AiOutlineSearch className='h-3/5  min-w-fit  border-l-transparent p-2 border  border-neutral-300 rounded-r-md hover:bg-slate-300 hover:border-black' />
                         </div>
                         <AiOutlineSearch className='md:hidden h-3/5  min-w-fit   p-2 border  border-neutral-300 rounded-full hover:bg-slate-300 hover:border-black' />
@@ -57,10 +61,10 @@ function Navbar() {
             </nav>
 
             <button className='fixed bottom-8 right-8  block md:hidden  border border-neutral-300 rounded-full p-2 ease-in-out bg-slate-300 hover:border-black'>
-                        <AiOutlineShoppingCart />
-                        <span
-                            className="absolute -top-2 -right-4 text-red-400 bg-red-200 rounded-full pr-2 pl-2"
-                        >1</span>
+                <AiOutlineShoppingCart />
+                <span
+                    className="absolute -top-2 -right-4 text-red-400 bg-red-200 rounded-full pr-2 pl-2"
+                >1</span>
             </button>
         </>
     )

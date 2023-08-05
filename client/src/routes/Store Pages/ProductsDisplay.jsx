@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import ProductTab from '../../components/Products/ProductTab'
-import { AiOutlineSearch } from 'react-icons/ai'
-import { useSelector } from 'react-redux';
 import { Pagination, TextInput } from 'flowbite-react';
 import MultiSelectDropdown from '../../components/UI/MultiSelectDropdown';
 import { useParams } from 'react-router-dom';
+import { useFetch } from '../../hooks/hooks';
 
 
 /* TO-DO
@@ -13,9 +12,8 @@ import { useParams } from 'react-router-dom';
 
 function ProductsDisplay() {
 
-
-    const products = useSelector((s) => s.shop.products);
-    const categories = useSelector((s) => s.shop.categories);
+    const { data: products, error: p_error, loading: p_loading } = useFetch("Products")
+    const { data: categories, error: c_error, loading: c_loading } = useFetch("Categories")
 
     //Handle Pagination 
     const [currentPage, setCurrentPage] = useState(1)
@@ -45,10 +43,10 @@ function ProductsDisplay() {
 
         }
         else {
-            var list = products.filter((p) => {
+            var list = products ? products.filter((p) => {
                 var cat = categories.filter((c) => c['id'] === p['categoryId'])[0]["displayName"];
                 return categoriesFilter.includes(cat);
-            })
+            }) : products
             setCategorizedProducts(list)
         }
 
@@ -66,19 +64,20 @@ function ProductsDisplay() {
         }
         else {
             var list = categorizedProducts.filter((p) => {
-                return p['displayName'].includes(searchQuery);
+                return p['displayName'].toLowerCase().includes(searchQuery.toLowerCase());
             })
             setSearchedProducts(list)
         }
     }, [searchQuery, categorizedProducts])
 
 
-    const currentProducts = searchedProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+    const currentProducts =searchedProducts ? searchedProducts.slice(indexOfFirstProduct, indexOfLastProduct) : [];
 
 
     //Handle Pagination Numbers
 
-    const totalPages = Math.ceil(searchedProducts.length / productsPerPage);
+    const totalPages = searchedProducts ?  Math.ceil(searchedProducts.length / productsPerPage) : 1;
+
     return (
         <main className="bg-neutral-50 w-full h-screen pt-14 flex flex-col items-center gap-2">
 
@@ -102,17 +101,18 @@ function ProductsDisplay() {
                 <MultiSelectDropdown array={categories} parameter={'displayName'} id={"categories"} placeholder={"All Categories"} onSelectEvent={setCategoriesFilter} />
             </div>
             <div className='container h-[100vh-112px] p-2 grid grid-cols-2 gap-2 md:grid-cols-5 lg:grid-cols-7 overflow-x-scroll'>
-                {currentProducts.sort((a, b) => {
-                    if (priceOrder === "lh") {
-                        return a['price'] - b['price']
-                    }
-                    else {
-                        return b['price'] - a['price']
-                    }
-                })
-                    .map((prod) => {
+                {  currentProducts?
+                    currentProducts.sort((a, b) => {
+                        if (priceOrder === "lh") {
+                            return a['price'] - b['price']
+                        }
+                        else {
+                            return b['price'] - a['price']
+                        }
+                    }).map((prod) => {
                         return <ProductTab key={prod['id']} product={prod} />
-                    })}
+                    }) :<></>
+                }
             </div>
             <Pagination
                 currentPage={currentPage}

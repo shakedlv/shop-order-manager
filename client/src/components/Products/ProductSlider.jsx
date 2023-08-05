@@ -1,10 +1,15 @@
 import React from 'react'
 import ProductTab from './ProductTab'
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux';
+import { useFetch } from '../../hooks/hooks';
 
 function ProductSlider() {
-  const products = useSelector((s) => s.shop.products);
+  const {data:products,error,loading} = useFetch("Products")
+
+  if(loading) return <h3>LOADING</h3>
+  if(error) return <h3>{error}</h3>
+  if(!products) return <h3> empty </h3>
+
   const slicedproducts = products.slice(0, 10);
 
   return (

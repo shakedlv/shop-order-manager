@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { Label, TextInput, Avatar } from 'flowbite-react';
 import api from '../../utils/api';
-import { HiCheck, HiExclamation } from 'react-icons/hi'
-import { Toaster, toast } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 import { notifyFaild, notifySuccsess } from '../../utils/notify';
 
 

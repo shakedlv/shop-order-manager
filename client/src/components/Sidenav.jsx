@@ -1,6 +1,6 @@
 import React from 'react'
 import 'flowbite';
-import { AiOutlineArrowLeft, AiOutlineDashboard, AiOutlineLogout, AiOutlineShop, AiOutlineShoppingCart, AiOutlineUser, AiOutlineUsergroupAdd } from 'react-icons/ai'
+import { AiOutlineArrowLeft, AiOutlineDashboard, AiOutlineLogout, AiOutlineShop, AiOutlineUser, AiOutlineUsergroupAdd } from 'react-icons/ai'
 import { BsBag } from 'react-icons/bs'
 import { Link, useNavigate } from 'react-router-dom';
 import { CiSettings } from 'react-icons/ci'
@@ -8,13 +8,12 @@ import { CiSettings } from 'react-icons/ci'
 function Sidenav() {
     const nav = useNavigate();
 
-    const HandleLogout =()=>
-    {
+    const HandleLogout = () => {
         localStorage.setItem("user_token", "");
         localStorage.setItem("user_isAdmin", "");
         nav("/")
     }
-    
+
     return (
         <>
 
@@ -37,11 +36,9 @@ function Sidenav() {
                     </div>
                 </div>
             </nav>
-
-            <aside id="logo-sidebar" className="fixed top-0 left-0 z-40 w-[22dvw] h-screen pt-16 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700" aria-label="Sidebar">
+            <aside id="logo-sidebar" className="fixed top-0 left-0 z-40 w-[22dvw] min-w-fit h-screen pt-16 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700" aria-label="Sidebar">
                 <div className="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
                     <ul className="space-y-2 font-medium">
-
                         <li>
                             <Link to={"/"} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                 <AiOutlineArrowLeft className='h-[1.5rem] w-[1.5rem]' />
@@ -56,34 +53,61 @@ function Sidenav() {
                             </Link>
                         </li>
                         <li>
-                            <a href="#" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <button type="button" className="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                                onClick={() => { document.getElementById("dropdown-E-commerce").classList.toggle("hidden") }}>
                                 <AiOutlineShop className='h-[1.5rem] w-[1.5rem]' />
 
-                                <span className="flex-1 ml-3 whitespace-nowrap">Open Orders</span>
-                                <span className="inline-flex items-center justify-center w-3 h-3 p-3 ml-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">3</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                                <AiOutlineShoppingCart className='h-[1.5rem] w-[1.5rem]' />
-
-                                <span className="flex-1 ml-3 whitespace-nowrap">All orders</span>
-                            </a>
+                                <span className="flex-1 ml-3 text-left whitespace-nowrap">E-commerce</span>
+                                <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
+                                </svg>
+                            </button>
+                            <ul id="dropdown-E-commerce" className="hidden py-2 space-y-2">
+                                <li>
+                                    <a href="#" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                        <span className="flex-1 ml-3 whitespace-nowrap">All orders</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                        <span className="flex-1 ml-3 whitespace-nowrap">Open Orders</span>
+                                        <span className="inline-flex items-center justify-center w-3 h-3 p-3 ml-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">3</span>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                         <li>
                             <Link to={"/dashboard/users"} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                 <AiOutlineUsergroupAdd className='h-[1.5rem] w-[1.5rem]' />
 
-                                <span className="flex-1 ml-3 whitespace-nowrap">Manage Users</span>
+                                <span className="flex-1 ml-3 whitespace-nowrap">Manage Admins</span>
                             </Link>
                         </li>
                         <li>
-                            <Link to={"/dashboard/products"} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <button type="button" className="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                                onClick={() => { document.getElementById("dropdown-Inventory").classList.toggle("hidden") }}>
                                 <BsBag className='h-[1.5rem] w-[1.5rem]' />
 
-                                <span className="flex-1 ml-3 whitespace-nowrap">Products</span>
-                            </Link>
+                                <span className="flex-1 ml-3 text-left whitespace-nowrap">Inventory</span>
+                                <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
+                                </svg>
+                            </button>
+                            <ul id="dropdown-Inventory" className="hidden py-2 space-y-2">
+                                <li>
+                                    <Link to={"/dashboard/products"} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                        <span className="flex-1 ml-3 whitespace-nowrap">Products</span>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to={"/dashboard/categories"} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                        <span className="flex-1 ml-3 whitespace-nowrap">Categories</span>
+                                    </Link>
+                                </li>
+                            </ul>
                         </li>
+                    </ul>
+                    <ul className="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
                         <li>
                             <a href="#" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                 <CiSettings className='h-[1.5rem] w-[1.5rem]' />
@@ -99,7 +123,7 @@ function Sidenav() {
                             </Link>
                         </li>
                         <li>
-                            <button onClick={()=>HandleLogout()} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <button onClick={() => HandleLogout()} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                 <AiOutlineLogout className='h-[1.5rem] w-[1.5rem]' />
 
                                 <span className="flex-1 ml-3 whitespace-nowrap">Logout</span>
@@ -111,8 +135,12 @@ function Sidenav() {
 
 
 
+
+
         </>
     )
 }
 
 export default Sidenav
+
+

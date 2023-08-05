@@ -28,7 +28,7 @@ function MultiSelectDropdown({ array, parameter, id, placeholder, onSelectEvent 
 
             <div className='relative max-w-full' onPointerLeave={() => { document.getElementById("box").classList.toggle("hidden") }}>
                 <div className='absolute mt-2 w-fit shadow-lg rounded-b max-h-32 overflow-y-auto  z-10 bg-white border border-gray-400 rounded-md hidden' id="box">
-                    {array.map((a) => {
+                    {array ? array.map((a) => {
                         return <div key={a[parameter]}
                             className='cursor-pointer hover:bg-gray-300 p-2 w-full' >
                             <div className="flex items-center gap-2">
@@ -37,7 +37,7 @@ function MultiSelectDropdown({ array, parameter, id, placeholder, onSelectEvent 
                                     {a[parameter]}
                                 </Label>
                             </div> </div>
-                    })}
+                    }): <></>}
                 </div>
 
             </div>

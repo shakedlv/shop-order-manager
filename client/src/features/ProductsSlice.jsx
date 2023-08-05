@@ -1,4 +1,5 @@
-import {createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
+
 
 const shopSlice = createSlice({
     name: "shop",
@@ -7,14 +8,11 @@ const shopSlice = createSlice({
         categories: [],
     },
     reducers: {
-        fetch:(state)=>{
-
-        },
         setProducts: (state, action) => {
-            state.products=action.payload;
+            state.products = action.payload;
         },
         setCategories: (state, action) => {
-            state.categories=action.payload;
+            state.categories = action.payload;
         },
         addProduct: (state, action) => {
             state.products.push(action.payload);
@@ -23,7 +21,10 @@ const shopSlice = createSlice({
             state.categories.push(action.payload);
         },
     },
+
 });
 
-export const {setProducts,setCategories} = shopSlice.actions;
+
+
+export const { setProducts, setCategories } = shopSlice.actions;
 export default shopSlice.reducer;

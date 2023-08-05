@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux';
 import { Pagination, Table } from 'flowbite-react';
-import { HiCheck, HiExclamation, HiOutlineExclamationCircle, HiX } from 'react-icons/hi';
+import { HiCheck, HiOutlineExclamationCircle, HiX } from 'react-icons/hi';
 import { Button, Modal } from 'flowbite-react';
 import InputGroup from '../../components/UI/InputGroup';
 import api from '../../utils/api';
-import { Toaster, toast } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 import { notifyFaild, notifySuccsess } from '../../utils/notify';
+import { useFetch } from '../../hooks/hooks';
+
+
 /* TO-DO
     refetch data on update ? how can i realtime but fest ?    
     handle pictures
@@ -16,8 +18,8 @@ import { notifyFaild, notifySuccsess } from '../../utils/notify';
     Edit category,
  */
 function Products() {
-    const products = useSelector((s) => s.shop.products);
-    const categories = useSelector((s) => s.shop.categories);
+    const {data:products,error:p_error,loading:p_loading} = useFetch("Products")
+    const {data:categories,error:c_error,loading:c_loading} = useFetch("Categories")
 
 
     const [currentPage, setCurrentPage] = useState(1)
@@ -25,10 +27,10 @@ function Products() {
 
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-    const totalPages = Math.ceil(products.length / productsPerPage);
+    const totalPages = products ? Math.ceil(products.length / productsPerPage): 1;
 
 
-    const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+    const currentProducts = products ? products.slice(indexOfFirstProduct, indexOfLastProduct) : [];
 
     const [openEditModal, setOpenEditModal] = useState("");
 
@@ -109,7 +111,7 @@ function Products() {
     ]
 
 
-  
+
 
 
     return (
@@ -157,13 +159,13 @@ function Products() {
                                 </button>
                             </Table.Cell>
                         </Table.Row>
-                        {currentProducts.map((product) => {
+                        {currentProducts ? currentProducts.map((product) => {
                             return <Table.Row className="bg-white" key={product['id']}>
                                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                                     {product['displayName']}
                                 </Table.Cell>
                                 <Table.Cell>
-                                    {categories.filter((c) => c['id'] === product['categoryId'])[0]['displayName']}
+                                    {categories ? categories.filter((c) => c['id'] === product['categoryId'])[0]['displayName'] : <></>}
                                 </Table.Cell>
                                 <Table.Cell>
                                     {product['price']}
@@ -186,7 +188,7 @@ function Products() {
                                     </button>
                                 </Table.Cell>
                             </Table.Row>
-                        })}
+                        }): <></>}
                     </Table.Body>
 
                 </Table>
@@ -208,9 +210,9 @@ function Products() {
                         <InputGroup id={"desc"} label={"Description"} value={description} type={"text"} onChangeEvent={(e) => { setDescription(e.target.value) }} />
                         <select value={categoryId}
                             className='h-2/3 bg-transparent border  border-neutral-300 w-38 rounded-md text-sm p-1 text-center ' onChange={(e) => { setCategoryId(e.target.value) }}>
-                            {categories.map((cat) => {
+                            {categories ? categories.map((cat) => {
                                 return <option key={cat['id']} value={cat['id']}>{cat['displayName']}</option>
-                            })}
+                            }): <></>}
                         </select>
                         <InputGroup id={"price"} label={"Price"} value={price} type={"number"} onChangeEvent={(e) => { setPrice(e.target.value) }} />
 

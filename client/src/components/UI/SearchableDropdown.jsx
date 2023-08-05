@@ -3,7 +3,7 @@ import { Label, TextInput } from 'flowbite-react';
 
 function SearchableDropdown({ array, parameter, id, label ,onSelectEvent}) {
     const [searchQuery, setSearchQuery] = useState("")
-    var filteredArray = searchQuery.length > 0 ? array.filter((a) => a[parameter].includes(searchQuery)) : []
+    var filteredArray = searchQuery.length > 0 ? array.filter((a) => a[parameter].toLowerCase().includes(searchQuery.toLowerCase())) : []
     
     
     const HandleSelect = (selected)=>

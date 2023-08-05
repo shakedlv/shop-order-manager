@@ -1,9 +1,13 @@
 import React from 'react'
 import CategoryTab from './CategoryTab'
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux';
+import { useFetch } from '../../hooks/hooks';
 function CategoriesSlider() {
-  const categories = useSelector((s) => s.shop.categories);
+  const {data:categories,error,loading} = useFetch("Categories")
+
+  if(loading) return <h3>LOADING</h3>
+  if(error) return <h3>{error}</h3>
+  if(!categories) return <h3> empty </h3>
 
   return (
     <div className='container w-full p-2'>
