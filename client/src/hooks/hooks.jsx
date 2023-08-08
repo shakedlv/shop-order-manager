@@ -11,7 +11,6 @@ export const useFetch = (initialUrl) => {
 
     useEffect(() => {
         fetchData()
-        console.log(refetchIndex)
     }, [url, refetchIndex]);
 
     const refetch = () => {

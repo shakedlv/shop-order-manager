@@ -4,7 +4,6 @@ import api from '../../utils/api'
 import { Breadcrumb } from 'flowbite-react';
 
 /* TO-DO
-    Make Quick travel to filtered products page when pressing a category
     Add to cart
  */
 

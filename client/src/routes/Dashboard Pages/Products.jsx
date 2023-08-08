@@ -83,7 +83,6 @@ function Products() {
         }
         const verb = productId > 0 ? "put" : "post";
 
-        console.log(productData)
         api[verb]("Products", productData).then((result) => {
             notifySuccsess("Product Updated Succsessfuly!");
             HandleClearForm();

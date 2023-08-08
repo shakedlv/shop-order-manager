@@ -24,7 +24,6 @@ function Login() {
             username,
             password,
         };
-        console.log(loginData)
 
         api
             .post("Login", loginData)

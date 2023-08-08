@@ -6,9 +6,6 @@ import { useParams } from 'react-router-dom';
 import { useFetch } from '../../hooks/hooks';
 
 
-/* TO-DO
-    filtered products page when parms a category
- */
 
 function ProductsDisplay() {
 
@@ -33,12 +30,22 @@ function ProductsDisplay() {
     //Handle Parm Routes
     const { category } = useParams()
     useEffect(() => {
-        console.log("Category is " + category + " Filter this !")
+        if(category !== undefined){
+            setCategoriesFilter(prev=>[category]);
+        }
+        else
+        {
+            setCategoriesFilter(prev=>[]);
+        }
     }, [category])
 
     //Handle Category Filter Change Event 
     useEffect(() => {
-        if (categoriesFilter.length === 0 || categoriesFilter.length === categories.length) {
+        if(categoriesFilter === null || categories === null)
+        {
+            setCategorizedProducts(products)
+        }
+        else if (categoriesFilter.length === 0 || categoriesFilter.length === categories.length) {
             setCategorizedProducts(products)
 
         }
@@ -98,7 +105,8 @@ function ProductsDisplay() {
                     <option value="lh">Price : Low  to High</option>
                 </select>
 
-                <MultiSelectDropdown array={categories} parameter={'displayName'} id={"categories"} placeholder={"All Categories"} onSelectEvent={setCategoriesFilter} />
+                <MultiSelectDropdown array={categories} parameter={'displayName'} id={"categories"} placeholder={"All Categories"}
+                initValue={categoriesFilter} onSelectEvent={setCategoriesFilter} />
             </div>
             <div className='container h-[100vh-112px] p-2 grid grid-cols-2 gap-2 md:grid-cols-5 lg:grid-cols-7 overflow-x-scroll'>
                 {  currentProducts?
