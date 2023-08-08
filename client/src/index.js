@@ -23,6 +23,7 @@ import ProductInfo from './routes/Store Pages/ProductInfo';
 import Register from './routes/Store Pages/Register';
 import Users from './routes/Dashboard Pages/User';
 import NotFound from './routes/Error Pages/NotFound';
+import CategoriesDisplay from './routes/Store Pages/CategoriesDisplay';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <HomePage />,
+      },
+      {
+        path: "/categories",
+        element: <CategoriesDisplay />,
       },
       {
         path: "/products",
