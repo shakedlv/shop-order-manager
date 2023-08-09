@@ -13,14 +13,14 @@ function Navbar() {
 
     useEffect(() => {
         document.body.addEventListener("click", (event) => {
-            try{
+            try {
                 if (event.target.className.includes("search") === false) {
                     setSearchQuery("")
                     document.getElementById("searchInput").value = ""
                 }
-            }catch(error)
-            {
-                console.log(error)
+            } catch (error) {
+                setSearchQuery("");
+                document.getElementById("searchInput").value = "";
             }
 
         });

@@ -18,6 +18,9 @@ function Profile() {
   const HandleLogout = () => {
     localStorage.setItem("user_token", "");
     localStorage.setItem("user_isAdmin", "");
+    localStorage.setItem('login_expires', "")
+    localStorage.setItem("user_isAdmin", false);
+
     nav("/")
   }
   const [user, setUser] = useState({})

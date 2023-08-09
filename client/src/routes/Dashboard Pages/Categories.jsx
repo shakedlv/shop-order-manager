@@ -12,53 +12,42 @@ import { useFetch } from '../../hooks/hooks';
 /* TO-DO
       
     handle pictures
+
  */
-function Products() {
-    const { data: products, error: p_error, loading: p_loading , refetch : getProducts } = useFetch("Products")
+function Categories() {
     const { data: categories, error: c_error, loading: c_loading ,refetch : getCategories } = useFetch("Categories")
 
 
     const [currentPage, setCurrentPage] = useState(1)
-    const [productsPerPage, setProductsPerPage] = useState(25)
+    const [categoriesPerPage, setCategoriesPerPage] = useState(25)
 
-    const indexOfLastProduct = currentPage * productsPerPage;
-    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-    const totalPages = products ? Math.ceil(products.length / productsPerPage) : 1;
+    const indexOfLastCategory = currentPage * categoriesPerPage;
+    const indexOfFirstCategory= indexOfLastCategory - categoriesPerPage;
+    const totalPages = categories ? Math.ceil(categories.length / categoriesPerPage) : 1;
 
 
-    const currentProducts = products ? products.slice(indexOfFirstProduct, indexOfLastProduct) : [];
+    const currentCategories = categories ? categories.slice(indexOfFirstCategory, indexOfLastCategory) : [];
 
     const [openEditModal, setOpenEditModal] = useState("");
 
-    const [productId, setproductId] = useState(-1)
+    const [categoryId, setCategoryId] = useState(-1)
     const [displayName, setDisplayName] = useState("")
-    const [description, setDescription] = useState("")
-    const [categoryId, setCategoryId] = useState(0)
-    const [mainPicture, setMainPicture] = useState("")
-    const [morePictures, setMorePictures] = useState([])
-    const [price, setPrice] = useState("")
 
-    const HandleOpenToEdit = (product) => {
+
+    const HandleOpenToEdit = (category) => {
         setOpenEditModal('edit')
-        setproductId(product["id"]);
-        setDisplayName(product["displayName"]);
-        setDescription(product["description"]);
-        setCategoryId(product["categoryId"]);
-        setMainPicture(product["mainPicturePath"]);
-        setMainPicture(product["picturesPaths"]);
-        setPrice(product["price"]);
+
+        setDisplayName(category["displayName"]);
+        setCategoryId(category["categoryId"]);
+
 
     }
 
     const HandleClearForm = () => {
-        setproductId(-1);
+        setCategoryId(-1);
         setOpenEditModal("")
         setDisplayName("");
-        setDescription("");
-        setCategoryId(0);
-        setMainPicture("");
-        setMorePictures([]);
-        setPrice(0);
+
 
     }
 
@@ -66,45 +55,39 @@ function Products() {
         const date = new Date();
         const utcDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
         const formattedDate = utcDate.toJSON();
-        var productData = {
-            id: productId > 0 ? productId : 0,
+        var data = {
+            id: categoryId > 0 ? categoryId : 0,
             displayName: displayName,
-            description: description,
-            categoryId: categoryId,
-            mainPicturePath: mainPicture,
-            picturesPaths: morePictures,
-            price: price,
-            createdDate: formattedDate,
-            displayOnStore: true
-        }
-        const verb = productId > 0 ? "put" : "post";
 
-        api[verb]("Products", productData).then((result) => {
-            notifySuccsess("Product Updated Succsessfuly!");
+        }
+        const verb = categoryId > 0 ? "put" : "post";
+
+        api[verb]("Categories", data).then((result) => {
+            notifySuccsess("Category Updated Succsessfuly!");
             HandleClearForm();
 
-        }).catch((ex) => { notifyFaild("Failed to update product!") })
-        getProducts();
+        }).catch((ex) => { notifyFaild("Failed to update category!") })
+        getCategories();
 
     }
     const [openDeleteModal, setOpenDeleteModal] = useState("");
-    const [productDelete, setProductDelete] = useState({})
+    const [categoryDelete, setCategoryDelete] = useState({})
 
-    const OpenDelete = (product) => {
+    const OpenDelete = (category) => {
         setOpenDeleteModal("delete");
-        setProductDelete(product)
+        setCategoryDelete(category)
     }
     const CloseDelete = () => {
         setOpenDeleteModal("");
-        setProductDelete({});
+        setCategoryDelete({});
     }
     const HandleDelete = (id) => {
-        api.delete("Products/" + id).then(result => {
-            notifySuccsess("Product Deleted Succsessfuly!");
+        api.delete("Categories/" + id).then(result => {
+            notifySuccsess("Category Deleted Succsessfuly!");
             CloseDelete();
         }
-        ).catch(er => notifyFaild("Failed to delete product!"));
-        getProducts();
+        ).catch(er => notifyFaild("Failed to delete Category!"));
+        getCategories();
         }
 
 
@@ -117,17 +100,7 @@ function Products() {
                 <Table>
                     <Table.Head className='border-b border-b-gray-100'>
                         <Table.HeadCell>
-                            Product Name
-                        </Table.HeadCell>
-                        <Table.HeadCell>
-                            Category
-                        </Table.HeadCell>
-                        <Table.HeadCell>
-                            Price
-                        </Table.HeadCell>
-
-                        <Table.HeadCell>
-                            Display On Store
+                            Category Name
                         </Table.HeadCell>
                         <Table.HeadCell>
                             Actions
@@ -139,47 +112,30 @@ function Products() {
 
                             </Table.Cell>
                             <Table.Cell>
-                            </Table.Cell>
-                            <Table.Cell>
-                            </Table.Cell>
-
-                            <Table.Cell>
-                            </Table.Cell>
-                            <Table.Cell>
                                 <button
                                     onClick={() => setOpenEditModal('edit')}
                                     className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
                                 >
                                     <p>
-                                        Add New Product
+                                        Add New Categoey
                                     </p>
                                 </button>
                             </Table.Cell>
                         </Table.Row>
-                        {currentProducts ? currentProducts.map((product) => {
-                            return <Table.Row className="bg-white" key={product['id']}>
+                        {currentCategories ? currentCategories.map((cat) => {
+                            return <Table.Row className="bg-white" key={cat['id']}>
                                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                                    {product['displayName']}
-                                </Table.Cell>
-                                <Table.Cell>
-                                    {categories ? categories.filter((c) => c['id'] === product['categoryId'])[0]['displayName'] : <></>}
-                                </Table.Cell>
-                                <Table.Cell>
-                                    {product['price']}
-                                </Table.Cell>
-
-                                <Table.Cell>
-                                    <span className='w-full flex flex-row justify-center'>{product['displayOnStore'] ? <HiCheck /> : <HiX />}</span>
+                                    {cat['displayName']}
                                 </Table.Cell>
                                 <Table.Cell className='flex flex-row justify-between'>
                                     <button
-                                        onClick={() => HandleOpenToEdit(product)}
+                                        onClick={() => HandleOpenToEdit(cat)}
                                         className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
                                         Edit
                                     </button>
                                     |
                                     <button
-                                        onClick={() => OpenDelete(product)}
+                                        onClick={() => OpenDelete(cat)}
                                         className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
                                         Delete
                                     </button>
@@ -200,18 +156,10 @@ function Products() {
             </div>
 
             <Modal show={openEditModal === 'edit'} onClose={() => HandleClearForm()}>
-                <Modal.Header>Update Or Create Product</Modal.Header>
+                <Modal.Header>Update Or Create Categoey</Modal.Header>
                 <Modal.Body>
                     <div className="space-y-6">
                         <InputGroup className={"flex-grow"} id={"name"} label={"Display Name"} value={displayName} type={"text"} onChangeEvent={(e) => { setDisplayName(e.target.value) }} />
-                        <InputGroup id={"desc"} label={"Description"} value={description} type={"text"} onChangeEvent={(e) => { setDescription(e.target.value) }} />
-                        <select value={categoryId}
-                            className='h-2/3 bg-transparent border  border-neutral-300 w-38 rounded-md text-sm p-1 text-center ' onChange={(e) => { setCategoryId(e.target.value) }}>
-                            {categories ? categories.map((cat) => {
-                                return <option key={cat['id']} value={cat['id']}>{cat['displayName']}</option>
-                            }) : <></>}
-                        </select>
-                        <InputGroup id={"price"} label={"Price"} value={price} type={"number"} onChangeEvent={(e) => { setPrice(e.target.value) }} />
 
                     </div>
                 </Modal.Body>
@@ -229,10 +177,10 @@ function Products() {
                     <div className="text-center">
                         <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
                         <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                            Are you sure you want to delete {productDelete['displayName']}?
+                            Are you sure you want to delete {categoryDelete['displayName']}?
                         </h3>
                         <div className="flex justify-center gap-4">
-                            <Button color="failure" onClick={() => HandleDelete(productDelete['id'])}>
+                            <Button color="failure" onClick={() => HandleDelete(categoryDelete['id'])}>
                                 Yes, I'm sure
                             </Button>
                             <Button color="gray" onClick={() => CloseDelete()}>
@@ -248,4 +196,4 @@ function Products() {
     )
 }
 
-export default Products
+export default Categories

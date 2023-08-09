@@ -24,6 +24,7 @@ import Register from './routes/Store Pages/Register';
 import Users from './routes/Dashboard Pages/User';
 import NotFound from './routes/Error Pages/NotFound';
 import CategoriesDisplay from './routes/Store Pages/CategoriesDisplay';
+import Categories from './routes/Dashboard Pages/Categories';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -81,6 +82,10 @@ const router = createBrowserRouter([
         path: "/dashboard/products",
         element: <Products />,
       }, 
+      {
+        path: "/dashboard/categories",
+        element: <Categories />,
+      },
       {
         path: "/dashboard/users",
         element: <Users />,

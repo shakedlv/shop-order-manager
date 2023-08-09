@@ -3,13 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 
 import api from '../../utils/api'
 import InputGroup from "../../components/UI/InputGroup";
+import { Label, TextInput } from "flowbite-react";
 
 
-/* TO-DO
-    Make Forgot password page
-    Change localstorage to somthing that delete itself 
-    use the remember me to save info
- */
 function Login() {
     const isAuthenticated = Boolean(localStorage.getItem("user_token"));
 
@@ -32,17 +28,29 @@ function Login() {
                     localStorage.setItem("user_token", result.data['token']);
                     localStorage.setItem("user_id", result.data['id']);
 
+                    const today = new Date()
+                    const tomorrow = new Date(today)
+                    tomorrow.setDate(tomorrow.getDate() + 1)
+                    localStorage.setItem('login_expires', tomorrow.toDateString())
+
+
                     localStorage.setItem("user_isAdmin", result.data['isAdmin']);
+
                     nav("/");
 
                 } else {
                     localStorage.setItem("user_token", "");
+                    localStorage.setItem('login_expires', "")
+                    localStorage.setItem("user_isAdmin", false);
+
                     setError("Password or Username are incorrect !");
 
                 }
             })
             .catch((ex) => {
                 localStorage.setItem("user_token", "");
+                localStorage.setItem('login_expires', "")
+                localStorage.setItem("user_isAdmin", false);
 
                 setError("Password or Username are incorrect !");
                 console.error(ex);
@@ -50,10 +58,15 @@ function Login() {
     };
 
     useEffect(() => {
-        if (isAuthenticated) {
+
+        if (new Date() >= new Date(localStorage.getItem("login_expires"))) {
+            localStorage.setItem("user_token", "");
+            localStorage.setItem('login_expires', "")
+        }
+        else if (isAuthenticated) {
             nav("/profile");
         }
-    }, )
+    }, [])
 
     return (
         <main className="bg-neutral-50 w-full h-screen  flex flex-col items-center md:justify-center gap-2">
@@ -64,25 +77,42 @@ function Login() {
                     </h1>
                     <p className="text-red-400">{error}</p>
                     <div className="space-y-4 md:space-y-6" action="#" autoComplete="off">
-                        <InputGroup id={"username"} label={"Username"} type={"text"}
-                            placeholder={"Enter Username"} onChangeEvent={(e) => { setUsername(e.target.value) }} />
-                        <InputGroup id={"password"} label={"password"} type={"password"}
-                            placeholder={"*************"} onChangeEvent={(e) => { setPassword(e.target.value) }} />
-
-
-
-
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-start">
-                                <div className="flex items-center h-5">
-                                    <input id="remember" aria-describedby="remember" type="checkbox" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" required="" />
-                                </div>
-                                <div className="ml-3 text-sm">
-                                    <label htmlFor="remember" className="text-gray-500 dark:text-gray-300">Remember me</label>
-                                </div>
+                        <div className='mb-2'>
+                            <div className="mb-2 block">
+                                <Label
+                                    htmlFor={'username'}
+                                    value={"username"}
+                                />
                             </div>
-                            <Link to="/forgotpassword" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</Link>
+                            <TextInput
+                                onChange={(e) => { setUsername(e.target.value) }}
+                                id={'username'}
+                                placeholder={"Username"}
+                                type="text"
+                                autoComplete="new-password"
+                                value={username}
+                            />
                         </div>
+                        <div className='mb-2'>
+                            <div className="mb-2 block">
+                                <Label
+                                    htmlFor={'password'}
+                                    value={"Password"}
+                                />
+                            </div>
+                            <TextInput
+                                onChange={(e) => { setPassword(e.target.value) }}
+                                id={'password'}
+                                placeholder={"*********"}
+                                type="password"
+                                autoComplete="new-password"
+                                value={password}
+                            />
+                        </div>
+
+
+
+
                         <button onClick={(e) => handleLogin(e)}
                             className="w-full text-black font-medium rounded-lg text-sm px-5 py-2.5 text-center border border-gray-300 hover:border-gray-600 hover:bg-gray-300">Sign in</button>
                         <p className="text-sm font-light text-gray-500 dark:text-gray-400">
