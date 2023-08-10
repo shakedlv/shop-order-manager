@@ -2,16 +2,17 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import api from '../../utils/api'
 import { Breadcrumb } from 'flowbite-react';
+import { useCart } from '../../context/ShoppingCart';
 
-/* TO-DO
-    Add to cart
- */
+
 
 function ProductInfo() {
     const { id } = useParams()
     const [itemCat, setItemCat] = useState({})
-    
+
     const [product, setProduct] = useState({})
+    const { getItemQuantity, increaseCartQuantity, decraesCartQuantity, removeItem, cartQuantity } = useCart()
+
     useEffect(() => {
         api.get('Products/' + id).then((result) => {
             if (result.status === 200) {
@@ -33,7 +34,7 @@ function ProductInfo() {
         }).catch((ex) => {
             console.log("Product not found")
         })
-    }, )
+    },)
 
     return (
         <main className={"bg-neutral-50 w-full min-h-[80dvh]  pt-20 flex flex-col px-6 gap-2 "}>
@@ -52,8 +53,8 @@ function ProductInfo() {
                             <Breadcrumb.Item href='/products'>
                                 Products
                             </Breadcrumb.Item>
-                            <Breadcrumb.Item href={"/products/"+itemCat['displayName']} >
-                            {itemCat['displayName']}
+                            <Breadcrumb.Item href={"/products/" + itemCat['displayName']} >
+                                {itemCat['displayName']}
 
                             </Breadcrumb.Item>
                         </Breadcrumb>
@@ -63,8 +64,12 @@ function ProductInfo() {
                 </div>
             </div>
             <div className='w-full flex flex-row justify-end items-center px-3'>
-                add counter <button className='py-1 px-2 rounded border border-gray-500 hover:bg-slate-400 hover:text-white'> Add to card</button>
-            </div>  
+                <div className='flex flex-row items-center justify-center gap-2 '>
+                    <button onClick={() => decraesCartQuantity(product['id'])} className='p-1 px-2 border border-gray-500 rounded-md hover:bg-gray-300'>-</button>
+                    <span className='font-bold text-lg'> {getItemQuantity(product['id'])}</span>
+                    <button onClick={() => increaseCartQuantity(product['id'])} className='p-1 px-2 border border-gray-500 rounded-md hover:bg-gray-300'>+</button>
+                </div>
+            </div>
         </main>
     )
 }

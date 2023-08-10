@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { AiOutlineSearch, AiOutlineShoppingCart, AiOutlineUser } from 'react-icons/ai'
 import { Link, useNavigate } from 'react-router-dom'
 import { useFetch } from '../hooks/hooks';
+import { useCart } from '../context/ShoppingCart';
 
 function Navbar() {
     const { data: products, error: p_error, loading: p_loading } = useFetch("Products")
@@ -10,6 +11,8 @@ function Navbar() {
     var filteredProducts = searchQuery.length > 0 ? products.filter((a) => a['displayName'].toLowerCase().includes(searchQuery.toLowerCase())) : []
 
     const nav = useNavigate();
+
+    const { getItemQuantity, increaseCartQuantity, decraesCartQuantity, removeItem ,cartQuantity} = useCart()
 
     useEffect(() => {
         document.body.addEventListener("click", (event) => {
@@ -72,7 +75,7 @@ function Navbar() {
                             <AiOutlineShoppingCart />
                             <span
                                 className="absolute -top-2 -right-4 text-red-400 bg-red-200 rounded-full pr-2 pl-2"
-                            >1</span>
+                            >{cartQuantity}</span>
                         </button>
 
                         <p className='ml-5 hidden md:block'>
@@ -87,7 +90,7 @@ function Navbar() {
                 <AiOutlineShoppingCart />
                 <span
                     className="absolute -top-2 -right-4 text-red-400 bg-red-200 rounded-full pr-2 pl-2"
-                >1</span>
+                >{cartQuantity}</span>
             </button>
         </>
     )

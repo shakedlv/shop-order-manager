@@ -15,8 +15,7 @@ import AdminAccess from './components/AdminAccess';
 import UserAccess from './components/UserAccess';
 
 import About from './routes/Store Pages/About';
-import { Provider } from 'react-redux';
-import store from './features/store'
+
 import Products from './routes/Dashboard Pages/Products';
 import Profile from './routes/Store Pages/Profile';
 import ProductInfo from './routes/Store Pages/ProductInfo';
@@ -25,6 +24,7 @@ import Users from './routes/Dashboard Pages/User';
 import NotFound from './routes/Error Pages/NotFound';
 import CategoriesDisplay from './routes/Store Pages/CategoriesDisplay';
 import Categories from './routes/Dashboard Pages/Categories';
+import { ShoppingCartProvider } from './context/ShoppingCart';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -98,9 +98,9 @@ const router = createBrowserRouter([
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <Provider store={store}>
+  <ShoppingCartProvider>
     <RouterProvider router={router} />
-  </Provider>
+  </ShoppingCartProvider>
 );
 
 

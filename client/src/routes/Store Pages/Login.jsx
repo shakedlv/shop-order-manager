@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import api from '../../utils/api'
-import InputGroup from "../../components/UI/InputGroup";
 import { Label, TextInput } from "flowbite-react";
 
 

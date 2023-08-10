@@ -41,3 +41,20 @@ export const useFetch = (initialUrl) => {
 
     return { data, error, loading, refetch };
 };
+
+
+export const useLocalStorage = (key , initialValue) =>{
+
+    const [value, setValue] = useState(()=>{
+        const json = localStorage.getItem(key)
+        if(json != null) return JSON.parse(json)
+        else return initialValue
+    })
+
+    useEffect(() => {
+        localStorage.setItem(key, JSON.stringify(value))
+    }, [key,value])
+
+    return [value,setValue]
+    
+}
