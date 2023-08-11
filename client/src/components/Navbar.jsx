@@ -3,6 +3,7 @@ import { AiOutlineSearch, AiOutlineShoppingCart, AiOutlineUser } from 'react-ico
 import { Link, useNavigate } from 'react-router-dom'
 import { useFetch } from '../hooks/hooks';
 import { useCart } from '../context/ShoppingCart';
+import CartItem from './Products/CartItem';
 
 function Navbar() {
     const { data: products, error: p_error, loading: p_loading } = useFetch("Products")
@@ -12,18 +13,24 @@ function Navbar() {
 
     const nav = useNavigate();
 
-    const { getItemQuantity, increaseCartQuantity, decraesCartQuantity, removeItem ,cartQuantity} = useCart()
+    const { cartQuantity, getCart, getCartTotal } = useCart()
 
+    const HandleCart = () => {
+        var cart = document.getElementById('cart')
+        if (cart === undefined) return;
+
+        cart.classList.toggle("hidden");
+    }
     useEffect(() => {
         document.body.addEventListener("click", (event) => {
             try {
                 if (event.target.className.includes("search") === false) {
                     setSearchQuery("")
-                    document.getElementById("searchInput").value = ""
+                    var search = document.getElementById("searchInput");
+                    if (search !== null) search.value = "";
                 }
             } catch (error) {
-                setSearchQuery("");
-                document.getElementById("searchInput").value = "";
+
             }
 
         });
@@ -71,7 +78,8 @@ function Navbar() {
                         <Link to={"/login"} className='border border-neutral-300 rounded-full p-2 ease-in-out hover:bg-slate-300 hover:border-black'>
                             <AiOutlineUser />
                         </Link>
-                        <button className='hidden md:block relative border border-neutral-300 rounded-full p-2 ease-in-out hover:bg-slate-300 hover:border-black'>
+                        <button onClick={() => HandleCart()}
+                            className='hidden md:block relative border border-neutral-300 rounded-full p-2 ease-in-out hover:bg-slate-300 hover:border-black'>
                             <AiOutlineShoppingCart />
                             <span
                                 className="absolute -top-2 -right-4 text-red-400 bg-red-200 rounded-full pr-2 pl-2"
@@ -86,12 +94,38 @@ function Navbar() {
                 </div>
             </nav>
 
-            <button className='fixed bottom-8 right-8  block md:hidden  border border-neutral-300 rounded-full p-2 ease-in-out bg-slate-300 hover:border-black'>
+            <button onClick={() => HandleCart()}
+                className='fixed bottom-8 right-8  block md:hidden  border border-neutral-300 rounded-full p-2 ease-in-out bg-slate-300 hover:border-black'>
                 <AiOutlineShoppingCart />
                 <span
                     className="absolute -top-2 -right-4 text-red-400 bg-red-200 rounded-full pr-2 pl-2"
                 >{cartQuantity}</span>
             </button>
+
+            <div className='absolute z-[1000] min-w-full min-h-full  bg-gray-400 bg-opacity-50 flex flex-row-reverse hidden' style={{ height: document.body.scrollHeight }} id='cart'>
+                <div className='min-w-[25dvw] sm:w-full md:w-[25dvw] bg-white h-full border border-l-gray-400 flex flex-col justify-start '>
+                    <span className='flex flex-row justify-between w-[25dvw] fixed px-2 bg-white  border  border-b-gray-400'>
+                        <h2 className='text-lg font-bold uppercase '>Shopping Cart</h2>
+                        <button onClick={() => HandleCart()}
+                            type="button" className="relative -m-2 p-2 text-gray-400 hover:text-gray-500">
+                            <span className="absolute -inset-0.5"></span>
+                            <span className="sr-only">Close panel</span>
+                            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </span>
+                    <div className=' flex-grow my-8 flex flex-col gap-2'>
+                        {products ? getCart().map((item) => {
+                            return <CartItem key={item['id']} product={products.find((product) => product['id'] === item['id'])} quantity={item['quantity']}></CartItem>
+                        }) : <></>}
+                    </div>
+                    <span className='flex flex-row justify-between w-[25dvw] fixed bottom-0 px-2 bg-white border  border-b-gray-400'>
+                        <h2 className='text-lg font-bold uppercase '>Total :</h2>
+                        <span className='text-lg font-bold uppercase '>$ {getCartTotal(products)}</span>
+                    </span>
+                </div>
+            </div>
         </>
     )
 }

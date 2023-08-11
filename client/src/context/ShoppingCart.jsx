@@ -3,7 +3,7 @@ import { useLocalStorage } from "../hooks/hooks";
 
 
 /* TO-DO
-    Open Close cart menu 
+   Handle Pay
     
  */
 
@@ -14,14 +14,33 @@ export function useCart() {
 }
 
 export function ShoppingCartProvider({ children }) {
-    const [cartItems, setCartItems] = useLocalStorage("shopping-cart",[])
+    const [cartItems, setCartItems] = useLocalStorage("shopping-cart", [])
 
     const cartQuantity = cartItems.length;
+
+    function getCart() {
+        return cartItems;
+    }
     function getItemQuantity(id) {
         if (cartItems.length === 0) return 0;
         if (id === undefined) return 0;
         const item = cartItems.find((item) => item['id'] === id)
         return item !== undefined ? item['quantity'] : 0
+
+    }
+
+    function getCartTotal(products) {
+        if(products === null) return -1;
+        if (products.length === 0)return -1;
+        var total = 0;
+        for (var item of cartItems) {
+            var p = products.find(product => product.id === item.id);
+            if (p !== undefined) {
+                total += p.price * item.quantity;
+            }
+        }
+
+        return total;
 
     }
 
@@ -62,7 +81,7 @@ export function ShoppingCartProvider({ children }) {
 
     }
     return (
-        <ShoppingCartContext.Provider value={{ getItemQuantity, increaseCartQuantity, decraesCartQuantity, removeItem, cartQuantity }}>
+        <ShoppingCartContext.Provider value={{ getItemQuantity, increaseCartQuantity, decraesCartQuantity, removeItem, cartQuantity, getCart, getCartTotal }}>
             {children}
         </ShoppingCartContext.Provider>
     )
