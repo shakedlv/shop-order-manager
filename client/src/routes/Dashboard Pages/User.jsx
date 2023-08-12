@@ -9,7 +9,7 @@ import { notifyFaild, notifySuccsess } from '../../utils/notify';
 import { useFetch } from '../../hooks/hooks';
 
 function Users() {
-    const { data: users, error: error, loading: loading , refetch : getUsers } = useFetch("Users")
+    const { data: users, error: error, loading: loading , fetchData : getUsers } = useFetch("Users")
 
     const [admins, setAdmin] = useState([])
     const [notAdmins, setNotAdmins] = useState([])
@@ -40,12 +40,13 @@ function Users() {
         user['isAdmin'] = false;
         api.put("Users", user).then((result) => {
             notifySuccsess("Removed Admin Succsessfuly");
+            getUsers();
+
             setOpenModal("");
         }).catch((ex) => {
             notifyFaild("Failed to remove admin !");
         })
 
-        getUsers();
     }
 
     const [userToAdmin, setUserToAdmin] = useState({})
@@ -56,12 +57,13 @@ function Users() {
         user['isAdmin'] = true;
         api.put("Users", user).then((result) => {
             notifySuccsess("Admin Updated Succsessfuly !");
+            getUsers();
+
             setOpenModal("");
             setUserToAdmin({});
         }).catch((ex) => {
             notifyFaild("Failed to set  admin !");
         })
-        getUsers();
 
     }
 

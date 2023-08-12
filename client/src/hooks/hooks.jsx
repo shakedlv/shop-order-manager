@@ -7,16 +7,13 @@ export const useFetch = (initialUrl) => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(null);
     const [error, setError] = useState(null);
-    const [refetchIndex, setRefetchIndex] = useState(0)
 
     useEffect(() => {
         fetchData()
-    }, [url, refetchIndex]);
 
-    const refetch = () => {
-        setRefetchIndex((prevRefetchIndex) => prevRefetchIndex + 1);
-        console.log(refetchIndex);
-    }
+    }, [url]);
+
+
 
     const fetchData = () => {
         setLoading(true);
@@ -25,8 +22,8 @@ export const useFetch = (initialUrl) => {
         api.get(url, { cancelToken: source.token })
             .then((result) => {
                 if (result.status === 200) {
-                    var cats = result.data;
-                    setData(cats);
+                    var data = result.data;
+                    setData(prev=>data);
                     setLoading(false)
                 }
 
@@ -39,7 +36,7 @@ export const useFetch = (initialUrl) => {
         }
     }
 
-    return { data, error, loading, refetch };
+    return { data, error, loading, fetchData };
 };
 
 

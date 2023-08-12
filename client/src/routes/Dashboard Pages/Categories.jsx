@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Pagination, Table } from 'flowbite-react';
 import { HiCheck, HiOutlineExclamationCircle, HiX } from 'react-icons/hi';
 import { Button, Modal } from 'flowbite-react';
@@ -15,14 +15,14 @@ import { useFetch } from '../../hooks/hooks';
 
  */
 function Categories() {
-    const { data: categories, error: c_error, loading: c_loading ,refetch : getCategories } = useFetch("Categories")
+    const { data: categories, error: c_error, loading: c_loading, fetchData: getCategories } = useFetch("Categories")
 
 
     const [currentPage, setCurrentPage] = useState(1)
     const [categoriesPerPage, setCategoriesPerPage] = useState(25)
 
     const indexOfLastCategory = currentPage * categoriesPerPage;
-    const indexOfFirstCategory= indexOfLastCategory - categoriesPerPage;
+    const indexOfFirstCategory = indexOfLastCategory - categoriesPerPage;
     const totalPages = categories ? Math.ceil(categories.length / categoriesPerPage) : 1;
 
 
@@ -64,11 +64,11 @@ function Categories() {
 
         api[verb]("Categories", data).then((result) => {
             notifySuccsess("Category Updated Succsessfuly!");
+            getCategories();
+
             HandleClearForm();
 
         }).catch((ex) => { notifyFaild("Failed to update category!") })
-        getCategories();
-
     }
     const [openDeleteModal, setOpenDeleteModal] = useState("");
     const [categoryDelete, setCategoryDelete] = useState({})
@@ -84,12 +84,12 @@ function Categories() {
     const HandleDelete = (id) => {
         api.delete("Categories/" + id).then(result => {
             notifySuccsess("Category Deleted Succsessfuly!");
+            getCategories();
+
             CloseDelete();
         }
         ).catch(er => notifyFaild("Failed to delete Category!"));
-        getCategories();
-        }
-
+    }
 
 
 
@@ -122,7 +122,7 @@ function Categories() {
                                 </button>
                             </Table.Cell>
                         </Table.Row>
-                        {currentCategories ? currentCategories.map((cat) => {
+                        {c_loading === false ? currentCategories.map((cat) => {
                             return <Table.Row className="bg-white" key={cat['id']}>
                                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                                     {cat['displayName']}
@@ -141,7 +141,7 @@ function Categories() {
                                     </button>
                                 </Table.Cell>
                             </Table.Row>
-                        }) : <></>}
+                        })  : <Table.Row><Table.Cell>Loading Categories . . .</Table.Cell></Table.Row>}
                     </Table.Body>
 
                 </Table>

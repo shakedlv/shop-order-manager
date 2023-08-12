@@ -14,8 +14,8 @@ import { useFetch } from '../../hooks/hooks';
     handle pictures
  */
 function Products() {
-    const { data: products, error: p_error, loading: p_loading , refetch : getProducts } = useFetch("Products")
-    const { data: categories, error: c_error, loading: c_loading ,refetch : getCategories } = useFetch("Categories")
+    const { data: products, error: p_error, loading: p_loading , fetchData : getProducts } = useFetch("Products")
+    const { data: categories, error: c_error, loading: c_loading ,fetchData : getCategories } = useFetch("Categories")
 
 
     const [currentPage, setCurrentPage] = useState(1)
@@ -81,10 +81,12 @@ function Products() {
 
         api[verb]("Products", productData).then((result) => {
             notifySuccsess("Product Updated Succsessfuly!");
+            getProducts();
+
             HandleClearForm();
 
+
         }).catch((ex) => { notifyFaild("Failed to update product!") })
-        getProducts();
 
     }
     const [openDeleteModal, setOpenDeleteModal] = useState("");
@@ -101,10 +103,11 @@ function Products() {
     const HandleDelete = (id) => {
         api.delete("Products/" + id).then(result => {
             notifySuccsess("Product Deleted Succsessfuly!");
+            getProducts();
+
             CloseDelete();
         }
         ).catch(er => notifyFaild("Failed to delete product!"));
-        getProducts();
         }
 
 
