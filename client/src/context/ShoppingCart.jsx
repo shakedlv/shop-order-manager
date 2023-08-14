@@ -15,7 +15,6 @@ export function useCart() {
 
 export function ShoppingCartProvider({ children }) {
     const [cartItems, setCartItems] = useLocalStorage("shopping-cart", [])
-
     const cartQuantity = cartItems.length;
 
     function getCart() {

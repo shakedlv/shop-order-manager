@@ -3,7 +3,7 @@
 namespace api.Models
 {
 
-    public  class InitialData
+    public class InitialData
     {
 
         public static User[] Users = new User[]
@@ -28,6 +28,14 @@ namespace api.Models
                 new Product() {Id = 6,CategoryId=2,CreatedDate=DateTime.Now,Description="Medium Pizza focaccia",DisplayName="Pizza focaccia",DisplayOnStore=true, MainPicturePath = "", PicturesPaths = null, Price =15 },
                 new Product() {Id = 7,CategoryId=2,CreatedDate=DateTime.Now,Description="Large Pizza focaccia",DisplayName="Pizza focaccia",DisplayOnStore=true, MainPicturePath = "", PicturesPaths = null, Price = 22 },
 
+
+        };
+
+        public static Branch[] Branches = new Branch[]
+        {
+            new  Branch() {Id = 1,Address="Tel Aviv Ibn Gabirol", DisplayName="Ibn Gabirol"},
+            new  Branch() {Id = 2,Address="Ashdod big", DisplayName="Big Outlet"},
+            new  Branch() {Id = 3,Address="Eilat", DisplayName="Ice Mall Eilat"},
 
         };
     }

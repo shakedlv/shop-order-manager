@@ -25,6 +25,7 @@ import NotFound from './routes/Error Pages/NotFound';
 import CategoriesDisplay from './routes/Store Pages/CategoriesDisplay';
 import Categories from './routes/Dashboard Pages/Categories';
 import { ShoppingCartProvider } from './context/ShoppingCart';
+import Branches from './routes/Dashboard Pages/Branches';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -81,6 +82,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/products",
         element: <Products />,
+      }, 
+      {
+        path: "/dashboard/branches",
+        element: <Branches />,
       }, 
       {
         path: "/dashboard/categories",

@@ -4,6 +4,13 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useFetch } from '../hooks/hooks';
 import { useCart } from '../context/ShoppingCart';
 import CartItem from './Products/CartItem';
+import { Button, Modal } from 'flowbite-react';
+
+import CheckoutForm from './CheckoutForm';
+
+
+// Make sure to call `loadStripe` outside of a component’s render to avoid
+// recreating the `Stripe` object on every render.
 
 function Navbar() {
     const { data: products, error: p_error, loading: p_loading } = useFetch("Products")
@@ -43,6 +50,7 @@ function Navbar() {
         });
 
     }, [])
+    const [openModal, setOpenModal] = useState("");
 
     return (
         <>
@@ -69,8 +77,10 @@ function Navbar() {
                                 />
                                 {filteredProducts.length > 0 ? <div className='absolute mt-0.5 shadow-lg rounded-b max-h-32 overflow-y-auto w-full z-10 bg-white border border-gray-400 rounded-md'>
                                     {filteredProducts.map((a) => {
-                                        return <div key={a['id']} onClick={() => { setSearchQuery("");
-                                        nav("/product/view/" + a['id']); }}
+                                        return <div key={a['id']} onClick={() => {
+                                            setSearchQuery("");
+                                            nav("/product/view/" + a['id']);
+                                        }}
                                             className='cursor-pointer hover:bg-gray-300 p-2 w-full search'> {a['displayName']}</div>
                                     })}
                                 </div> : <></>}
@@ -96,7 +106,7 @@ function Navbar() {
 
                         <p className='ml-5 hidden md:block'>
                             <span className='text-slate-400 text-xs leading-[-1rem] block'>Your Cart:</span>
-                            <span className='text-slate-800 font-bold text-sm leading-[-1rem]'>$ 0000</span>
+                            <span className='text-slate-800 font-bold text-sm leading-[-1rem]'>$ {getCartTotal(products)}</span>
                         </p>
                     </div>
                 </div>
@@ -128,9 +138,12 @@ function Navbar() {
                             return <CartItem key={item['id']} product={products.find((product) => product['id'] === item['id'])} quantity={item['quantity']}></CartItem>
                         }) : <></>}
                     </div>
-                    <span className='flex flex-row justify-between w-full md:w-[25dvw] fixed bottom-0 px-2 bg-white border  border-b-gray-400'>
+
+                    <span className='flex flex-row justify-between w-full md:w-[25dvw] fixed bottom-0 p-2 bg-white border  border-b-gray-400'>
                         <h2 className='text-lg font-bold uppercase '>Total :</h2>
                         <span className='text-lg font-bold uppercase '>$ {getCartTotal(products)}</span>
+                        <button onClick={() => setOpenModal('pay')}
+                            className='bg-blue-500 text-center font-bold text-lg rounded-md px-2 min-w-[64px]'>Pay</button>
                     </span>
                 </div>
             </div>
@@ -157,10 +170,10 @@ function Navbar() {
                         />
                         {filteredProducts.length > 0 ? <div className='absolute mt-0.5 shadow-lg rounded-b max-h-32 overflow-y-auto w-full z-10 bg-white border border-gray-400 rounded-md'>
                             {filteredProducts.map((a) => {
-                                return <div key={a['id']} onClick={() => { 
+                                return <div key={a['id']} onClick={() => {
                                     HandleMobileSearch();
                                     nav("/product/view/" + a['id']);
-                                 }}
+                                }}
                                     className='cursor-pointer hover:bg-gray-300 p-2 w-full search'> {a['displayName']}</div>
                             })}
                         </div> : <></>}
@@ -168,6 +181,13 @@ function Navbar() {
 
                 </div>
             </div>
+            <Modal dismissible show={openModal === 'pay'} onClose={() => setOpenModal("")} className='z-[3000]'>
+                <Modal.Header>payment</Modal.Header>
+                <Modal.Body>
+                        <CheckoutForm />
+                </Modal.Body>
+            </Modal>
+
         </>
     )
 }

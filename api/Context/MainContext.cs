@@ -15,6 +15,8 @@ namespace api.Context
         public DbSet<Product> Product { get; set; }
         public DbSet<Category> Category { get; set; }
 
+        public DbSet<Branch> Branches { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -26,9 +28,12 @@ namespace api.Context
             
             modelBuilder.Entity<Category>().HasData(InitialData.Categories);
 
-            modelBuilder.Entity<Product>().HasOne(p => p.Category).WithMany(c => c.Products).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Product>().HasOne(p => p.Category).WithMany(c => c.Products).OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder.Entity<Product>().HasData(InitialData.Products);
+
+            modelBuilder.Entity<Branch>().HasData(InitialData.Branches);
+
         }
 
     }
