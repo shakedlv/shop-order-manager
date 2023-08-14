@@ -37,7 +37,7 @@ function ProductInfo() {
     },)
 
     return (
-        <main className={"bg-neutral-50 w-full min-h-[80dvh]  pt-20 flex flex-col px-6 gap-2 "}>
+        <main className={"bg-neutral-50 w-full min-h-[70dvh]  pt-20 flex flex-col px-6 gap-2 "}>
             <div role="status" className="space-y-8  md:space-y-0 md:space-x-8 md:flex md:items-center">
                 <div className="flex items-center justify-center w-full h-48 bg-gray-300 rounded sm:w-96 dark:bg-gray-700 ">
                     <svg className="w-10 h-10 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">

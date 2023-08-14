@@ -104,7 +104,7 @@ function Profile() {
 
 
   return (
-    <main className="bg-neutral-50 w-full  pt-14 flex flex-col sm:flex-row items-center justify-around gap-2">
+    <main className="bg-neutral-50 w-full min-h-[70dvh] pt-14 flex flex-col sm:flex-row items-center justify-around gap-2">
 
       {loading ? " loading" :
         <>

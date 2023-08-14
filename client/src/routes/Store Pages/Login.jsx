@@ -68,7 +68,7 @@ function Login() {
     }, [])
 
     return (
-        <main className="bg-neutral-50 w-full h-screen  flex flex-col items-center md:justify-center gap-2">
+        <main className="bg-neutral-50 w-full min-h-[70dvh]   flex flex-col items-center md:justify-center gap-2">
             <div className="w-full bg-white mt-12  sm:max-w-md xl:p-0 p-3">
                 <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                     <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">

@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 function Footer() {
     return (
 
-        <footer className="bg-white mt-2 border-t w-[100dvw]">
+        <footer className="bg-white mt-2 border-t w-[100dvw] h-[27dvh]">
             <div className="mx-auto w-full max-w-screen-xl p-4 px-8 py-6 lg:py-8">
                 <div className="md:flex md:justify-between">
                     <div className="mb-6 md:mb-0">
@@ -31,7 +31,7 @@ function Footer() {
                                     <a href="https://github.com/shakedlv" className="hover:underline ">Github</a>
                                 </li>
                                 <li>
-                                    <a href="https://www.linkedin.com/in/shaked-levy/" className="hover:underline">Linked In</a>
+                                    <a href="https://www.linkedin.com/in/shaked-levy/" className="hover:underline">LinkedIn</a>
                                 </li>
                             </ul>
                         </div>

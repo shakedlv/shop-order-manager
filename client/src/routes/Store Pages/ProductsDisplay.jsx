@@ -86,7 +86,7 @@ function ProductsDisplay() {
     const totalPages = searchedProducts ?  Math.ceil(searchedProducts.length / productsPerPage) : 1;
 
     return (
-        <main className="bg-neutral-50 w-full h-screen pt-14 flex flex-col items-center gap-2">
+        <main className="bg-neutral-50 w-full min-h-[70dvh] pt-14 flex flex-col items-center gap-2">
 
             <div className='container h-14 w-full flex flex-row justify-center items-center p-2 gap-4 pr-3 pl-3'>
                 <select className='w-24 md:w-fit h-10 bg-transparent border border-solid border-neutral-300 w-38 rounded-md ' value={25} onChange={(e) => { setProductsPerPage(e.target.value); setCurrentPage(1) }}>

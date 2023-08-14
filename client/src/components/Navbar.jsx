@@ -121,8 +121,8 @@ function Navbar() {
             </button>
 
             <div className='absolute z-[1000] min-w-full min-h-full  bg-gray-400 bg-opacity-50 flex flex-row-reverse hidden' style={{ height: document.body.scrollHeight }} id='cart'>
-                <div className='min-w-[25dvw] w-full md:w-[25dvw] bg-white h-full border border-l-gray-400 flex flex-col justify-start '>
-                    <span className='flex flex-row justify-between w-full md:w-[25dvw] fixed px-2 bg-white  border  border-b-gray-400'>
+                <div className='min-w-[25dvw] w-full md:w-[25vw] bg-white h-full border border-l-gray-400 flex flex-col justify-start '>
+                    <span className='flex flex-row justify-between w-full md:w-[25vw] fixed px-2 bg-white  border  border-b-gray-400'>
                         <h2 className='text-lg font-bold uppercase '>Shopping Cart</h2>
                         <button onClick={() => HandleCart()}
                             type="button" className="relative -m-2 p-2 text-gray-400 hover:text-gray-500">
@@ -148,7 +148,7 @@ function Navbar() {
                 </div>
             </div>
 
-            <div className='absolute z-[2000] min-w-full min-h-full  bg-gray-400 bg-opacity-50 hidden' style={{ height: document.body.scrollHeight }} id='mobile-search'>
+            <div className='absolute z-[2000] min-w-full min-h-full  bg-gray-400 bg-opacity-50 hidden'  id='mobile-search'>
                 <button onClick={() => HandleMobileSearch()}
                     type="button" className="fixed top-0 right-0 text-black m-2 hover:text-gray-500">
                     <span className="absolute -inset-0.5"></span>

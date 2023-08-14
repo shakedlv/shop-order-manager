@@ -99,7 +99,7 @@ function Register() {
 
     }
     return (
-        <main className="bg-neutral-50 w-full   flex flex-col items-center md:justify-center gap-2">
+        <main className="bg-neutral-50 w-full min-h-[70dvh]  flex flex-col items-center md:justify-center gap-2">
 
             <div className="w-full bg-white mt-12  sm:max-w-md xl:p-0 p-3">
                 {errors.length > 0 ? <div className='bg-red-100  border-2 text-red-800 border-red-500 rounded-xl  w-full min-h-[64px] p-2'>
