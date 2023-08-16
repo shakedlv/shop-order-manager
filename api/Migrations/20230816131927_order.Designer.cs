@@ -12,8 +12,8 @@ using api.Context;
 namespace api.Migrations
 {
     [DbContext(typeof(MainContext))]
-    [Migration("20230814160004_branches")]
-    partial class branches
+    [Migration("20230816131927_order")]
+    partial class order
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -95,6 +95,62 @@ namespace api.Migrations
                         });
                 });
 
+            modelBuilder.Entity("api.Models.DTO.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BranchId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsPaid")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("PickUpDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserPhone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BranchId");
+
+                    b.ToTable("Order");
+                });
+
+            modelBuilder.Entity("api.Models.DTO.OrderItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OrderItem");
+                });
+
             modelBuilder.Entity("api.Models.DTO.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -138,7 +194,7 @@ namespace api.Migrations
                         {
                             Id = 1,
                             CategoryId = 1,
-                            CreatedDate = new DateTime(2023, 8, 14, 19, 0, 3, 929, DateTimeKind.Local).AddTicks(8545),
+                            CreatedDate = new DateTime(2023, 8, 16, 16, 19, 27, 3, DateTimeKind.Local).AddTicks(6668),
                             Description = "Fresh baked bread with Fresh Mozarela , tomato , and basil",
                             DisplayName = "Caprese Salad",
                             DisplayOnStore = true,
@@ -149,7 +205,7 @@ namespace api.Migrations
                         {
                             Id = 2,
                             CategoryId = 1,
-                            CreatedDate = new DateTime(2023, 8, 14, 19, 0, 3, 929, DateTimeKind.Local).AddTicks(9476),
+                            CreatedDate = new DateTime(2023, 8, 16, 16, 19, 27, 3, DateTimeKind.Local).AddTicks(7657),
                             Description = "Fresh baked bread with Tuna Salad , tomato , and cucumaber",
                             DisplayName = "Tuna Salad",
                             DisplayOnStore = true,
@@ -160,7 +216,7 @@ namespace api.Migrations
                         {
                             Id = 3,
                             CategoryId = 1,
-                            CreatedDate = new DateTime(2023, 8, 14, 19, 0, 3, 929, DateTimeKind.Local).AddTicks(9484),
+                            CreatedDate = new DateTime(2023, 8, 16, 16, 19, 27, 3, DateTimeKind.Local).AddTicks(7666),
                             Description = "Fresh baked bread with Egg Salad, Letuce and pickles",
                             DisplayName = "Egg Salad",
                             DisplayOnStore = true,
@@ -171,7 +227,7 @@ namespace api.Migrations
                         {
                             Id = 4,
                             CategoryId = 1,
-                            CreatedDate = new DateTime(2023, 8, 14, 19, 0, 3, 929, DateTimeKind.Local).AddTicks(9486),
+                            CreatedDate = new DateTime(2023, 8, 16, 16, 19, 27, 3, DateTimeKind.Local).AddTicks(7669),
                             Description = "Fresh baked croissant with Salmon, Letuce and pickles",
                             DisplayName = "Salmon Croissant",
                             DisplayOnStore = true,
@@ -182,7 +238,7 @@ namespace api.Migrations
                         {
                             Id = 5,
                             CategoryId = 2,
-                            CreatedDate = new DateTime(2023, 8, 14, 19, 0, 3, 929, DateTimeKind.Local).AddTicks(9489),
+                            CreatedDate = new DateTime(2023, 8, 16, 16, 19, 27, 3, DateTimeKind.Local).AddTicks(7672),
                             Description = "Small Pizza focaccia",
                             DisplayName = "Pizza focaccia",
                             DisplayOnStore = true,
@@ -193,7 +249,7 @@ namespace api.Migrations
                         {
                             Id = 6,
                             CategoryId = 2,
-                            CreatedDate = new DateTime(2023, 8, 14, 19, 0, 3, 929, DateTimeKind.Local).AddTicks(9491),
+                            CreatedDate = new DateTime(2023, 8, 16, 16, 19, 27, 3, DateTimeKind.Local).AddTicks(7675),
                             Description = "Medium Pizza focaccia",
                             DisplayName = "Pizza focaccia",
                             DisplayOnStore = true,
@@ -204,7 +260,7 @@ namespace api.Migrations
                         {
                             Id = 7,
                             CategoryId = 2,
-                            CreatedDate = new DateTime(2023, 8, 14, 19, 0, 3, 929, DateTimeKind.Local).AddTicks(9493),
+                            CreatedDate = new DateTime(2023, 8, 16, 16, 19, 27, 3, DateTimeKind.Local).AddTicks(7678),
                             Description = "Large Pizza focaccia",
                             DisplayName = "Pizza focaccia",
                             DisplayOnStore = true,
@@ -225,7 +281,6 @@ namespace api.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -239,14 +294,15 @@ namespace api.Migrations
                     b.Property<bool>("IsAdmin")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("LastLogin")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Lastname")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneCountryCode")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -266,31 +322,40 @@ namespace api.Migrations
                         new
                         {
                             Id = 1,
-                            BirthdayDate = new DateTime(2023, 8, 14, 19, 0, 3, 927, DateTimeKind.Local).AddTicks(4554),
-                            CreatedDate = new DateTime(2023, 8, 14, 19, 0, 3, 929, DateTimeKind.Local).AddTicks(7334),
+                            BirthdayDate = new DateTime(2023, 8, 16, 16, 19, 27, 1, DateTimeKind.Local).AddTicks(1838),
+                            CreatedDate = new DateTime(2023, 8, 16, 16, 19, 27, 3, DateTimeKind.Local).AddTicks(4827),
                             Email = "admin@admin.com",
                             Firstname = "admin",
                             IsAdmin = true,
-                            LastLogin = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Lastname = "admin",
-                            Password = "admin",
-                            PhoneNumber = "12301230123",
+                            Password = "jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=",
+                            PhoneCountryCode = "+972",
+                            PhoneNumber = "0541230123",
                             Username = "admin"
                         },
                         new
                         {
                             Id = 2,
-                            BirthdayDate = new DateTime(2023, 8, 14, 19, 0, 3, 929, DateTimeKind.Local).AddTicks(7789),
-                            CreatedDate = new DateTime(2023, 8, 14, 19, 0, 3, 929, DateTimeKind.Local).AddTicks(7795),
+                            BirthdayDate = new DateTime(2023, 8, 16, 16, 19, 27, 3, DateTimeKind.Local).AddTicks(5736),
+                            CreatedDate = new DateTime(2023, 8, 16, 16, 19, 27, 3, DateTimeKind.Local).AddTicks(5743),
                             Email = "test@test.com",
                             Firstname = "test",
                             IsAdmin = false,
-                            LastLogin = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Lastname = "test",
-                            Password = "test",
-                            PhoneNumber = "12301230123",
+                            Password = "n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=",
+                            PhoneCountryCode = "+972",
+                            PhoneNumber = "0541230124",
                             Username = "test"
                         });
+                });
+
+            modelBuilder.Entity("api.Models.DTO.Order", b =>
+                {
+                    b.HasOne("api.Models.DTO.Branch", null)
+                        .WithMany("Orders")
+                        .HasForeignKey("BranchId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("api.Models.DTO.Product", b =>
@@ -301,6 +366,11 @@ namespace api.Migrations
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("api.Models.DTO.Branch", b =>
+                {
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("api.Models.DTO.Category", b =>

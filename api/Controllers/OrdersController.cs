@@ -13,59 +13,59 @@ namespace api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoriesController : ControllerBase
+    public class OrdersController : ControllerBase
     {
         private readonly IConfiguration _config;
-        private readonly ICategoryRepository _categoryRepo;
+        private readonly IOrderRepository _orderRepo;
 
-        public CategoriesController(IConfiguration _config, ICategoryRepository _categoryRepo)
+        public OrdersController(IConfiguration _config, IOrderRepository _orderRepo)
         {
             this._config = _config ?? throw new ArgumentNullException(nameof(_config));
-            this._categoryRepo = _categoryRepo ?? throw new ArgumentNullException(nameof(_categoryRepo));
+            this._orderRepo = _orderRepo ?? throw new ArgumentNullException(nameof(_orderRepo));
         }
 
         [HttpGet]
         public IActionResult GetAll()
         {
-            var result = _categoryRepo.FindAll().ToList();
+            var result = _orderRepo.FindAll().ToList();
             return Ok(result);
         }
 
         [HttpGet("{id:int}")]
         public IActionResult GetByID(int id)
         {
-            var result = _categoryRepo.FindByCondition(p => p.Id == id).FirstOrDefault();
+            var result = _orderRepo.FindByCondition(p => p.Id == id).FirstOrDefault();
             return Ok(result);
         }
 
         [HttpPost]
-        public IActionResult Create(Category category)
+        public IActionResult Create(Order order)
         {
-            if (category == null)
+            if (order == null)
             {
                 return BadRequest();
             }
 
-            var result = _categoryRepo.Create(category);
+            var result = _orderRepo.Create(order);
 
-            return Created("category", result);
+            return Created("order", result);
         }
 
         [HttpPut]
-        public IActionResult Update(Category category)
+        public IActionResult Update(Order order)
         {
-            if (category == null)
+            if (order == null)
             {
                 return BadRequest();
             }
 
-            var exists = _categoryRepo.FindByCondition(c => c.Id == category.Id).AsNoTracking().Any();
+            var exists = _orderRepo.FindByCondition(c => c.Id == order.Id).AsNoTracking().Any();
             if (!exists)
             {
                 return NotFound();
             }
 
-            _categoryRepo.Update(category);
+            _orderRepo.Update(order);
 
             return NoContent();
         }
@@ -73,15 +73,14 @@ namespace api.Controllers
         [HttpDelete("{id:int}")]
         public IActionResult Delete(int id)
         {
-            var category = _categoryRepo.FindByCondition(c => c.Id == id).FirstOrDefault();
-            if (category == null)
+            var Order = _orderRepo.FindByCondition(c => c.Id == id).FirstOrDefault();
+            if (Order == null)
             {
                 return NotFound();
             }
 
-            _categoryRepo.Delete(category);
+            _orderRepo.Delete(Order);
             return NoContent();
         }
-
     }
 }

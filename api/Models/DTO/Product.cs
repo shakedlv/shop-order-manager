@@ -7,11 +7,10 @@ namespace api.Models.DTO
 {
     public class Product
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [Required] public string DisplayName { get; set; }
-        [Required] public string Description { get; set; }
+        public string DisplayName { get; set; }
+        public string Description { get; set; }
 
         public int? CategoryId { get; set; }
         public Category? Category { get; set; }

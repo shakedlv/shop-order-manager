@@ -13,6 +13,8 @@ import CheckoutForm from './CheckoutForm';
 // recreating the `Stripe` object on every render.
 
 function Navbar() {
+    const isAuthenticated = Boolean(localStorage.getItem("user_token"));
+
     const { data: products, error: p_error, loading: p_loading } = useFetch("Products")
     const [searchQuery, setSearchQuery] = useState("")
 
@@ -135,7 +137,7 @@ function Navbar() {
                     </span>
                     <div className=' flex-grow my-8 flex flex-col gap-2'>
                         {products ? getCart().map((item) => {
-                            return <CartItem key={item['id']} product={products.find((product) => product['id'] === item['id'])} quantity={item['quantity']}></CartItem>
+                            return <CartItem key={item['id']} product={products.find((product) => product['id'] === item['id'])} quantity={item['amount']}></CartItem>
                         }) : <></>}
                     </div>
 
@@ -143,7 +145,7 @@ function Navbar() {
                         <h2 className='text-lg font-bold uppercase '>Total :</h2>
                         <span className='text-lg font-bold uppercase '>$ {getCartTotal(products)}</span>
                         <button onClick={() => setOpenModal('pay')}
-                            className='bg-blue-500 text-center font-bold text-lg rounded-md px-2 min-w-[64px]'>Pay</button>
+                            className='bg-blue-500 text-center font-bold text-lg rounded-md px-2 min-w-[64px]'>{isAuthenticated ? "Pay" : "Continue as Guest"}</button>
                     </span>
                 </div>
             </div>

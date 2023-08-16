@@ -3,7 +3,8 @@ import InputGroup from '../../components/UI/InputGroup'
 import { isValidPassword, isValidUsername, validEmail } from '../../utils/Regex'
 import api from '../../utils/api'
 import { Link, useNavigate } from 'react-router-dom'
-
+import { Label, Select} from 'flowbite-react'
+import {countryPhoneCodes} from '../../utils/CountryCodes'
 
 function Register() {
     const isAuthenticated = Boolean(localStorage.getItem("user_token"));
@@ -20,6 +21,7 @@ function Register() {
     const [fname, setFname] = useState("")
     const [lname, setLname] = useState("")
     const [phone, setPhone] = useState("")
+    const [phoneCode, setPhoneCode] = useState("")
     const [errors, setErrors] = useState([])
     const nav = useNavigate();
 
@@ -29,7 +31,6 @@ function Register() {
             username,
             password,
         };
-        console.log(loginData)
 
         api
             .post("Login", loginData)
@@ -38,16 +39,28 @@ function Register() {
                     localStorage.setItem("user_token", result.data['token']);
                     localStorage.setItem("user_id", result.data['id']);
 
+                    const today = new Date()
+                    const tomorrow = new Date(today)
+                    tomorrow.setDate(tomorrow.getDate() + 1)
+                    localStorage.setItem('login_expires', tomorrow.toDateString())
+
+
                     localStorage.setItem("user_isAdmin", result.data['isAdmin']);
+
                     nav("/");
 
                 } else {
                     localStorage.setItem("user_token", "");
+                    localStorage.setItem('login_expires', "")
+                    localStorage.setItem("user_isAdmin", false);
+
 
                 }
             })
             .catch((ex) => {
                 localStorage.setItem("user_token", "");
+                localStorage.setItem('login_expires', "")
+                localStorage.setItem("user_isAdmin", false);
 
                 console.error(ex);
             });
@@ -82,14 +95,15 @@ function Register() {
                 "password": password,
                 "email": email,
                 "phoneNumber": phone,
+                "phoneCountryCode":phoneCode,
                 "firstname": fname,
                 "lastname": lname,
                 "birthdayDate": "2023-07-29T00:00:00",
                 "isAdmin": false,
                 "createdDate": formattedDate,
-                "lastLogin": "2023-07-29T05:50:06.798Z"
             }
-            api.post("/Users", userData).then((result) => {
+
+            api.post("/Users",userData).then((result) => {
                 handleLogin();
             }).catch((ex) => {
                 console.log(ex)
@@ -125,6 +139,25 @@ function Register() {
                         placeholder={"First Name"} onChangeEvent={(e) => { setFname(e.target.value) }} />
                     <InputGroup id={"lname"} label={"Lastname"} type={"text"}
                         placeholder={"Last Name"} onChangeEvent={(e) => { setLname(e.target.value) }} />
+                </div>
+                <div className='flex flex-row justify-between gap-1'>
+                    <div>
+                        <div className="mb-2 block">
+                            <Label
+                                htmlFor="phonecode"
+                                value="Phone Code"
+                            />
+                        </div>
+                        <Select
+                            onChange={(e) => { setPhoneCode(e.target.value) }}
+                            id="phonecode"
+                            required>
+                            {countryPhoneCodes.map(c => {
+                                return <option key={c['code']} value={c['dial_code']} >[{c['name']}]{c['dial_code']}</option>
+                            })}
+
+                        </Select>
+                    </div>
                     <InputGroup id={"phone"} label={"Phone Number"} type={"text"}
                         placeholder={"0541230123"} onChangeEvent={(e) => { setPhone(e.target.value) }} />
                 </div>

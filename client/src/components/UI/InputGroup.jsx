@@ -13,10 +13,10 @@ function InputGroup({id,label,placeholder,onChangeEvent,type,value}) {
             <TextInput
                 onChange={(e) => { onChangeEvent(e) }}
                 id={id}
-                placeholder={placeholder != null ? placeholder : ""}
+                placeholder={placeholder}
                 type={type}
                 autoComplete="new-password"
-                value={value != null ? value : ""}
+                value={value}
             />
         </div>
     )

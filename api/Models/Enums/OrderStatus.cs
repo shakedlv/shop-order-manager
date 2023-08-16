@@ -2,6 +2,6 @@
 {
     public enum OrderStatus
     {
-        Open = 1, Close = 2, 
+        Open = 1, Close = 2, Cancled = 3,
     }
 }

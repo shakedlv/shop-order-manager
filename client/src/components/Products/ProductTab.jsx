@@ -21,7 +21,7 @@ function ProductTab({ product }) {
             </div>
             <div className='flex flex-row items-center justify-center gap-2 '>
                 <button onClick={() => decraesCartQuantity(product['id'])} className='p-1 px-2 border border-gray-500 rounded-md hover:bg-gray-300'>-</button>
-                <span className='font-bold text-lg'> {getItemQuantity(product['id'])}</span>
+                <span className='font-bold text-lg'> {getItemQuantity(product['id']) ||  0}</span>
                 <button onClick={() => increaseCartQuantity(product['id'])} className='p-1 px-2 border border-gray-500 rounded-md hover:bg-gray-300'>+</button>
             </div>
 

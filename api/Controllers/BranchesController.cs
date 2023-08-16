@@ -58,7 +58,7 @@ namespace api.Controllers
             return BadRequest();
         }
 
-        var exists = _branchRepo.FindByCondition(c => c.Id == branch.Id).Any();
+        var exists = _branchRepo.FindByCondition(c => c.Id == branch.Id).AsNoTracking().Any();
         if (!exists)
         {
             return NotFound();

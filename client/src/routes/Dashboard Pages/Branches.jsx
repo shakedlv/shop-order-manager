@@ -9,11 +9,7 @@ import { notifyFaild, notifySuccsess } from '../../utils/notify';
 import { useFetch } from '../../hooks/hooks';
 
 
-/* TO-DO
-      
-    handle pictures
 
- */
 function Branches() {
     const { data: branches, error: b_error, loading: b_loading, fetchData: getBranches } = useFetch("Branches")
 

@@ -17,6 +17,9 @@ export function ShoppingCartProvider({ children }) {
     const [cartItems, setCartItems] = useLocalStorage("shopping-cart", [])
     const cartQuantity = cartItems.length;
 
+    function clearCart(){
+        setCartItems([]);
+    }
     function getCart() {
         return cartItems;
     }
@@ -24,7 +27,7 @@ export function ShoppingCartProvider({ children }) {
         if (cartItems.length === 0) return 0;
         if (id === undefined) return 0;
         const item = cartItems.find((item) => item['id'] === id)
-        return item !== undefined ? item['quantity'] : 0
+        return item !== undefined ? item['amount'] : 0
 
     }
 
@@ -35,7 +38,7 @@ export function ShoppingCartProvider({ children }) {
         for (var item of cartItems) {
             var p = products.find(product => product.id === item.id);
             if (p !== undefined) {
-                total += p.price * item.quantity;
+                total += p.price * item.amount;
             }
         }
 
@@ -47,12 +50,12 @@ export function ShoppingCartProvider({ children }) {
         if (id === undefined) return;
         const item = cartItems.find((item) => item['id'] === id)
         if (item === undefined) {
-            setCartItems(prev => [...prev, { 'id': id, 'quantity': 1 }])
+            setCartItems(prev => [...prev, { 'id': id, 'amount': 1 }])
         }
         else {
             setCartItems(prev => cartItems.map((item) => {
-                if (item['id'] == id) return { 'id': item['id'], 'quantity': item['quantity'] + 1 }
-                else return { 'id': item['id'], 'quantity': item['quantity'] }
+                if (item['id'] == id) return { 'id': item['id'], 'amount': item['amount'] + 1 }
+                else return { 'id': item['id'], 'amount': item['amount'] }
             }))
         }
 
@@ -62,13 +65,13 @@ export function ShoppingCartProvider({ children }) {
         const item = cartItems.find((item) => item['id'] === id)
         if (item !== undefined) {
 
-            if (item['quantity'] <= 1) {
+            if (item['amount'] <= 1) {
                 removeItem(id);
             }
             else {
                 setCartItems(prev => cartItems.map((item) => {
-                    if (item['id'] == id) return { 'id': item['id'], 'quantity': item['quantity'] - 1 }
-                    else return { 'id': item['id'], 'quantity': item['quantity'] }
+                    if (item['id'] == id) return { 'id': item['id'], 'amount': item['amount'] - 1 }
+                    else return { 'id': item['id'], 'amount': item['amount'] }
                 }))
             }
 
@@ -80,7 +83,7 @@ export function ShoppingCartProvider({ children }) {
 
     }
     return (
-        <ShoppingCartContext.Provider value={{ getItemQuantity, increaseCartQuantity, decraesCartQuantity, removeItem, cartQuantity, getCart, getCartTotal }}>
+        <ShoppingCartContext.Provider value={{ getItemQuantity, increaseCartQuantity, decraesCartQuantity, removeItem, cartQuantity, getCart, getCartTotal ,clearCart}}>
             {children}
         </ShoppingCartContext.Provider>
     )

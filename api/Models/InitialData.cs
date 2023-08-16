@@ -1,15 +1,24 @@
 ﻿using api.Models.DTO;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace api.Models
 {
 
     public class InitialData
     {
+        private static string HashPassword(string password)
+        {
+            var sha = SHA256.Create();
+            var asByteArray = Encoding.Default.GetBytes(password);
+            var hashed = sha.ComputeHash(asByteArray);
+            return Convert.ToBase64String(hashed);
+        }
 
         public static User[] Users = new User[]
         {
-                new User() { Id = 1, Firstname = "admin", Lastname = "admin", Password = "admin", Email = "admin@admin.com", Username = "admin", BirthdayDate = DateTime.Now, CreatedDate = DateTime.Now, IsAdmin = true, PhoneNumber = "12301230123" },
-                new User() { Id = 2, Firstname = "test", Lastname = "test", Password = "test", Email = "test@test.com", Username = "test", BirthdayDate = DateTime.Now, CreatedDate = DateTime.Now, IsAdmin = false, PhoneNumber = "12301230123" }
+                new User() { Id = 1, Firstname = "admin", Lastname = "admin", Password = HashPassword("admin"), Email = "admin@admin.com", Username = "admin", BirthdayDate = DateTime.Now, CreatedDate = DateTime.Now, IsAdmin = true, PhoneCountryCode="+972",PhoneNumber="0541230123" },
+                new User() { Id = 2, Firstname = "test", Lastname = "test", Password = HashPassword("test"), Email = "test@test.com", Username = "test", BirthdayDate = DateTime.Now, CreatedDate = DateTime.Now, IsAdmin = false, PhoneCountryCode="+972",PhoneNumber="0541230124" }
 
         };
 

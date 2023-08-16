@@ -14,13 +14,12 @@ namespace api.Context
         public DbSet<User> Users { get; set; }
         public DbSet<Product> Product { get; set; }
         public DbSet<Category> Category { get; set; }
-
         public DbSet<Branch> Branches { get; set; }
-
+        public DbSet<Order> Order { get; set; }
+        public DbSet<OrderItem> OrderItem { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
 
 
 
@@ -34,7 +33,10 @@ namespace api.Context
 
             modelBuilder.Entity<Branch>().HasData(InitialData.Branches);
 
+
+
         }
+
 
     }
 }
