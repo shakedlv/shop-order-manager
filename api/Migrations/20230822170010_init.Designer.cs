@@ -12,7 +12,7 @@ using api.Context;
 namespace api.Migrations
 {
     [DbContext(typeof(MainContext))]
-    [Migration("20230816130211_init")]
+    [Migration("20230822170010_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -24,6 +24,71 @@ namespace api.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("CategoriesProduct", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CategoryId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("CategoriesProduct");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            ProductId = 1
+                        },
+                        new
+                        {
+                            CategoryId = 1,
+                            ProductId = 2
+                        },
+                        new
+                        {
+                            CategoryId = 1,
+                            ProductId = 3
+                        },
+                        new
+                        {
+                            CategoryId = 1,
+                            ProductId = 4
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            ProductId = 5
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            ProductId = 6
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            ProductId = 7
+                        });
+                });
+
+            modelBuilder.Entity("CategoryProduct", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CategoryId", "ProductId");
+
+                    b.ToTable("CategoryProduct");
+                });
 
             modelBuilder.Entity("api.Models.DTO.Branch", b =>
                 {
@@ -78,20 +143,26 @@ namespace api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Icon")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Category");
+                    b.ToTable("Categories");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            DisplayName = "sandwiches"
+                            DisplayName = "sandwiches",
+                            Icon = "https://imageproxy.wolt.com/wolt-frontpage-images/categories/3b15b7ec-c5a9-11ea-b203-822e244794a0_f9f6d726_a28a_40f1_9d3f_76d3ed1528c7.jpg-md?w=600"
                         },
                         new
                         {
                             Id = 2,
-                            DisplayName = "focaccia"
+                            DisplayName = "focaccia",
+                            Icon = "https://imageproxy.wolt.com/wolt-frontpage-images/categories/631c2da8-c5a8-11ea-9f48-2e3b484a03e4_e68ad7b4_218c_4d28_b339_f49e3e8f9f50.jpg-md?w=600"
                         });
                 });
 
@@ -103,7 +174,7 @@ namespace api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("BranchId")
+                    b.Property<int>("BranchId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Created")
@@ -129,7 +200,9 @@ namespace api.Migrations
 
                     b.HasIndex("BranchId");
 
-                    b.ToTable("Order");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("api.Models.DTO.OrderItem", b =>
@@ -143,12 +216,20 @@ namespace api.Migrations
                     b.Property<int>("Amount")
                         .HasColumnType("int");
 
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("OrderItem");
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("api.Models.DTO.Product", b =>
@@ -159,11 +240,7 @@ namespace api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
@@ -177,95 +254,87 @@ namespace api.Migrations
                     b.Property<bool>("DisplayOnStore")
                         .HasColumnType("bit");
 
-                    b.Property<string>("MainPicturePath")
+                    b.Property<string>("Image")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<float>("Price")
-                        .HasColumnType("real");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("Product");
+                    b.ToTable("Products");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            CategoryId = 1,
-                            CreatedDate = new DateTime(2023, 8, 16, 16, 2, 11, 596, DateTimeKind.Local).AddTicks(5451),
+                            CreatedDate = new DateTime(2023, 8, 22, 20, 0, 10, 43, DateTimeKind.Local).AddTicks(6972),
                             Description = "Fresh baked bread with Fresh Mozarela , tomato , and basil",
                             DisplayName = "Caprese Salad",
                             DisplayOnStore = true,
-                            MainPicturePath = "",
-                            Price = 22f
+                            Image = "https://i.pinimg.com/originals/da/d9/07/dad9070549f1afc882c220e2275f2ccc.png",
+                            Price = 22m
                         },
                         new
                         {
                             Id = 2,
-                            CategoryId = 1,
-                            CreatedDate = new DateTime(2023, 8, 16, 16, 2, 11, 596, DateTimeKind.Local).AddTicks(6332),
+                            CreatedDate = new DateTime(2023, 8, 22, 20, 0, 10, 43, DateTimeKind.Local).AddTicks(7759),
                             Description = "Fresh baked bread with Tuna Salad , tomato , and cucumaber",
                             DisplayName = "Tuna Salad",
                             DisplayOnStore = true,
-                            MainPicturePath = "",
-                            Price = 22f
+                            Image = "https://i.pinimg.com/originals/da/d9/07/dad9070549f1afc882c220e2275f2ccc.png",
+                            Price = 22m
                         },
                         new
                         {
                             Id = 3,
-                            CategoryId = 1,
-                            CreatedDate = new DateTime(2023, 8, 16, 16, 2, 11, 596, DateTimeKind.Local).AddTicks(6339),
-                            Description = "Fresh baked bread with Egg Salad, Letuce and pickles",
+                            CreatedDate = new DateTime(2023, 8, 22, 20, 0, 10, 43, DateTimeKind.Local).AddTicks(7766),
+                            Description = "Fresh baked bread with Egg Salad, Lettuce and pickles",
                             DisplayName = "Egg Salad",
                             DisplayOnStore = true,
-                            MainPicturePath = "",
-                            Price = 22f
+                            Image = "https://i.pinimg.com/originals/da/d9/07/dad9070549f1afc882c220e2275f2ccc.png",
+                            Price = 22m
                         },
                         new
                         {
                             Id = 4,
-                            CategoryId = 1,
-                            CreatedDate = new DateTime(2023, 8, 16, 16, 2, 11, 596, DateTimeKind.Local).AddTicks(6341),
-                            Description = "Fresh baked croissant with Salmon, Letuce and pickles",
+                            CreatedDate = new DateTime(2023, 8, 22, 20, 0, 10, 43, DateTimeKind.Local).AddTicks(7769),
+                            Description = "Fresh baked croissant with Salmon, Lettuce and pickles",
                             DisplayName = "Salmon Croissant",
                             DisplayOnStore = true,
-                            MainPicturePath = "",
-                            Price = 25f
+                            Image = "https://i.pinimg.com/originals/da/d9/07/dad9070549f1afc882c220e2275f2ccc.png",
+                            Price = 25m
                         },
                         new
                         {
                             Id = 5,
-                            CategoryId = 2,
-                            CreatedDate = new DateTime(2023, 8, 16, 16, 2, 11, 596, DateTimeKind.Local).AddTicks(6344),
+                            CreatedDate = new DateTime(2023, 8, 22, 20, 0, 10, 43, DateTimeKind.Local).AddTicks(7772),
                             Description = "Small Pizza focaccia",
                             DisplayName = "Pizza focaccia",
                             DisplayOnStore = true,
-                            MainPicturePath = "",
-                            Price = 6f
+                            Image = "https://i.pinimg.com/originals/da/d9/07/dad9070549f1afc882c220e2275f2ccc.png",
+                            Price = 6m
                         },
                         new
                         {
                             Id = 6,
-                            CategoryId = 2,
-                            CreatedDate = new DateTime(2023, 8, 16, 16, 2, 11, 596, DateTimeKind.Local).AddTicks(6346),
+                            CreatedDate = new DateTime(2023, 8, 22, 20, 0, 10, 43, DateTimeKind.Local).AddTicks(7774),
                             Description = "Medium Pizza focaccia",
                             DisplayName = "Pizza focaccia",
                             DisplayOnStore = true,
-                            MainPicturePath = "",
-                            Price = 15f
+                            Image = "https://i.pinimg.com/originals/da/d9/07/dad9070549f1afc882c220e2275f2ccc.png",
+                            Price = 15m
                         },
                         new
                         {
                             Id = 7,
-                            CategoryId = 2,
-                            CreatedDate = new DateTime(2023, 8, 16, 16, 2, 11, 596, DateTimeKind.Local).AddTicks(6348),
+                            CreatedDate = new DateTime(2023, 8, 22, 20, 0, 10, 43, DateTimeKind.Local).AddTicks(7777),
                             Description = "Large Pizza focaccia",
                             DisplayName = "Pizza focaccia",
                             DisplayOnStore = true,
-                            MainPicturePath = "",
-                            Price = 22f
+                            Image = "https://i.pinimg.com/originals/da/d9/07/dad9070549f1afc882c220e2275f2ccc.png",
+                            Price = 22m
                         });
                 });
 
@@ -310,6 +379,10 @@ namespace api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ProfilePicturePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -322,8 +395,8 @@ namespace api.Migrations
                         new
                         {
                             Id = 1,
-                            BirthdayDate = new DateTime(2023, 8, 16, 16, 2, 11, 594, DateTimeKind.Local).AddTicks(2177),
-                            CreatedDate = new DateTime(2023, 8, 16, 16, 2, 11, 596, DateTimeKind.Local).AddTicks(3692),
+                            BirthdayDate = new DateTime(2023, 8, 22, 20, 0, 10, 40, DateTimeKind.Local).AddTicks(9865),
+                            CreatedDate = new DateTime(2023, 8, 22, 20, 0, 10, 43, DateTimeKind.Local).AddTicks(4814),
                             Email = "admin@admin.com",
                             Firstname = "admin",
                             IsAdmin = true,
@@ -331,13 +404,14 @@ namespace api.Migrations
                             Password = "jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=",
                             PhoneCountryCode = "+972",
                             PhoneNumber = "0541230123",
+                            ProfilePicturePath = "https://th.bing.com/th/id/R.19fa7497013a87bd77f7adb96beaf768?rik=144XvMigWWj2bw&riu=http%3a%2f%2fwww.pngall.com%2fwp-content%2fuploads%2f5%2fUser-Profile-PNG-High-Quality-Image.png&ehk=%2bat%2brmqQuJrWL609bAlrUPYgzj%2b%2f7L1ErXRTN6ZyxR0%3d&risl=&pid=ImgRaw&r=0",
                             Username = "admin"
                         },
                         new
                         {
                             Id = 2,
-                            BirthdayDate = new DateTime(2023, 8, 16, 16, 2, 11, 596, DateTimeKind.Local).AddTicks(4528),
-                            CreatedDate = new DateTime(2023, 8, 16, 16, 2, 11, 596, DateTimeKind.Local).AddTicks(4534),
+                            BirthdayDate = new DateTime(2023, 8, 22, 20, 0, 10, 43, DateTimeKind.Local).AddTicks(5781),
+                            CreatedDate = new DateTime(2023, 8, 22, 20, 0, 10, 43, DateTimeKind.Local).AddTicks(5788),
                             Email = "test@test.com",
                             Firstname = "test",
                             IsAdmin = false,
@@ -345,8 +419,24 @@ namespace api.Migrations
                             Password = "n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=",
                             PhoneCountryCode = "+972",
                             PhoneNumber = "0541230124",
+                            ProfilePicturePath = "https://th.bing.com/th/id/R.19fa7497013a87bd77f7adb96beaf768?rik=144XvMigWWj2bw&riu=http%3a%2f%2fwww.pngall.com%2fwp-content%2fuploads%2f5%2fUser-Profile-PNG-High-Quality-Image.png&ehk=%2bat%2brmqQuJrWL609bAlrUPYgzj%2b%2f7L1ErXRTN6ZyxR0%3d&risl=&pid=ImgRaw&r=0",
                             Username = "test"
                         });
+                });
+
+            modelBuilder.Entity("CategoriesProduct", b =>
+                {
+                    b.HasOne("api.Models.DTO.Category", null)
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("api.Models.DTO.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("api.Models.DTO.Order", b =>
@@ -354,19 +444,29 @@ namespace api.Migrations
                     b.HasOne("api.Models.DTO.Branch", "Branch")
                         .WithMany("Orders")
                         .HasForeignKey("BranchId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("api.Models.DTO.User", "User")
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Branch");
+
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("api.Models.DTO.Product", b =>
+            modelBuilder.Entity("api.Models.DTO.OrderItem", b =>
                 {
-                    b.HasOne("api.Models.DTO.Category", "Category")
-                        .WithMany("Products")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                    b.HasOne("api.Models.DTO.Order", "Order")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Category");
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("api.Models.DTO.Branch", b =>
@@ -374,9 +474,14 @@ namespace api.Migrations
                     b.Navigation("Orders");
                 });
 
-            modelBuilder.Entity("api.Models.DTO.Category", b =>
+            modelBuilder.Entity("api.Models.DTO.Order", b =>
                 {
-                    b.Navigation("Products");
+                    b.Navigation("OrderItems");
+                });
+
+            modelBuilder.Entity("api.Models.DTO.User", b =>
+                {
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

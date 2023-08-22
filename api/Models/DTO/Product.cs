@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
@@ -11,15 +12,13 @@ namespace api.Models.DTO
         public int Id { get; set; }
         public string DisplayName { get; set; }
         public string Description { get; set; }
+        [ForeignKey("CategoryId")]
 
-        public int? CategoryId { get; set; }
-        public Category? Category { get; set; }
-        [AllowNull] public string? MainPicturePath { get; set; }
-        [AllowNull,NotMapped] public ICollection<string>? PicturesPaths { get; set; }
-        [Required,DefaultValue(1.0f)] public float Price { get; set;}
+        public List<Category> Categories { get; set; } = new();
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [AllowNull] public DateTime CreatedDate { get; set; }
+        public string Image { get; set; }
+        [DefaultValue(1.0f)] public decimal Price { get; set;}
+        public DateTime CreatedDate { get; set; }
         [DefaultValue(true)] public bool DisplayOnStore { get; set; }
     }
 }

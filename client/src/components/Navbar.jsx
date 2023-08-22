@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useFetch } from '../hooks/hooks';
 import { useCart } from '../context/ShoppingCart';
 import CartItem from './Products/CartItem';
-import { Button, Modal } from 'flowbite-react';
+import { Avatar, Modal } from 'flowbite-react';
 
 import CheckoutForm from './CheckoutForm';
 
@@ -96,7 +96,9 @@ function Navbar() {
                     {/* Right Side */}
                     <div className='flex justify-center items-center gap-2'>
                         <Link to={"/login"} className='border border-neutral-300 rounded-full p-2 ease-in-out hover:bg-slate-300 hover:border-black'>
-                            <AiOutlineUser />
+                            {isAuthenticated == false ? <AiOutlineUser /> :
+                                <img src={localStorage.getItem("user_picture")} alt='Profile Avatar' className='h-4 w-4' />
+                            }
                         </Link>
                         <button onClick={() => HandleCart()}
                             className='hidden md:block relative border border-neutral-300 rounded-full p-2 ease-in-out hover:bg-slate-300 hover:border-black'>
@@ -150,7 +152,7 @@ function Navbar() {
                 </div>
             </div>
 
-            <div className='absolute z-[2000] min-w-full min-h-full  bg-gray-400 bg-opacity-50 hidden'  id='mobile-search'>
+            <div className='absolute z-[2000] min-w-full min-h-full  bg-gray-400 bg-opacity-50 hidden' id='mobile-search'>
                 <button onClick={() => HandleMobileSearch()}
                     type="button" className="fixed top-0 right-0 text-black m-2 hover:text-gray-500">
                     <span className="absolute -inset-0.5"></span>
@@ -186,7 +188,7 @@ function Navbar() {
             <Modal dismissible show={openModal === 'pay'} onClose={() => setOpenModal("")} className='z-[3000]'>
                 <Modal.Header>payment</Modal.Header>
                 <Modal.Body>
-                        <CheckoutForm />
+                    <CheckoutForm />
                 </Modal.Body>
             </Modal>
 

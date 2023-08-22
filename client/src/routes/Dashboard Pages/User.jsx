@@ -5,7 +5,7 @@ import { HiCheck, HiOutlineExclamationCircle, HiX } from 'react-icons/hi';
 import { Pagination } from 'flowbite-react';
 import { Toaster } from 'react-hot-toast';
 import SearchableDropdown from '../../components/UI/SearchableDropdown';
-import { notifyFaild, notifySuccsess } from '../../utils/notify';
+import { notifyFaild, notifySuccess } from '../../utils/notify';
 import { useFetch } from '../../hooks/hooks';
 
 function Users() {
@@ -39,7 +39,7 @@ function Users() {
     const HandleRemove = (user) => {
         user['isAdmin'] = false;
         api.put("Users", user).then((result) => {
-            notifySuccsess("Removed Admin Succsessfuly");
+            notifySuccess("Removed Admin Succsessfuly");
             getUsers();
 
             setOpenModal("");
@@ -56,7 +56,7 @@ function Users() {
         console.log(user)
         user['isAdmin'] = true;
         api.put("Users", user).then((result) => {
-            notifySuccsess("Admin Updated Succsessfuly !");
+            notifySuccess("Admin Updated Succsessfuly !");
             getUsers();
 
             setOpenModal("");

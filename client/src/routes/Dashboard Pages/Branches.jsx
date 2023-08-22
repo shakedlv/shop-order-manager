@@ -5,7 +5,7 @@ import { Button, Modal } from 'flowbite-react';
 import InputGroup from '../../components/UI/InputGroup';
 import api from '../../utils/api';
 import { Toaster } from 'react-hot-toast';
-import { notifyFaild, notifySuccsess } from '../../utils/notify';
+import { notifyFaild, notifySuccess } from '../../utils/notify';
 import { useFetch } from '../../hooks/hooks';
 
 
@@ -56,7 +56,7 @@ function Branches() {
         const verb = branchId > 0 ? "put" : "post";
 
         api[verb]("Branches", data).then((result) => {
-            notifySuccsess("Branches Updated Succsessfuly!");
+            notifySuccess("Branches Updated Succsessfuly!");
             getBranches();
 
             HandleClearForm();
@@ -76,7 +76,7 @@ function Branches() {
     }
     const HandleDelete = (id) => {
         api.delete("Branches/" + id).then(result => {
-            notifySuccsess("Branch Deleted Succsessfuly!");
+            notifySuccess("Branch Deleted Succsessfuly!");
             getBranches();
 
             CloseDelete();

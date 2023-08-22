@@ -76,7 +76,7 @@ namespace api.Controllers
 
             var tokenStr = new JwtSecurityTokenHandler().WriteToken(token);
 
-            return Ok(new UserResponse(tokenStr, user.IsAdmin,user.Id));
+            return Ok(new UserResponse(tokenStr, user.IsAdmin,user.Id, user.ProfilePicturePath));
         }
 
         private string HashPassword(string password)
@@ -96,10 +96,12 @@ class UserResponse
     public string token { get; set;}
     public int id { get; set;}
     public bool isAdmin { get; set;}
-    public UserResponse(string _token , bool _admin, int id)
+    public string ProfilePicture { get; set;}
+    public UserResponse(string _token , bool _admin, int id , string picture)
     {
         this.token = _token;
         this.isAdmin = _admin;
         this.id = id;   
+        this.ProfilePicture = picture;
     }
 }

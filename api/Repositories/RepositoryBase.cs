@@ -1,5 +1,6 @@
 ﻿using api.Context;
 using api.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Linq.Expressions;
 
@@ -7,7 +8,7 @@ namespace api.Repositories
 {
     public class RepositoryBase<T> : IRepositoryBase<T> where T : class
     {
-        private readonly MainContext _context;
+        protected readonly MainContext _context;
 
         public RepositoryBase(MainContext _context)
         {
@@ -29,12 +30,12 @@ namespace api.Repositories
 
         public IQueryable<T> FindAll()
         {
-            return _context.Set<T>();
+            return _context.Set<T>().AsNoTracking();
         }
 
         public IQueryable<T> FindByCondition(Expression<Func<T, bool>> condition)
         {
-            return _context.Set<T>().Where(condition);
+            return _context.Set<T>().Where(condition).AsNoTracking();
         }
 
         public void Save()

@@ -3,8 +3,7 @@ import { useLocalStorage } from "../hooks/hooks";
 
 
 /* TO-DO
-   Handle Pay
-    
+    Handle Pay
  */
 
 const ShoppingCartContext = createContext({});
@@ -60,7 +59,7 @@ export function ShoppingCartProvider({ children }) {
         }
 
     }
-    function decraesCartQuantity(id) {
+    function decreaseCartQuantity(id) {
         if (id === undefined) return;
         const item = cartItems.find((item) => item['id'] === id)
         if (item !== undefined) {
@@ -83,7 +82,7 @@ export function ShoppingCartProvider({ children }) {
 
     }
     return (
-        <ShoppingCartContext.Provider value={{ getItemQuantity, increaseCartQuantity, decraesCartQuantity, removeItem, cartQuantity, getCart, getCartTotal ,clearCart}}>
+        <ShoppingCartContext.Provider value={{ getItemQuantity, increaseCartQuantity, decreaseCartQuantity, removeItem, cartQuantity, getCart, getCartTotal ,clearCart}}>
             {children}
         </ShoppingCartContext.Provider>
     )

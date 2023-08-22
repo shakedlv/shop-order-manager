@@ -5,12 +5,11 @@ import { Button, Modal } from 'flowbite-react';
 import InputGroup from '../../components/UI/InputGroup';
 import api from '../../utils/api';
 import { Toaster } from 'react-hot-toast';
-import { notifyFaild, notifySuccsess } from '../../utils/notify';
+import { notifyFaild, notifySuccess } from '../../utils/notify';
 import { useFetch } from '../../hooks/hooks';
 
 
-/* TO-DO
-      
+/* TO-DO   
     handle pictures
  */
 function Products() {
@@ -30,34 +29,31 @@ function Products() {
 
     const [openEditModal, setOpenEditModal] = useState("");
 
-    const [productId, setproductId] = useState(-1)
+    const [productId, setProductId] = useState(-1)
     const [displayName, setDisplayName] = useState("")
     const [description, setDescription] = useState("")
     const [categoryId, setCategoryId] = useState(0)
     const [mainPicture, setMainPicture] = useState("")
-    const [morePictures, setMorePictures] = useState([])
     const [price, setPrice] = useState("")
 
     const HandleOpenToEdit = (product) => {
         setOpenEditModal('edit')
-        setproductId(product["id"]);
+        setProductId(product["id"]);
         setDisplayName(product["displayName"]);
         setDescription(product["description"]);
-        setCategoryId(product["categoryId"]);
-        setMainPicture(product["mainPicturePath"]);
-        setMainPicture(product["picturesPaths"]);
+        setCategoryId(product["categories"][0]);
+        setMainPicture(product["image"]);
         setPrice(product["price"]);
 
     }
 
     const HandleClearForm = () => {
-        setproductId(-1);
+        setProductId(-1);
         setOpenEditModal("")
         setDisplayName("");
         setDescription("");
         setCategoryId(0);
         setMainPicture("");
-        setMorePictures([]);
         setPrice(0);
 
     }
@@ -70,9 +66,8 @@ function Products() {
             id: productId > 0 ? productId : 0,
             displayName: displayName,
             description: description,
-            categoryId: categoryId,
-            mainPicturePath: mainPicture,
-            picturesPaths: morePictures,
+            categories: categoryId,
+            image: mainPicture,
             price: price,
             createdDate: formattedDate,
             displayOnStore: true
@@ -80,7 +75,7 @@ function Products() {
         const verb = productId > 0 ? "put" : "post";
 
         api[verb]("Products", productData).then((result) => {
-            notifySuccsess("Product Updated Succsessfuly!");
+            notifySuccess("Product Updated Succsessfuly!");
             getProducts();
 
             HandleClearForm();
@@ -102,7 +97,7 @@ function Products() {
     }
     const HandleDelete = (id) => {
         api.delete("Products/" + id).then(result => {
-            notifySuccsess("Product Deleted Succsessfuly!");
+            notifySuccess("Product Deleted Succsessfuly!");
             getProducts();
 
             CloseDelete();
@@ -165,7 +160,7 @@ function Products() {
                                     {product['displayName']}
                                 </Table.Cell>
                                 <Table.Cell>
-                                    {categories ? categories.filter((c) => c['id'] === product['categoryId'])[0]['displayName'] : <></>}
+                                    {product['categories'][0]['displayName']}
                                 </Table.Cell>
                                 <Table.Cell>
                                     {product['price']}
@@ -209,7 +204,14 @@ function Products() {
                         <InputGroup className={"flex-grow"} id={"name"} label={"Display Name"} value={displayName} type={"text"} onChangeEvent={(e) => { setDisplayName(e.target.value) }} />
                         <InputGroup id={"desc"} label={"Description"} value={description} type={"text"} onChangeEvent={(e) => { setDescription(e.target.value) }} />
                         <select value={categoryId}
-                            className='h-2/3 bg-transparent border  border-neutral-300 w-38 rounded-md text-sm p-1 text-center ' onChange={(e) => { setCategoryId(e.target.value) }}>
+                            className='h-2/3 bg-transparent border  border-neutral-300 w-38 rounded-md text-sm p-1 text-center ' onChange={(e) => { 
+                                var cat = categories.filter(c => c['id'] === e.target.value)
+                                setCategoryId({
+                                    id:0,
+                                    displayName: cat['displayName'],
+                                    image:cat['image']
+
+                            }); }}>
                             {categories ? categories.map((cat) => {
                                 return <option key={cat['id']} value={cat['id']}>{cat['displayName']}</option>
                             }) : <></>}

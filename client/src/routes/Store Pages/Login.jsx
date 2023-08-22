@@ -24,8 +24,11 @@ function Login() {
             .post("Login", loginData)
             .then((result) => {
                 if (result.status === 200) {
+                    console.log(result.data)
                     localStorage.setItem("user_token", result.data['token']);
                     localStorage.setItem("user_id", result.data['id']);
+                    
+                    localStorage.setItem("user_picture", result.data['profilePicture']);
 
                     const today = new Date()
                     const tomorrow = new Date(today)

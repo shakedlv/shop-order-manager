@@ -1,7 +1,7 @@
 import { HiCheck, HiExclamation} from 'react-icons/hi';
 import { toast } from 'react-hot-toast';
 
-export const notifySuccsess = (label,position="top-center") => {
+export const notifySuccess = (label,position="top-center") => {
     toast.custom(
         (t) => (
             <div id="toast-danger" className="flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">

@@ -13,59 +13,59 @@ namespace api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrdersController : ControllerBase
+    public class OrderItemController : ControllerBase
     {
         private readonly IConfiguration _config;
-        private readonly IOrderRepository _orderRepo;
+        private readonly IOrderItemRepository _orderItemRepo;
 
-        public OrdersController(IConfiguration _config, IOrderRepository _orderRepo)
+        public OrderItemController(IConfiguration _config, IOrderItemRepository _orderItemRepo)
         {
             this._config = _config ?? throw new ArgumentNullException(nameof(_config));
-            this._orderRepo = _orderRepo ?? throw new ArgumentNullException(nameof(_orderRepo));
+            this._orderItemRepo = _orderItemRepo ?? throw new ArgumentNullException(nameof(_orderItemRepo));
         }
 
         [HttpGet]
         public IActionResult GetAll()
         {
-            var result = _orderRepo.GetOrdersWithItems();
+            var result = _orderItemRepo.FindAll().ToList();
             return Ok(result);
         }
 
         [HttpGet("{id:int}")]
         public IActionResult GetByID(int id)
         {
-            var result = _orderRepo.FindByCondition(p => p.Id == id).FirstOrDefault();
+            var result = _orderItemRepo.FindByCondition(p => p.Id == id).FirstOrDefault();
             return Ok(result);
         }
 
         [HttpPost]
-        public IActionResult Create(Order order)
+        public IActionResult Create(OrderItem orderItem)
         {
-            if (order == null)
+            if (orderItem == null)
             {
                 return BadRequest();
             }
 
-            var result = _orderRepo.Create(order);
+            var result = _orderItemRepo.Create(orderItem);
 
-            return Created("order", result);
+            return Created("orderItem", result);
         }
 
         [HttpPut]
-        public IActionResult Update(Order order)
+        public IActionResult Update(OrderItem orderItem)
         {
-            if (order == null)
+            if (orderItem == null)
             {
                 return BadRequest();
             }
 
-            var exists = _orderRepo.FindByCondition(c => c.Id == order.Id).AsNoTracking().Any();
+            var exists = _orderItemRepo.FindByCondition(c => c.Id == orderItem.Id).AsNoTracking().Any();
             if (!exists)
             {
                 return NotFound();
             }
 
-            _orderRepo.Update(order);
+            _orderItemRepo.Update(orderItem);
 
             return NoContent();
         }
@@ -73,13 +73,13 @@ namespace api.Controllers
         [HttpDelete("{id:int}")]
         public IActionResult Delete(int id)
         {
-            var Order = _orderRepo.FindByCondition(c => c.Id == id).FirstOrDefault();
-            if (Order == null)
+            var orderItem = _orderItemRepo.FindByCondition(c => c.Id == id).FirstOrDefault();
+            if (orderItem == null)
             {
                 return NotFound();
             }
 
-            _orderRepo.Delete(Order);
+            _orderItemRepo.Delete(orderItem);
             return NoContent();
         }
     }

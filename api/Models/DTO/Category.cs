@@ -8,6 +8,9 @@ namespace api.Models.DTO
     {
         [Key , DatabaseGenerated(DatabaseGeneratedOption.Identity)]public int Id { get; set; }
         public string DisplayName { get; set; }
-        [AllowNull]public List<Product>? Products { get; set; }
+        public string Icon { get; set; }
+        [ForeignKey("ProductId")]
+        public  List<Product> Products { get; set; } = new();
+
     }
 }

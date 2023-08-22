@@ -41,7 +41,7 @@ function ProductsDisplay() {
 
     //Handle Category Filter Change Event 
     useEffect(() => {
-        if(categoriesFilter === null || categories === null)
+        if(categoriesFilter === null)
         {
             setCategorizedProducts(products)
         }
@@ -51,19 +51,20 @@ function ProductsDisplay() {
         }
         else {
             var list = products ? products.filter((p) => {
-                var cat = categories.filter((c) => c['id'] === p['categoryId'])[0]["displayName"];
-                return categoriesFilter.includes(cat);
+                p['categories'].map((c=>{
+                    return categoriesFilter.includes(c) && categoriesFilter.includes(p) === false;
+                }))
             }) : products
             setCategorizedProducts(list)
         }
 
 
-    }, [categoriesFilter, categories, products])
+    }, [categoriesFilter, products])
 
     const [searchQuery, setSearchQuery] = useState("")
     const [searchedProducts, setSearchedProducts] = useState([])
 
-    //Handle Search Quety Change Event
+    //Handle Search Query Change Event
     useEffect(() => {
         if (searchQuery.length === 0) {
             setSearchedProducts(categorizedProducts)

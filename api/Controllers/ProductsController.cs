@@ -17,17 +17,18 @@ namespace api.Controllers
     {
         private readonly IConfiguration _config;
         private readonly IProductRepository _productRepo;
-
-        public ProductsController(IConfiguration _config, IProductRepository _productRepo)
+        private readonly ICategoryRepository _categoryRepo;
+        public ProductsController(IConfiguration _config, IProductRepository _productRepo, ICategoryRepository _categoryRepo)
         {
             this._config = _config ?? throw new ArgumentNullException(nameof(_config));
             this._productRepo = _productRepo ?? throw new ArgumentNullException(nameof(_productRepo));
+            this._categoryRepo = _categoryRepo ?? throw new ArgumentNullException(nameof(_categoryRepo));
         }
 
         [HttpGet]
         public IActionResult GetAll()
         {
-            var result = _productRepo.FindAll().ToList();
+            var result = _productRepo.GetProductsWithCategories();
             return Ok(result);
         }
 
@@ -38,7 +39,7 @@ namespace api.Controllers
             return Ok(result);
         }
 
-        [HttpPost]
+        [HttpPost()]
         public IActionResult Create(Product product)
         {
             if (product == null)
@@ -46,7 +47,13 @@ namespace api.Controllers
                 return BadRequest();
             }
 
+            var categoryIDs = product.Categories.Select(x => x.Id).ToList();
+            var _categoryRepo = _productRepo.GetCategoryRepository();
+            
+            product.Categories = _categoryRepo.FindByCondition(x => categoryIDs.Contains(x.Id)).ToList();
+
             var result = _productRepo.Create(product);
+
 
             return Created("product", result);
         }

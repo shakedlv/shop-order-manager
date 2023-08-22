@@ -27,7 +27,7 @@ namespace api.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var result = _categoryRepo.FindAll().ToList();
+            var result = _categoryRepo.GetCategoriesWithProducts();
             return Ok(result);
         }
 
@@ -45,10 +45,18 @@ namespace api.Controllers
             {
                 return BadRequest();
             }
+            bool c = _categoryRepo.FindByCondition(p=>p.DisplayName == category.DisplayName).Any();
 
-            var result = _categoryRepo.Create(category);
+            if(!c)
+            {
+                var result = _categoryRepo.Create(category);
+                return Created("category", result);
+            }
+            else
+            {
+                return NoContent();
+            }
 
-            return Created("category", result);
         }
 
         [HttpPut]

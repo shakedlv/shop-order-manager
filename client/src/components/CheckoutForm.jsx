@@ -5,11 +5,11 @@ import { Spinner, Label, Select, TextInput } from 'flowbite-react';
 import api from "../utils/api";
 import { countryPhoneCodes } from "../utils/CountryCodes";
 import InputGroup from "./UI/InputGroup";
-import { notifySuccsess } from "../utils/notify";
+import { notifySuccess } from "../utils/notify";
 
 /* TO-DO
     Close Cart and checkout on finish order
-    add item to orderdb
+    add item to order db
     phone number is not change after user fetch
     Format currency with dropdown across all website
 */
@@ -59,10 +59,10 @@ const CheckoutForm = () => {
         }
         api.post("Orders",orderData).then((result)=>{
             clearCart();
-            notifySuccsess("Order Completed!")
+            notifySuccess("Order Completed!")
             
         }).catch((err)=>{
-            notifySuccsess(err)
+            notifySuccess(err)
 
         })
     }

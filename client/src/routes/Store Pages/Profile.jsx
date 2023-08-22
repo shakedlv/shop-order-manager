@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Label, TextInput, Avatar } from 'flowbite-react';
 import api from '../../utils/api';
 import { Toaster } from 'react-hot-toast';
-import { notifyFaild, notifySuccsess } from '../../utils/notify';
+import { notifyFaild, notifySuccess } from '../../utils/notify';
 
 
 /* TO-DO
@@ -93,7 +93,7 @@ function Profile() {
     }
     else
     {
-      notifySuccsess("Password Updated Succsessfuly !");
+      notifySuccess("Password Updated Succsessfuly !");
       HandleLogout();
     }
 
@@ -109,8 +109,7 @@ function Profile() {
       {loading ? " loading" :
         <>
           <div className=' flex flex-col gap-2'>
-            <Avatar img="" className='m-3 ' />
-
+            <Avatar img={localStorage.getItem("user_picture")} alt='Profile Avatar' className='m-3 ' />
             <button onClick={() => HandleLogout()} className='px-3 py-1 border border-gray-400 rounded-md hover:bg-slate-700 hover:text-white hover:ease-in transition-all '>
               logout
             </button>

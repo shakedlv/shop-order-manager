@@ -5,12 +5,11 @@ import { Button, Modal } from 'flowbite-react';
 import InputGroup from '../../components/UI/InputGroup';
 import api from '../../utils/api';
 import { Toaster } from 'react-hot-toast';
-import { notifyFaild, notifySuccsess } from '../../utils/notify';
+import { notifyFaild, notifySuccess } from '../../utils/notify';
 import { useFetch } from '../../hooks/hooks';
 
 
 /* TO-DO
-      
     handle pictures
 
  */
@@ -63,7 +62,7 @@ function Categories() {
         const verb = categoryId > 0 ? "put" : "post";
 
         api[verb]("Categories", data).then((result) => {
-            notifySuccsess("Category Updated Succsessfuly!");
+            notifySuccess("Category Updated Succsessfuly!");
             getCategories();
 
             HandleClearForm();
@@ -83,7 +82,7 @@ function Categories() {
     }
     const HandleDelete = (id) => {
         api.delete("Categories/" + id).then(result => {
-            notifySuccsess("Category Deleted Succsessfuly!");
+            notifySuccess("Category Deleted Succsessfuly!");
             getCategories();
 
             CloseDelete();

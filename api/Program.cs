@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using api.Context;
 using api.Repositories.Interfaces;
 using api.Repositories;
+using System.Text.Json;
+using Microsoft.AspNetCore.Http.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +39,9 @@ builder.Services.AddScoped<IBranchRepository, BranchRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
 
+builder.Services.AddControllers().AddNewtonsoftJson(
+    option=> option.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
