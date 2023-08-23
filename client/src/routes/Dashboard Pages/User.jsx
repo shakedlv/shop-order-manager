@@ -5,7 +5,7 @@ import { HiCheck, HiOutlineExclamationCircle, HiX } from 'react-icons/hi';
 import { Pagination } from 'flowbite-react';
 import { Toaster } from 'react-hot-toast';
 import SearchableDropdown from '../../components/UI/SearchableDropdown';
-import { notifyFaild, notifySuccess } from '../../utils/notify';
+import { notifyFailed, notifySuccess } from '../../utils/notify';
 import { useFetch } from '../../hooks/hooks';
 
 function Users() {
@@ -44,7 +44,7 @@ function Users() {
 
             setOpenModal("");
         }).catch((ex) => {
-            notifyFaild("Failed to remove admin !");
+            notifyFailed("Failed to remove admin !");
         })
 
     }
@@ -62,7 +62,7 @@ function Users() {
             setOpenModal("");
             setUserToAdmin({});
         }).catch((ex) => {
-            notifyFaild("Failed to set  admin !");
+            notifyFailed("Failed to set  admin !");
         })
 
     }

@@ -5,7 +5,7 @@ import { Button, Modal } from 'flowbite-react';
 import InputGroup from '../../components/UI/InputGroup';
 import api from '../../utils/api';
 import { Toaster } from 'react-hot-toast';
-import { notifyFaild, notifySuccess } from '../../utils/notify';
+import { notifyFailed, notifySuccess } from '../../utils/notify';
 import { useFetch } from '../../hooks/hooks';
 
 
@@ -51,12 +51,11 @@ function Categories() {
     }
 
     const HandleSaveOrCreate = () => {
-        const date = new Date();
-        const utcDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
-        const formattedDate = utcDate.toJSON();
+
         var data = {
             id: categoryId > 0 ? categoryId : 0,
             displayName: displayName,
+            icon:""
 
         }
         const verb = categoryId > 0 ? "put" : "post";
@@ -67,7 +66,7 @@ function Categories() {
 
             HandleClearForm();
 
-        }).catch((ex) => { notifyFaild("Failed to update category!") })
+        }).catch((ex) => { notifyFailed("Failed to update category!") })
     }
     const [openDeleteModal, setOpenDeleteModal] = useState("");
     const [categoryDelete, setCategoryDelete] = useState({})
@@ -87,7 +86,7 @@ function Categories() {
 
             CloseDelete();
         }
-        ).catch(er => notifyFaild("Failed to delete Category!"));
+        ).catch(er => notifyFailed("Failed to delete Category!"));
     }
 
 

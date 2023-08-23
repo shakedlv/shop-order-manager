@@ -34,44 +34,75 @@ namespace api.Controllers
         [HttpGet("{id:int}")]
         public IActionResult GetByID(int id)
         {
-            var result = _categoryRepo.FindByCondition(p => p.Id == id).FirstOrDefault();
+            var result = _categoryRepo.FindByCondition(p => p.Id == id).Include(c=>c.Products).FirstOrDefault();
+            if(result == null) return Ok(result);
+            var products = new List<Product>();
+            foreach (var product in result.Products)
+            {
+                products.Add(new Product
+                {
+                    Id = product.Id,
+                    DisplayName = product.DisplayName
+                });
+            }
+
+            result.Products = products;
+
+
             return Ok(result);
         }
 
         [HttpPost]
-        public IActionResult Create(Category category)
+        public IActionResult Create(CategoryCreateRequest categoryCreateRequest)
         {
-            if (category == null)
+            if (categoryCreateRequest == null)
             {
                 return BadRequest();
             }
-            bool c = _categoryRepo.FindByCondition(p=>p.DisplayName == category.DisplayName).Any();
+            bool c = _categoryRepo.FindByCondition(p=>p.Id == categoryCreateRequest.Id).Any();
 
-            if(!c)
+            if(c)
             {
-                var result = _categoryRepo.Create(category);
-                return Created("category", result);
+                return BadRequest("Could Not Create New Category with existing Id");
+
             }
             else
             {
-                return NoContent();
+                Category category = new Category {
+                    Id = categoryCreateRequest.Id,
+                    DisplayName = categoryCreateRequest.DisplayName,
+                    Icon = categoryCreateRequest.Icon,
+                };
+                var result = _categoryRepo.Create(category);
+                return Created("category", result);
             }
 
         }
 
         [HttpPut]
-        public IActionResult Update(Category category)
+        public IActionResult Update(CategoryCreateRequest categoryCreateRequest)
         {
-            if (category == null)
+            if (categoryCreateRequest == null)
             {
                 return BadRequest();
             }
-
-            var exists = _categoryRepo.FindByCondition(c => c.Id == category.Id).AsNoTracking().Any();
-            if (!exists)
+            if (categoryCreateRequest.Id == 0)
+            {
+                return BadRequest("Category Id cant be null or id of zero");
+            }
+            var c = _categoryRepo.FindByCondition(c => c.Id == categoryCreateRequest.Id).FirstOrDefault();
+            if (c == null)
             {
                 return NotFound();
             }
+
+            Category category = new Category()
+            { 
+                Id = categoryCreateRequest.Id,
+                DisplayName = categoryCreateRequest.DisplayName,
+                Icon = categoryCreateRequest.Icon,
+                Products = c.Products,
+            };
 
             _categoryRepo.Update(category);
 
@@ -92,4 +123,12 @@ namespace api.Controllers
         }
 
     }
+}
+
+public class CategoryCreateRequest
+{
+    public int Id { get; set; }
+    public string DisplayName { get; set; }
+    public string Icon { get; set; }
+
 }

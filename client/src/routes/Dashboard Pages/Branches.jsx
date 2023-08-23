@@ -5,7 +5,7 @@ import { Button, Modal } from 'flowbite-react';
 import InputGroup from '../../components/UI/InputGroup';
 import api from '../../utils/api';
 import { Toaster } from 'react-hot-toast';
-import { notifyFaild, notifySuccess } from '../../utils/notify';
+import { notifyFailed, notifySuccess } from '../../utils/notify';
 import { useFetch } from '../../hooks/hooks';
 
 
@@ -61,7 +61,7 @@ function Branches() {
 
             HandleClearForm();
 
-        }).catch((ex) => { notifyFaild("Failed to update branch!") })
+        }).catch((ex) => { notifyFailed("Failed to update branch!") })
     }
     const [openDeleteModal, setOpenDeleteModal] = useState("");
     const [branchDelete, setBranchDelete] = useState({})
@@ -81,7 +81,7 @@ function Branches() {
 
             CloseDelete();
         }
-        ).catch(er => notifyFaild("Failed to delete Branch!"));
+        ).catch(er => notifyFailed("Failed to delete Branch!"));
     }
 
 

@@ -1,3 +1,6 @@
 {
-    "dotnet.defaultSolution": "api/api.sln"
+    "dotnet.defaultSolution": "api/api.sln",
+    "cSpell.words": [
+        "flowbite"
+    ]
 }

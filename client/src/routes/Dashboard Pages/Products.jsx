@@ -5,7 +5,7 @@ import { Button, Modal } from 'flowbite-react';
 import InputGroup from '../../components/UI/InputGroup';
 import api from '../../utils/api';
 import { Toaster } from 'react-hot-toast';
-import { notifyFaild, notifySuccess } from '../../utils/notify';
+import { notifyFailed as notifyFailed, notifySuccess } from '../../utils/notify';
 import { useFetch } from '../../hooks/hooks';
 
 
@@ -32,16 +32,16 @@ function Products() {
     const [productId, setProductId] = useState(-1)
     const [displayName, setDisplayName] = useState("")
     const [description, setDescription] = useState("")
-    const [categoryId, setCategoryId] = useState(0)
+    const [categoryId, setCategoryId] = useState(1)
     const [mainPicture, setMainPicture] = useState("")
-    const [price, setPrice] = useState("")
+    const [price, setPrice] = useState(1)
 
     const HandleOpenToEdit = (product) => {
         setOpenEditModal('edit')
         setProductId(product["id"]);
         setDisplayName(product["displayName"]);
         setDescription(product["description"]);
-        setCategoryId(product["categories"][0]);
+        setCategoryId(product["categoryId"]);
         setMainPicture(product["image"]);
         setPrice(product["price"]);
 
@@ -52,36 +52,32 @@ function Products() {
         setOpenEditModal("")
         setDisplayName("");
         setDescription("");
-        setCategoryId(0);
+        setCategoryId(1);
         setMainPicture("");
-        setPrice(0);
+        setPrice(1);
 
     }
 
     const HandleSaveOrCreate = () => {
-        const date = new Date();
-        const utcDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
-        const formattedDate = utcDate.toJSON();
         var productData = {
             id: productId > 0 ? productId : 0,
             displayName: displayName,
             description: description,
-            categories: categoryId,
+            categoryId: categoryId,
             image: mainPicture,
             price: price,
-            createdDate: formattedDate,
-            displayOnStore: true
         }
         const verb = productId > 0 ? "put" : "post";
-
+        console.log(verb)
+        console.log(productData)
         api[verb]("Products", productData).then((result) => {
-            notifySuccess("Product Updated Succsessfuly!");
+            notifySuccess("Product Updated Successfully!");
             getProducts();
 
             HandleClearForm();
 
 
-        }).catch((ex) => { notifyFaild("Failed to update product!") })
+        }).catch((ex) => { notifyFailed("Failed to update product!") })
 
     }
     const [openDeleteModal, setOpenDeleteModal] = useState("");
@@ -97,12 +93,12 @@ function Products() {
     }
     const HandleDelete = (id) => {
         api.delete("Products/" + id).then(result => {
-            notifySuccess("Product Deleted Succsessfuly!");
+            notifySuccess("Product Deleted Successfully!");
             getProducts();
 
             CloseDelete();
         }
-        ).catch(er => notifyFaild("Failed to delete product!"));
+        ).catch(er => notifyFailed("Failed to delete product!"));
         }
 
 
@@ -160,7 +156,7 @@ function Products() {
                                     {product['displayName']}
                                 </Table.Cell>
                                 <Table.Cell>
-                                    {product['categories'][0]['displayName']}
+                                    {product['category']['displayName']}
                                 </Table.Cell>
                                 <Table.Cell>
                                     {product['price']}
@@ -204,26 +200,19 @@ function Products() {
                         <InputGroup className={"flex-grow"} id={"name"} label={"Display Name"} value={displayName} type={"text"} onChangeEvent={(e) => { setDisplayName(e.target.value) }} />
                         <InputGroup id={"desc"} label={"Description"} value={description} type={"text"} onChangeEvent={(e) => { setDescription(e.target.value) }} />
                         <select value={categoryId}
-                            className='h-2/3 bg-transparent border  border-neutral-300 w-38 rounded-md text-sm p-1 text-center ' onChange={(e) => { 
-                                var cat = categories.filter(c => c['id'] === e.target.value)
-                                setCategoryId({
-                                    id:0,
-                                    displayName: cat['displayName'],
-                                    image:cat['image']
-
-                            }); }}>
+                            className='h-2/3 bg-transparent border  border-neutral-300 w-38 rounded-md text-sm p-1 text-center ' onChange={(e) => { setCategoryId(Number.parseInt(e.target.value)) }}>
                             {categories ? categories.map((cat) => {
                                 return <option key={cat['id']} value={cat['id']}>{cat['displayName']}</option>
                             }) : <></>}
                         </select>
-                        <InputGroup id={"price"} label={"Price"} value={price} type={"number"} onChangeEvent={(e) => { setPrice(e.target.value) }} />
+                        <InputGroup id={"price"} label={"Price"} value={price} type={"number"} onChangeEvent={(e) => { setPrice(Number.parseFloat(e.target.value)) }} />
 
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button color="green" onClick={() => HandleSaveOrCreate()}>Save</Button>
                     <Button color="red" onClick={() => HandleClearForm()}>
-                        Cancle
+                        Cancel
                     </Button>
                 </Modal.Footer>
             </Modal>

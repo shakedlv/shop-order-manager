@@ -9,8 +9,8 @@ import { useFetch } from '../../hooks/hooks';
 
 function ProductsDisplay() {
 
-    const { data: products, error: p_error, loading: p_loading } = useFetch("Products")
-    const { data: categories, error: c_error, loading: c_loading } = useFetch("Categories")
+    const { data: products} = useFetch("Products")
+    const { data: categories} = useFetch("Categories")
 
     //Handle Pagination 
     const [currentPage, setCurrentPage] = useState(1)
@@ -41,7 +41,7 @@ function ProductsDisplay() {
 
     //Handle Category Filter Change Event 
     useEffect(() => {
-        if(categoriesFilter === null)
+        if(categoriesFilter === null || categories === null)
         {
             setCategorizedProducts(products)
         }
@@ -51,15 +51,13 @@ function ProductsDisplay() {
         }
         else {
             var list = products ? products.filter((p) => {
-                p['categories'].map((c=>{
-                    return categoriesFilter.includes(c) && categoriesFilter.includes(p) === false;
-                }))
+                return categoriesFilter.includes(p['category']) && categoriesFilter.includes(p) === false;
             }) : products
             setCategorizedProducts(list)
         }
 
 
-    }, [categoriesFilter, products])
+    }, [categoriesFilter, products,categories])
 
     const [searchQuery, setSearchQuery] = useState("")
     const [searchedProducts, setSearchedProducts] = useState([])

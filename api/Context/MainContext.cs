@@ -25,27 +25,16 @@ namespace api.Context
 
             modelBuilder.Entity<User>().HasMany(u=>u.Orders).WithOne(o => o.User).HasForeignKey(o => o.UserId);
             modelBuilder.Entity<User>().HasData(InitialData.Users);
-            
-            modelBuilder.Entity<Category>().HasData(InitialData.Categories);
-            modelBuilder.Entity<Product>().HasMany(p => p.Categories).WithMany(c => c.Products)
-                .UsingEntity<Dictionary<int,int>>(
-                    "CategoriesProduct",
-                    r => r.HasOne<Category>().WithMany().HasForeignKey("CategoryId"),
-                    l => l.HasOne<Product>().WithMany().HasForeignKey("ProductId"),
-                    j => {
-                        j.HasKey("CategoryId", "ProductId");
-                        j.HasData(
-                            new { ProductId = 1, CategoryId = 1 },
-                            new { ProductId = 2, CategoryId = 1 },
-                            new { ProductId = 3, CategoryId = 1 },
-                            new { ProductId = 4, CategoryId = 1 },
-                            new { ProductId = 5, CategoryId = 2 },
-                            new { ProductId = 6, CategoryId = 2 },
-                            new { ProductId = 7, CategoryId = 2 }
 
-                        );
-                    }
-                );
+            modelBuilder.Entity<Product>()
+                .HasOne(p => p.Category).WithMany(u => u.Products).HasForeignKey(p => p.CategoryId)
+                .HasPrincipalKey(c => c.Id);
+            modelBuilder.Entity<Category>()
+                .HasMany(c => c.Products)
+                .WithOne(p => p.Category)
+                .HasForeignKey(p => p.CategoryId).IsRequired().OnDelete(DeleteBehavior.NoAction); ;
+
+            modelBuilder.Entity<Category>().HasData(InitialData.Categories);
             modelBuilder.Entity<Product>().HasData(InitialData.Products);
 
 
@@ -58,6 +47,7 @@ namespace api.Context
             modelBuilder.Entity<Branch>().HasMany(b => b.Orders).WithOne(o => o.Branch)
                 .HasForeignKey(o => o.BranchId).IsRequired();
         }
+
 
 
     }

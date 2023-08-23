@@ -6,10 +6,9 @@ namespace api.Models.DTO
 {
     public class Category
     {
-        [Key , DatabaseGenerated(DatabaseGeneratedOption.Identity)]public int Id { get; set; }
+        [Key]public int Id { get; set; }
         public string DisplayName { get; set; }
         public string Icon { get; set; }
-        [ForeignKey("ProductId")]
         public  List<Product> Products { get; set; } = new();
 
     }

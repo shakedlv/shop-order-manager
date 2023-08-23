@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Label, TextInput, Avatar } from 'flowbite-react';
 import api from '../../utils/api';
 import { Toaster } from 'react-hot-toast';
-import { notifyFaild, notifySuccess } from '../../utils/notify';
+import { notifyFailed, notifySuccess } from '../../utils/notify';
 
 
 /* TO-DO
@@ -88,7 +88,7 @@ function Profile() {
 
     if(failed)
     {
-      notifyFaild("Failed to update password !");
+      notifyFailed("Failed to update password !");
 
     }
     else

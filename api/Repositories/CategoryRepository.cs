@@ -12,6 +12,14 @@ namespace api.Repositories
         : base(_context)
         {
         }
+
+        public Category CreateNewCategory(Category category)
+        {
+            _context.Set<Category>().Add(category);
+            _context.Attach(category.Products);
+            Save();
+            return category;
+        }
         public List<Category> GetCategoriesWithProducts()
         {
             var categories = base.FindAll().Include(c => c.Products).ToList();

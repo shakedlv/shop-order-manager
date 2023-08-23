@@ -9,12 +9,14 @@ import { useCart } from '../../context/ShoppingCart';
 function ProductInfo() {
     const { id } = useParams()
 
-    const [product, setProduct] = useState({})
-    const { getItemQuantity, increaseCartQuantity, decreaseCartQuantity, removeItem, cartQuantity } = useCart()
+    const [product, setProduct] = useState(null)
+    const { getItemQuantity, increaseCartQuantity, decreaseCartQuantity} = useCart()
 
     useEffect(() => {
         api.get('Products/' + id).then((result) => {
             if (result.status === 200) {
+                console.table(result.data)
+
                 setProduct(result.data);
             }
             else {
@@ -25,11 +27,13 @@ function ProductInfo() {
         })
     },)
 
+    if(product === null) return <h1>wait</h1>
     return (
+
         <main className={"bg-neutral-50 w-full min-h-[70dvh]  pt-20 flex flex-col px-6 gap-2 "}>
             <div role="status" className="space-y-8  md:space-y-0 md:space-x-8 md:flex md:items-center">
                 <div className="flex items-center justify-center w-full h-48 bg-gray-300 rounded sm:w-96 dark:bg-gray-700 ">
-<img src={product['image']} alt={product['displayName']} className='w-full h-full rounded'/>
+                    <img src={product['image']} alt={product['displayName']} className='w-full h-full rounded' />
                 </div>
                 <div className="w-full">
                     <span className='text-gray-400'>
@@ -40,8 +44,8 @@ function ProductInfo() {
                             <Breadcrumb.Item href='/products'>
                                 Products
                             </Breadcrumb.Item>
-                            <Breadcrumb.Item href={"/products/" + product['categories'][0]['displayName']} >
-                                {product['categories'][0]['displayName']}
+                            <Breadcrumb.Item href={"/products/" + product['category']['displayName']} >
+                                {product['category']['displayName']}
 
                             </Breadcrumb.Item>
                         </Breadcrumb>

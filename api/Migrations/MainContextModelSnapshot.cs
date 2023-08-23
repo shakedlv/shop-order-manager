@@ -22,71 +22,6 @@ namespace api.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("CategoriesProduct", b =>
-                {
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CategoryId", "ProductId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("CategoriesProduct");
-
-                    b.HasData(
-                        new
-                        {
-                            CategoryId = 1,
-                            ProductId = 1
-                        },
-                        new
-                        {
-                            CategoryId = 1,
-                            ProductId = 2
-                        },
-                        new
-                        {
-                            CategoryId = 1,
-                            ProductId = 3
-                        },
-                        new
-                        {
-                            CategoryId = 1,
-                            ProductId = 4
-                        },
-                        new
-                        {
-                            CategoryId = 2,
-                            ProductId = 5
-                        },
-                        new
-                        {
-                            CategoryId = 2,
-                            ProductId = 6
-                        },
-                        new
-                        {
-                            CategoryId = 2,
-                            ProductId = 7
-                        });
-                });
-
-            modelBuilder.Entity("CategoryProduct", b =>
-                {
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CategoryId", "ProductId");
-
-                    b.ToTable("CategoryProduct");
-                });
-
             modelBuilder.Entity("api.Models.DTO.Branch", b =>
                 {
                     b.Property<int>("Id")
@@ -174,7 +109,8 @@ namespace api.Migrations
                     b.Property<int>("BranchId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Created")
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsPaid")
@@ -237,7 +173,11 @@ namespace api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
@@ -260,13 +200,16 @@ namespace api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("Products");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 8, 22, 20, 25, 47, 667, DateTimeKind.Local).AddTicks(2079),
+                            CategoryId = 1,
+                            CreatedDate = new DateTime(2023, 8, 23, 16, 18, 14, 677, DateTimeKind.Local).AddTicks(9315),
                             Description = "Fresh baked bread with Fresh Mozarela , tomato , and basil",
                             DisplayName = "Caprese Salad",
                             DisplayOnStore = true,
@@ -276,7 +219,8 @@ namespace api.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2023, 8, 22, 20, 25, 47, 667, DateTimeKind.Local).AddTicks(2891),
+                            CategoryId = 1,
+                            CreatedDate = new DateTime(2023, 8, 23, 16, 18, 14, 678, DateTimeKind.Local).AddTicks(105),
                             Description = "Fresh baked bread with Tuna Salad , tomato , and cucumaber",
                             DisplayName = "Tuna Salad",
                             DisplayOnStore = true,
@@ -286,7 +230,8 @@ namespace api.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedDate = new DateTime(2023, 8, 22, 20, 25, 47, 667, DateTimeKind.Local).AddTicks(2899),
+                            CategoryId = 1,
+                            CreatedDate = new DateTime(2023, 8, 23, 16, 18, 14, 678, DateTimeKind.Local).AddTicks(112),
                             Description = "Fresh baked bread with Egg Salad, Lettuce and pickles",
                             DisplayName = "Egg Salad",
                             DisplayOnStore = true,
@@ -296,7 +241,8 @@ namespace api.Migrations
                         new
                         {
                             Id = 4,
-                            CreatedDate = new DateTime(2023, 8, 22, 20, 25, 47, 667, DateTimeKind.Local).AddTicks(2902),
+                            CategoryId = 1,
+                            CreatedDate = new DateTime(2023, 8, 23, 16, 18, 14, 678, DateTimeKind.Local).AddTicks(114),
                             Description = "Fresh baked croissant with Salmon, Lettuce and pickles",
                             DisplayName = "Salmon Croissant",
                             DisplayOnStore = true,
@@ -306,7 +252,8 @@ namespace api.Migrations
                         new
                         {
                             Id = 5,
-                            CreatedDate = new DateTime(2023, 8, 22, 20, 25, 47, 667, DateTimeKind.Local).AddTicks(2905),
+                            CategoryId = 2,
+                            CreatedDate = new DateTime(2023, 8, 23, 16, 18, 14, 678, DateTimeKind.Local).AddTicks(117),
                             Description = "Small Pizza focaccia",
                             DisplayName = "Pizza focaccia",
                             DisplayOnStore = true,
@@ -316,7 +263,8 @@ namespace api.Migrations
                         new
                         {
                             Id = 6,
-                            CreatedDate = new DateTime(2023, 8, 22, 20, 25, 47, 667, DateTimeKind.Local).AddTicks(2907),
+                            CategoryId = 2,
+                            CreatedDate = new DateTime(2023, 8, 23, 16, 18, 14, 678, DateTimeKind.Local).AddTicks(119),
                             Description = "Medium Pizza focaccia",
                             DisplayName = "Pizza focaccia",
                             DisplayOnStore = true,
@@ -326,7 +274,8 @@ namespace api.Migrations
                         new
                         {
                             Id = 7,
-                            CreatedDate = new DateTime(2023, 8, 22, 20, 25, 47, 667, DateTimeKind.Local).AddTicks(2909),
+                            CategoryId = 2,
+                            CreatedDate = new DateTime(2023, 8, 23, 16, 18, 14, 678, DateTimeKind.Local).AddTicks(121),
                             Description = "Large Pizza focaccia",
                             DisplayName = "Pizza focaccia",
                             DisplayOnStore = true,
@@ -347,6 +296,7 @@ namespace api.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -354,6 +304,10 @@ namespace api.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Firstname")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -376,10 +330,6 @@ namespace api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ProfilePicturePath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -392,48 +342,33 @@ namespace api.Migrations
                         new
                         {
                             Id = 1,
-                            BirthdayDate = new DateTime(2023, 8, 22, 20, 25, 47, 664, DateTimeKind.Local).AddTicks(3026),
-                            CreatedDate = new DateTime(2023, 8, 22, 20, 25, 47, 666, DateTimeKind.Local).AddTicks(9802),
+                            BirthdayDate = new DateTime(2023, 8, 23, 16, 18, 14, 675, DateTimeKind.Local).AddTicks(546),
+                            CreatedDate = new DateTime(2023, 8, 23, 16, 18, 14, 677, DateTimeKind.Local).AddTicks(6951),
                             Email = "admin@admin.com",
                             Firstname = "admin",
+                            Image = "https://th.bing.com/th/id/R.19fa7497013a87bd77f7adb96beaf768?rik=144XvMigWWj2bw&riu=http%3a%2f%2fwww.pngall.com%2fwp-content%2fuploads%2f5%2fUser-Profile-PNG-High-Quality-Image.png&ehk=%2bat%2brmqQuJrWL609bAlrUPYgzj%2b%2f7L1ErXRTN6ZyxR0%3d&risl=&pid=ImgRaw&r=0",
                             IsAdmin = true,
                             Lastname = "admin",
                             Password = "jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=",
                             PhoneCountryCode = "+972",
                             PhoneNumber = "0541230123",
-                            ProfilePicturePath = "https://th.bing.com/th/id/R.19fa7497013a87bd77f7adb96beaf768?rik=144XvMigWWj2bw&riu=http%3a%2f%2fwww.pngall.com%2fwp-content%2fuploads%2f5%2fUser-Profile-PNG-High-Quality-Image.png&ehk=%2bat%2brmqQuJrWL609bAlrUPYgzj%2b%2f7L1ErXRTN6ZyxR0%3d&risl=&pid=ImgRaw&r=0",
                             Username = "admin"
                         },
                         new
                         {
                             Id = 2,
-                            BirthdayDate = new DateTime(2023, 8, 22, 20, 25, 47, 667, DateTimeKind.Local).AddTicks(782),
-                            CreatedDate = new DateTime(2023, 8, 22, 20, 25, 47, 667, DateTimeKind.Local).AddTicks(789),
+                            BirthdayDate = new DateTime(2023, 8, 23, 16, 18, 14, 677, DateTimeKind.Local).AddTicks(8019),
+                            CreatedDate = new DateTime(2023, 8, 23, 16, 18, 14, 677, DateTimeKind.Local).AddTicks(8027),
                             Email = "test@test.com",
                             Firstname = "test",
+                            Image = "https://th.bing.com/th/id/R.19fa7497013a87bd77f7adb96beaf768?rik=144XvMigWWj2bw&riu=http%3a%2f%2fwww.pngall.com%2fwp-content%2fuploads%2f5%2fUser-Profile-PNG-High-Quality-Image.png&ehk=%2bat%2brmqQuJrWL609bAlrUPYgzj%2b%2f7L1ErXRTN6ZyxR0%3d&risl=&pid=ImgRaw&r=0",
                             IsAdmin = false,
                             Lastname = "test",
                             Password = "n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=",
                             PhoneCountryCode = "+972",
                             PhoneNumber = "0541230124",
-                            ProfilePicturePath = "https://th.bing.com/th/id/R.19fa7497013a87bd77f7adb96beaf768?rik=144XvMigWWj2bw&riu=http%3a%2f%2fwww.pngall.com%2fwp-content%2fuploads%2f5%2fUser-Profile-PNG-High-Quality-Image.png&ehk=%2bat%2brmqQuJrWL609bAlrUPYgzj%2b%2f7L1ErXRTN6ZyxR0%3d&risl=&pid=ImgRaw&r=0",
                             Username = "test"
                         });
-                });
-
-            modelBuilder.Entity("CategoriesProduct", b =>
-                {
-                    b.HasOne("api.Models.DTO.Category", null)
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("api.Models.DTO.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("api.Models.DTO.Order", b =>
@@ -466,9 +401,25 @@ namespace api.Migrations
                     b.Navigation("Order");
                 });
 
+            modelBuilder.Entity("api.Models.DTO.Product", b =>
+                {
+                    b.HasOne("api.Models.DTO.Category", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
             modelBuilder.Entity("api.Models.DTO.Branch", b =>
                 {
                     b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("api.Models.DTO.Category", b =>
+                {
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("api.Models.DTO.Order", b =>

@@ -8,17 +8,17 @@ namespace api.Models.DTO
 {
     public class Product
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
         public int Id { get; set; }
         public string DisplayName { get; set; }
         public string Description { get; set; }
-        [ForeignKey("CategoryId")]
+        public int CategoryId { get; set; }
 
-        public List<Category> Categories { get; set; } = new();
+        public virtual Category Category { get; set; }
 
         public string Image { get; set; }
         [DefaultValue(1.0f)] public decimal Price { get; set;}
-        public DateTime CreatedDate { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)] public DateTime CreatedDate { get; set; }
         [DefaultValue(true)] public bool DisplayOnStore { get; set; }
     }
 }

@@ -20,7 +20,7 @@ export const notifySuccess = (label,position="top-center") => {
         { id: "unique-notification", position: position}
     );
 }
-export const notifyFaild = (label,position="top-center") => {
+export const notifyFailed = (label,position="top-center") => {
 
     toast.custom(
         (t) => (

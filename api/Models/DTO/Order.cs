@@ -7,7 +7,7 @@ namespace api.Models.DTO
 {
     public class Order
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
         public int Id { get; set; }
         public int UserId { get; set; }
         public User User { get; set; }
@@ -17,7 +17,7 @@ namespace api.Models.DTO
         public DateTime PickUpDate { get; set; }
         public bool IsPaid { get; set; }
         public OrderStatus Status { get; set; }
-        public DateTime Created { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)] public DateTime CreatedDate { get; set; }
         public List<OrderItem> OrderItems { get; set; } = new();
     }
 }

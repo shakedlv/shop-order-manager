@@ -2,6 +2,7 @@
 using api.Models.DTO;
 using api.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace api.Repositories
 {
@@ -13,6 +14,14 @@ namespace api.Repositories
             
         }
 
+        public Product CreateNewProduct(Product product)
+        {
+            _context.Set<Product>().Add(product);
+            _context.Attach(product.Category);
+            Save();
+            return product;
+        }
+ 
         public ICategoryRepository GetCategoryRepository()
         {
             return new CategoryRepository(_context);
@@ -20,17 +29,17 @@ namespace api.Repositories
 
         public List<Product> GetProductsWithCategories()
         {
-            var products = base.FindAll().Include(p => p.Categories).ToList();
+            var products = base.FindAll().Include(p => p.Category).ToList();
 
             foreach (var product in products)
             {
-                product.Categories = product.Categories.Select(c => new Category
+                product.Category = new Category
                 {
-                    Id = c.Id,
-                    DisplayName = c.DisplayName,
-                    Icon = c.Icon,
-                    
-                }).ToList();
+                    Id = product.Category.Id,
+                    DisplayName = product.Category.DisplayName,
+                    Icon = product.Category.Icon,
+
+                };
             }
 
             return products;
