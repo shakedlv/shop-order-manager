@@ -37,7 +37,7 @@ namespace api.Controllers
         [HttpGet("{id:int}")]
         public IActionResult GetByID(int id)
         {
-            var result = _userRepo.FindByCondition(u => u.Id == id).FirstOrDefault();
+            var result = _userRepo.FindByCondition(u => u.Id == id).Include(u => u.Orders).FirstOrDefault();
             return Ok(result);
         }
 

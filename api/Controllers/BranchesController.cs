@@ -26,15 +26,29 @@ namespace api.Controllers
     [HttpGet]
     public IActionResult GetAll()
     {
-        var result = _branchRepo.FindAll().ToList();
+        var result = _branchRepo.GetBranchWithOrders();
         return Ok(result);
     }
 
     [HttpGet("{id:int}")]
     public IActionResult GetByID(int id)
     {
-        var result = _branchRepo.FindByCondition(p => p.Id == id).FirstOrDefault();
-        return Ok(result);
+        var result = _branchRepo.FindByCondition(p => p.Id == id).Include(b=>b.Orders).FirstOrDefault();
+            var items = new List<Order>();
+            foreach (var item in result.Orders)
+            {
+                items.Add(new Order()
+                {
+                    Id = item.Id,
+                    UserId = item.UserId,
+                    PickUpDate = item.PickUpDate,
+                    Status = item.Status,
+
+                });
+            }
+            result.Orders = items;
+
+            return Ok(result);
     }
 
     [HttpPost]

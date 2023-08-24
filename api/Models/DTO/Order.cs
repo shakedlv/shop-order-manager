@@ -10,14 +10,14 @@ namespace api.Models.DTO
         [Key]
         public int Id { get; set; }
         public int UserId { get; set; }
-        public User User { get; set; }
+        public virtual User User { get; set; }
         public string UserPhone { get; set; }
         public int BranchId { get; set; }
-        public Branch Branch { get; set; } = null!; 
+        public virtual Branch Branch { get; set; } = null!; 
         public DateTime PickUpDate { get; set; }
         public bool IsPaid { get; set; }
         public OrderStatus Status { get; set; }
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)] public DateTime CreatedDate { get; set; }
-        public List<OrderItem> OrderItems { get; set; } = new();
+        public  List<OrderItem> OrderItems { get; set; } = new();
     }
 }

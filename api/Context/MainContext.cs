@@ -44,6 +44,9 @@ namespace api.Context
             modelBuilder.Entity<Order>().HasMany(o => o.OrderItems).WithOne(i => i.Order)
                 .HasForeignKey(o => o.OrderId).IsRequired();
 
+            modelBuilder.Entity<OrderItem>().HasOne(i=>i.Order)
+                .WithMany(o => o.OrderItems).HasForeignKey(o => o.OrderId).IsRequired();
+
             modelBuilder.Entity<Branch>().HasMany(b => b.Orders).WithOne(o => o.Branch)
                 .HasForeignKey(o => o.BranchId).IsRequired();
         }

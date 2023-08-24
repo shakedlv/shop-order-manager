@@ -12,7 +12,7 @@ namespace api.Models.DTO
         public string DisplayName { get; set; }
         public string Address { get; set; }
 
-        public List<Order> Orders { get; } = new();
+        public List<Order> Orders { get; set; } = new();
 
     }
 }
