@@ -36,22 +36,92 @@ namespace api.Controllers
         [HttpGet("{id:int}")]
         public IActionResult GetByID(int id)
         {
-            var result = _orderRepo.FindByCondition(p => p.Id == id).Include(o=>o.OrderItems).FirstOrDefault();
+            var result = _orderRepo.FindByCondition(p => p.Id == id).Include(o=>o.OrderItems).Include(o => o.User).FirstOrDefault();
+            if (result == null) return NotFound();
+
             var items = new List<OrderItem>();
             foreach (var item in result.OrderItems)
             {
+                Product product = _orderRepo.GetProductsRepository().FindByCondition(p => p.Id == item.ProductId).Include(p=>p.Category).FirstOrDefault();   
                 items.Add(new OrderItem()
                 {
                     Id = item.Id,
                     ProductId = item.ProductId,
+                    Product= new Product()
+                    {
+                        Id = item.ProductId,
+                        DisplayName = product.DisplayName,
+                        CategoryId = product.CategoryId,
+                        Category = new Category()
+                        {
+                            Id = product.CategoryId,
+                            DisplayName = product.Category.DisplayName,
+                             
+                        },
+                        Price = product.Price,
+                    },
                     Amount = item.Amount,
                     Price = item.Price,
 
                 });
             }
+            result.User = new User
+            {
+                Id = result.UserId,
+                Firstname = result.User.Firstname,
+                Lastname = result.User.Lastname,
+                Username = result.User.Username,
+                PhoneCountryCode = result.User.PhoneCountryCode,
+                PhoneNumber = result.User.PhoneNumber,
+
+            };
             result.OrderItems = items;
             return Ok(result);
         }
+
+
+        [HttpGet("User/{id:int}")]
+        public IActionResult GetByUserID(int id)
+        {
+            List<Order> results = _orderRepo.FindByCondition(p => p.UserId == id).Include(o => o.OrderItems).AsQueryable().ToList();
+            if (results.Count == 0) return NotFound();
+
+            foreach (var order in results)
+            {
+                var items = new List<OrderItem>();
+
+                foreach (var item in order.OrderItems)
+                {
+                    Product product = _orderRepo.GetProductsRepository().FindByCondition(p => p.Id == item.ProductId).Include(p => p.Category).FirstOrDefault();
+                    items.Add(new OrderItem()
+                    {
+                        Id = item.Id,
+                        ProductId = item.ProductId,
+                        Product = new Product()
+                        {
+                            Id = item.ProductId,
+                            DisplayName = product.DisplayName,
+                            CategoryId = product.CategoryId,
+                            Category = new Category()
+                            {
+                                Id = product.CategoryId,
+                                DisplayName = product.Category.DisplayName,
+
+                            },
+                            Price = product.Price,
+                        },
+                        Amount = item.Amount,
+                        Price = item.Price,
+
+                    });
+                }
+                order.OrderItems = items;
+
+            }
+
+            return Ok(results);
+        }
+
 
         [HttpPost]
         public IActionResult Create(OrderCreateRequest orderCreateRequest)
@@ -139,7 +209,6 @@ public class OrderCreateRequest
 {
     public int Id { get; set; }
     public int UserId { get; set; }
-    public string UserPhone { get; set; }
     public int BranchId { get; set; }
     public DateTime PickUpDate { get; set; }
     public bool IsPaid { get; set; }

@@ -11,7 +11,10 @@ namespace api.Repositories
         : base(_context)
         {
         }
-
+        public IProductRepository GetProductsRepository()
+        {
+            return new ProductRepository(_context);
+        }
         public IBranchRepository GetBranchesRepository()
         {
             return new BranchRepository(_context);

@@ -26,6 +26,8 @@ import CategoriesDisplay from './routes/Store Pages/CategoriesDisplay';
 import Categories from './routes/Dashboard Pages/Categories';
 import { ShoppingCartProvider } from './context/ShoppingCart';
 import Branches from './routes/Dashboard Pages/Branches';
+import PaymentPage from './routes/Store Pages/PaymentPage';
+import PurchaseCompleted from './routes/Feedback Pages/PurchaseCompleted';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -68,6 +70,14 @@ const router = createBrowserRouter([
         path: "/register",
         element: <Register/>,
       },
+      {
+        path: "/payment",
+        element: <PaymentPage/>
+      },
+      {
+        path: "/thankyou",
+        element: <PurchaseCompleted/>
+      }
     ],
 
   },

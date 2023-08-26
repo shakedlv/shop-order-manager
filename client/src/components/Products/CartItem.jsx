@@ -6,7 +6,7 @@ function CartItem({ product, quantity }) {
     const {  removeItem } = useCart()
 
     return (
-        <div className='w-full flex flex-row justify-start items-center p-1 border border-b-gray-200 border-t-transparent'>
+        <div className='w-full flex flex-row justify-start items-center p-1 border border-gray-200 border-t-transparent'>
             <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                 <img src="https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg" alt="Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt." className="h-full w-full object-cover object-center" />
             </div>

@@ -10,6 +10,8 @@ namespace api.Repositories
         : base(_context)
         {
         }
+
+
     }
 
 }

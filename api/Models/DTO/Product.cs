@@ -20,5 +20,8 @@ namespace api.Models.DTO
         [DefaultValue(1.0f)] public decimal Price { get; set;}
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)] public DateTime CreatedDate { get; set; }
         [DefaultValue(true)] public bool DisplayOnStore { get; set; }
+
+        public List<OrderItem> OrderItems { get; set; } = new();
+
     }
 }

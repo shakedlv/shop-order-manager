@@ -2,9 +2,6 @@ import { createContext, useContext, useState } from "react";
 import { useLocalStorage } from "../hooks/hooks";
 
 
-/* TO-DO
-    Handle Pay
- */
 
 const ShoppingCartContext = createContext({});
 

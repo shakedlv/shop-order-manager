@@ -7,7 +7,7 @@ import { Label, Select} from 'flowbite-react'
 import {countryPhoneCodes} from '../../utils/CountryCodes'
 
 function Register() {
-    const isAuthenticated = Boolean(localStorage.getItem("user_token"));
+    const [isAuthenticated, setAuthenticated] = useState(Boolean(localStorage.getItem("user_token")));
     useEffect(() => {
         if (isAuthenticated) {
             nav("/profile");

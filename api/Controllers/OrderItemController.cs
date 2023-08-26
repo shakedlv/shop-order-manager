@@ -34,7 +34,19 @@ namespace api.Controllers
         [HttpGet("{id:int}")]
         public IActionResult GetByID(int id)
         {
-            var result = _orderItemRepo.FindByCondition(p => p.Id == id).FirstOrDefault();
+            var result = _orderItemRepo.FindByCondition(p => p.Id == id).Include(o => o.Product).Include(o => o.Product.Category).FirstOrDefault();
+            result.Product = new Product()
+            {
+                Id= result.ProductId,
+                DisplayName = result.Product.DisplayName,
+                CategoryId = result.Product.CategoryId,
+                Category = new Category() { 
+                    Id = result.Product.CategoryId,
+                    DisplayName= result.Product.Category.DisplayName,
+                },
+                Price = result.Product.Price,
+                
+            };
             return Ok(result);
         }
 

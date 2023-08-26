@@ -4,16 +4,10 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useFetch } from '../hooks/hooks';
 import { useCart } from '../context/ShoppingCart';
 import CartItem from './Products/CartItem';
-import { Avatar, Modal } from 'flowbite-react';
 
-import CheckoutForm from './CheckoutForm';
-
-
-// Make sure to call `loadStripe` outside of a component’s render to avoid
-// recreating the `Stripe` object on every render.
 
 function Navbar() {
-    const isAuthenticated = Boolean(localStorage.getItem("user_token"));
+    const [isAuthenticated, setAuthenticated] = useState(Boolean(localStorage.getItem("user_token")));
 
     const { data: products, error: p_error, loading: p_loading } = useFetch("Products")
     const [searchQuery, setSearchQuery] = useState("")
@@ -38,6 +32,7 @@ function Navbar() {
     }
 
     useEffect(() => {
+        setAuthenticated(Boolean(localStorage.getItem("user_token")));
         document.body.addEventListener("click", (event) => {
             try {
                 if (event.target.className.includes("search") === false) {
@@ -52,7 +47,6 @@ function Navbar() {
         });
 
     }, [])
-    const [openModal, setOpenModal] = useState("");
 
     return (
         <>
@@ -146,8 +140,12 @@ function Navbar() {
                     <span className='flex flex-row justify-between w-full md:w-[25dvw] fixed bottom-0 p-2 bg-white border  border-b-gray-400'>
                         <h2 className='text-lg font-bold uppercase '>Total :</h2>
                         <span className='text-lg font-bold uppercase '>$ {getCartTotal(products)}</span>
-                        <button onClick={() => setOpenModal('pay')}
-                            className='bg-blue-500 text-center font-bold text-lg rounded-md px-2 min-w-[64px]'>{isAuthenticated ? "Pay" : "Continue as Guest"}</button>
+                        <button onClick={() => 
+                        {
+                            HandleCart();
+                            nav('/payment');
+                        }}
+                            className='bg-blue-500 text-center font-bold text-lg rounded-md px-2 min-w-[64px]'>Pay</button>
                     </span>
                 </div>
             </div>
@@ -185,12 +183,7 @@ function Navbar() {
 
                 </div>
             </div>
-            <Modal dismissible show={openModal === 'pay'} onClose={() => setOpenModal("")} className='z-[3000]'>
-                <Modal.Header>payment</Modal.Header>
-                <Modal.Body>
-                    <CheckoutForm />
-                </Modal.Body>
-            </Modal>
+
 
         </>
     )

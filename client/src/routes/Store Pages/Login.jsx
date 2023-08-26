@@ -6,7 +6,7 @@ import { Label, TextInput } from "flowbite-react";
 
 
 function Login() {
-    const isAuthenticated = Boolean(localStorage.getItem("user_token"));
+    const [isAuthenticated, setAuthenticated] = useState(Boolean(localStorage.getItem("user_token")));
 
 
     const [username, setUsername] = useState("");
@@ -63,6 +63,7 @@ function Login() {
         if (new Date() >= new Date(localStorage.getItem("login_expires"))) {
             localStorage.setItem("user_token", "");
             localStorage.setItem('login_expires', "")
+            setAuthenticated(false);
         }
         else if (isAuthenticated) {
             nav("/profile");
