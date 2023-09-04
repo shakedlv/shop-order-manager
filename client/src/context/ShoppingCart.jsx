@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext} from "react";
 import { useLocalStorage } from "../hooks/hooks";
 
 
@@ -31,12 +31,13 @@ export function ShoppingCartProvider({ children }) {
         if(products === null) return -1;
         if (products.length === 0)return -1;
         var total = 0;
-        for (var item of cartItems) {
+        cartItems.forEach((item)=>{
             var p = products.find(product => product.id === item.id);
             if (p !== undefined) {
                 total += p.price * item.amount;
             }
-        }
+        });
+
 
         return total;
 
@@ -50,7 +51,7 @@ export function ShoppingCartProvider({ children }) {
         }
         else {
             setCartItems(prev => cartItems.map((item) => {
-                if (item['id'] == id) return { 'id': item['id'], 'amount': item['amount'] + 1 }
+                if (item['id'] === id) return { 'id': item['id'], 'amount': item['amount'] + 1 }
                 else return { 'id': item['id'], 'amount': item['amount'] }
             }))
         }
@@ -66,7 +67,7 @@ export function ShoppingCartProvider({ children }) {
             }
             else {
                 setCartItems(prev => cartItems.map((item) => {
-                    if (item['id'] == id) return { 'id': item['id'], 'amount': item['amount'] - 1 }
+                    if (item['id'] === id) return { 'id': item['id'], 'amount': item['amount'] - 1 }
                     else return { 'id': item['id'], 'amount': item['amount'] }
                 }))
             }

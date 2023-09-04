@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import api from '../../utils/api'
 import { Label, TextInput } from "flowbite-react";
+import { Logout } from "../../utils/auth";
 
 
 function Login() {
@@ -40,35 +41,29 @@ function Login() {
                     nav("/");
 
                 } else {
-                    localStorage.setItem("user_token", "");
-                    localStorage.setItem('login_expires', "")
-                    localStorage.setItem("user_isAdmin", false);
+                    Logout();
 
                     setError("Password or Username are incorrect !");
 
                 }
             })
             .catch((ex) => {
-                localStorage.setItem("user_token", "");
-                localStorage.setItem('login_expires', "")
-                localStorage.setItem("user_isAdmin", false);
-
+                Logout();
                 setError("Password or Username are incorrect !");
-                console.error(ex);
             });
     };
 
     useEffect(() => {
 
         if (new Date() >= new Date(localStorage.getItem("login_expires"))) {
-            localStorage.setItem("user_token", "");
-            localStorage.setItem('login_expires', "")
+            Logout();
+
             setAuthenticated(false);
         }
         else if (isAuthenticated) {
             nav("/profile");
         }
-    }, [])
+    }, [isAuthenticated,nav])
 
     return (
         <main className="bg-neutral-50 w-full min-h-[70dvh]   flex flex-col items-center md:justify-center gap-2">

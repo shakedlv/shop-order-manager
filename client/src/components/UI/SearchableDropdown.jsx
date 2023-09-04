@@ -8,7 +8,6 @@ function SearchableDropdown({ array, parameter, id, label ,onSelectEvent}) {
     
     const HandleSelect = (selected)=>
     {
-        console.log(selected)
         onSelectEvent(selected)
         setSearchQuery(" ");
         document.getElementById("input").value = ""

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import api from '../../utils/api'
 import { Breadcrumb } from 'flowbite-react';
 import { useCart } from '../../context/ShoppingCart';
@@ -10,22 +10,23 @@ function ProductInfo() {
     const { id } = useParams()
 
     const [product, setProduct] = useState(null)
+    const [error, setError] = useState(false)
     const { getItemQuantity, increaseCartQuantity, decreaseCartQuantity} = useCart()
-
+    const nav = useNavigate();
     useEffect(() => {
         api.get('Products/' + id).then((result) => {
             if (result.status === 200) {
-                console.table(result.data)
 
                 setProduct(result.data);
             }
             else {
-                console.log("Product not found")
+                setError(true);
             }
         }).catch((ex) => {
-            console.log("Product not found")
+            setError(true);
         })
     },)
+    if(error === true) nav("/*")
 
     if(product === null) return <h1>wait</h1>
     return (
@@ -54,7 +55,8 @@ function ProductInfo() {
                     <h4>{product['description']}</h4>
                 </div>
             </div>
-            <div className='w-full flex flex-row justify-end items-center px-3'>
+            <div className='w-full flex flex-row justify-end items-center px-3 gap-8'>
+            <span className='font-bold text-lg'>$ {getItemQuantity(product['id']) * product['price'] } </span>
                 <div className='flex flex-row items-center justify-center gap-2 '>
                     <button onClick={() => decreaseCartQuantity(product['id'])} className='p-1 px-2 border border-gray-500 rounded-md hover:bg-gray-300'>-</button>
                     <span className='font-bold text-lg'> {getItemQuantity(product['id']) || 0}</span>

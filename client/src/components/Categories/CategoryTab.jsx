@@ -1,16 +1,27 @@
 import React from 'react'
-import {PiCarrot} from 'react-icons/pi'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import { Card } from 'flowbite-react';
 
-function CategoryTab({ title }) {
-    const nav = useNavigate();
+/* TO - DO 
+Handle Category Icon 
+*/
+function CategoryTab({ category }) {
     return (
-        <div  className='min-w-[128px]   h-32 bg-slate-100 shadow-gray-50 rounded-md flex flex-col justify-center items-center hover:border hover:border-gray-500' 
-        onClick={()=>{nav("/products/"+title)}} >
-               <PiCarrot className='h-2/6 w-2/6'/> 
-               <span className='font-bold'>{title}</span>
-        </div>
+        <Card
+        className='w-[192px] min-h-[64px]'
+            imgAlt={category['displayName']}
+            imgSrc={category['icon']}
+        >
+            <Link to={"/products/" + category['displayName']}>
+                <h5 className="text-xl text-center capitalize  font-semibold tracking-tight text-gray-900 dark:text-white">
+                    <p>
+                        {category['displayName']}
+                    </p>
+                </h5>
+            </Link>
+        </Card>
     )
 }
 
 export default CategoryTab
+

@@ -10,5 +10,10 @@ namespace api.Repositories
         : base(_context)
         {
         }
+
+        public ProductRepository GetProductsRepository()
+        {
+            return new ProductRepository(_context);
+        }
     }
 }

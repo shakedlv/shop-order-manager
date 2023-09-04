@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using api.Context;
 using api.Models.DTO;
 using api.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace api.Controllers
 {
@@ -34,6 +35,8 @@ namespace api.Controllers
     public IActionResult GetByID(int id)
     {
         var result = _branchRepo.FindByCondition(p => p.Id == id).Include(b=>b.Orders).FirstOrDefault();
+            if (result == null) return NotFound();
+
             var items = new List<Order>();
             foreach (var item in result.Orders)
             {
@@ -51,7 +54,7 @@ namespace api.Controllers
             return Ok(result);
     }
 
-    [HttpPost]
+    [HttpPost, Authorize]
     public IActionResult Create(Branch branch)
     {
         if (branch == null)
@@ -64,7 +67,7 @@ namespace api.Controllers
         return Created("branch", result);
     }
 
-    [HttpPut]
+    [HttpPut, Authorize]
     public IActionResult Update(Branch branch)
     {
         if (branch == null)
@@ -83,7 +86,7 @@ namespace api.Controllers
         return NoContent();
     }
 
-    [HttpDelete("{id:int}")]
+    [HttpDelete("{id:int}"), Authorize]
     public IActionResult Delete(int id)
     {
         var category = _branchRepo.FindByCondition(c => c.Id == id).FirstOrDefault();

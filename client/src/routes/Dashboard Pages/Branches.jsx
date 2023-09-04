@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Pagination, Table } from 'flowbite-react';
-import { HiCheck, HiOutlineExclamationCircle, HiX } from 'react-icons/hi';
+import { HiOutlineExclamationCircle} from 'react-icons/hi';
 import { Button, Modal } from 'flowbite-react';
 import InputGroup from '../../components/UI/InputGroup';
 import api from '../../utils/api';
@@ -11,11 +11,11 @@ import { useFetch } from '../../hooks/hooks';
 
 
 function Branches() {
-    const { data: branches, error: b_error, loading: b_loading, fetchData: getBranches } = useFetch("Branches")
+    const { data: branches, loading: b_loading, fetchData: getBranches } = useFetch("Branches")
 
 
     const [currentPage, setCurrentPage] = useState(1)
-    const [branchPerPage, setbranchPerPage] = useState(25)
+    const [branchPerPage, ] = useState(25)
 
     const indexOfLastBranch = currentPage * branchPerPage;
     const indexOfFirstBranch = indexOfLastBranch - branchPerPage;
@@ -48,6 +48,11 @@ function Branches() {
     }
 
     const HandleSaveOrCreate = () => {
+        if(displayName.length < 1 || address.length < 1)
+        {
+            notifyFailed("Display Name or address are not valid");
+            return;
+        } 
         var data = {
             id: branchId > 0 ? branchId : 0,
             displayName: displayName,

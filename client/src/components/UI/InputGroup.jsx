@@ -17,6 +17,7 @@ function InputGroup({id,label,placeholder,onChangeEvent,type,value}) {
                 type={type}
                 autoComplete="new-password"
                 value={value}
+                min={1}
             />
         </div>
     )

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using api.Context;
 using api.Models.DTO;
 using api.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace api.Controllers
 {
@@ -35,7 +36,7 @@ namespace api.Controllers
         public IActionResult GetByID(int id)
         {
             var result = _categoryRepo.FindByCondition(p => p.Id == id).Include(c=>c.Products).FirstOrDefault();
-            if(result == null) return Ok(result);
+            if (result == null) return NotFound();
             var products = new List<Product>();
             foreach (var product in result.Products)
             {
@@ -52,7 +53,7 @@ namespace api.Controllers
             return Ok(result);
         }
 
-        [HttpPost]
+        [HttpPost, Authorize]
         public IActionResult Create(CategoryCreateRequest categoryCreateRequest)
         {
             if (categoryCreateRequest == null)
@@ -79,7 +80,7 @@ namespace api.Controllers
 
         }
 
-        [HttpPut]
+        [HttpPut, Authorize]
         public IActionResult Update(CategoryCreateRequest categoryCreateRequest)
         {
             if (categoryCreateRequest == null)
@@ -109,7 +110,7 @@ namespace api.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id:int}")]
+        [HttpDelete("{id:int}"), Authorize]
         public IActionResult Delete(int id)
         {
             var category = _categoryRepo.FindByCondition(c => c.Id == id).FirstOrDefault();

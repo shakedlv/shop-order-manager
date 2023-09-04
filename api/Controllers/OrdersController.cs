@@ -10,6 +10,7 @@ using api.Models.DTO;
 using api.Repositories.Interfaces;
 using api.Models.Enums;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Authorization;
 
 namespace api.Controllers
 {
@@ -26,14 +27,14 @@ namespace api.Controllers
             this._orderRepo = _orderRepo ?? throw new ArgumentNullException(nameof(_orderRepo));
         }
 
-        [HttpGet]
+        [HttpGet, Authorize]
         public IActionResult GetAll()
         {
             var result = _orderRepo.GetOrdersWithItems();
             return Ok(result);
         }
 
-        [HttpGet("{id:int}")]
+        [HttpGet("{id:int}"), Authorize]
         public IActionResult GetByID(int id)
         {
             var result = _orderRepo.FindByCondition(p => p.Id == id).Include(o=>o.OrderItems).Include(o => o.User).FirstOrDefault();
@@ -80,10 +81,10 @@ namespace api.Controllers
         }
 
 
-        [HttpGet("User/{id:int}")]
+        [HttpGet("User/{id:int}"), Authorize]
         public IActionResult GetByUserID(int id)
         {
-            List<Order> results = _orderRepo.FindByCondition(p => p.UserId == id).Include(o => o.OrderItems).AsQueryable().ToList();
+            List<Order> results = _orderRepo.FindByCondition(p => p.UserId == id).Include(o => o.OrderItems).Include(o => o.Branch).AsQueryable().ToList();
             if (results.Count == 0) return NotFound();
 
             foreach (var order in results)
@@ -123,7 +124,7 @@ namespace api.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost, Authorize]
         public IActionResult Create(OrderCreateRequest orderCreateRequest)
         {
             if (orderCreateRequest == null)
@@ -170,7 +171,7 @@ namespace api.Controllers
             return Created("order", result);
         }
 
-        [HttpPut]
+        [HttpPut, Authorize]
         public IActionResult Update(Order order)
         {
             if (order == null)

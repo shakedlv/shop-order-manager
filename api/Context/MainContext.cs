@@ -25,10 +25,13 @@ namespace api.Context
 
             modelBuilder.Entity<User>().HasMany(u=>u.Orders).WithOne(o => o.User).HasForeignKey(o => o.UserId);
             modelBuilder.Entity<User>().HasData(InitialData.Users);
+            modelBuilder.Entity<User>().Property(e => e.CreatedDate).HasDefaultValueSql("getutcdate()");
 
             modelBuilder.Entity<Product>()
                 .HasOne(p => p.Category).WithMany(u => u.Products).HasForeignKey(p => p.CategoryId)
                 .HasPrincipalKey(c => c.Id);
+            modelBuilder.Entity<Product>().Property(e => e.CreatedDate).HasDefaultValueSql("getutcdate()");
+
             modelBuilder.Entity<Category>()
                 .HasMany(c => c.Products)
                 .WithOne(p => p.Category)
@@ -43,6 +46,7 @@ namespace api.Context
             
             modelBuilder.Entity<Order>().HasMany(o => o.OrderItems).WithOne(i => i.Order)
                 .HasForeignKey(o => o.OrderId).IsRequired();
+            modelBuilder.Entity<Order>().Property(e => e.CreatedDate).HasDefaultValueSql("getutcdate()");
 
             modelBuilder.Entity<OrderItem>().HasOne(i=>i.Order)
                 .WithMany(o => o.OrderItems).HasForeignKey(o => o.OrderId).IsRequired();

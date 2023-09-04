@@ -4,6 +4,7 @@ namespace api.Repositories.Interfaces
 {
     public interface IUserRepository:IRepositoryBase<User>
     {
+        public ProductRepository GetProductsRepository();
 
     }
 }

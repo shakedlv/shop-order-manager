@@ -111,7 +111,8 @@ namespace api.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.Property<bool>("IsPaid")
                         .HasColumnType("bit");
@@ -162,6 +163,8 @@ namespace api.Migrations
 
                     b.HasIndex("OrderId");
 
+                    b.HasIndex("ProductId");
+
                     b.ToTable("OrderItems");
                 });
 
@@ -178,7 +181,8 @@ namespace api.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -209,77 +213,77 @@ namespace api.Migrations
                         {
                             Id = 1,
                             CategoryId = 1,
-                            CreatedDate = new DateTime(2023, 8, 23, 16, 18, 14, 677, DateTimeKind.Local).AddTicks(9315),
+                            CreatedDate = new DateTime(2023, 9, 1, 11, 21, 4, 929, DateTimeKind.Local).AddTicks(8338),
                             Description = "Fresh baked bread with Fresh Mozarela , tomato , and basil",
-                            DisplayName = "Caprese Salad",
+                            DisplayName = "Caprese Sandwich",
                             DisplayOnStore = true,
-                            Image = "https://i.pinimg.com/originals/da/d9/07/dad9070549f1afc882c220e2275f2ccc.png",
+                            Image = "https://imageproxy.wolt.com/menu/menu-images/shared/2de061e4-0430-11ee-84f7-7ad0e2eb5e41______________.jpg?w=600",
                             Price = 22m
                         },
                         new
                         {
                             Id = 2,
                             CategoryId = 1,
-                            CreatedDate = new DateTime(2023, 8, 23, 16, 18, 14, 678, DateTimeKind.Local).AddTicks(105),
+                            CreatedDate = new DateTime(2023, 9, 1, 11, 21, 4, 929, DateTimeKind.Local).AddTicks(9117),
                             Description = "Fresh baked bread with Tuna Salad , tomato , and cucumaber",
-                            DisplayName = "Tuna Salad",
+                            DisplayName = "Tuna Sandwich",
                             DisplayOnStore = true,
-                            Image = "https://i.pinimg.com/originals/da/d9/07/dad9070549f1afc882c220e2275f2ccc.png",
+                            Image = "https://imageproxy.wolt.com/menu/menu-images/shared/e161f85a-042f-11ee-8a01-e6da8185655a_________.jpg?w=600",
                             Price = 22m
                         },
                         new
                         {
                             Id = 3,
                             CategoryId = 1,
-                            CreatedDate = new DateTime(2023, 8, 23, 16, 18, 14, 678, DateTimeKind.Local).AddTicks(112),
+                            CreatedDate = new DateTime(2023, 9, 1, 11, 21, 4, 929, DateTimeKind.Local).AddTicks(9124),
                             Description = "Fresh baked bread with Egg Salad, Lettuce and pickles",
-                            DisplayName = "Egg Salad",
+                            DisplayName = "Egg Salad Sandwich",
                             DisplayOnStore = true,
-                            Image = "https://i.pinimg.com/originals/da/d9/07/dad9070549f1afc882c220e2275f2ccc.png",
+                            Image = "https://imageproxy.wolt.com/menu/menu-images/shared/45289cc2-0430-11ee-afcb-7e562007c5f4____________.jpg?w=600",
                             Price = 22m
                         },
                         new
                         {
                             Id = 4,
                             CategoryId = 1,
-                            CreatedDate = new DateTime(2023, 8, 23, 16, 18, 14, 678, DateTimeKind.Local).AddTicks(114),
+                            CreatedDate = new DateTime(2023, 9, 1, 11, 21, 4, 929, DateTimeKind.Local).AddTicks(9126),
                             Description = "Fresh baked croissant with Salmon, Lettuce and pickles",
                             DisplayName = "Salmon Croissant",
                             DisplayOnStore = true,
-                            Image = "https://i.pinimg.com/originals/da/d9/07/dad9070549f1afc882c220e2275f2ccc.png",
+                            Image = "https://imageproxy.wolt.com/menu/menu-images/646b36d75cce5e0e302f8813/e3718414-1003-11ee-9e7b-82f85494c1fc______________.jpg?w=600",
                             Price = 25m
                         },
                         new
                         {
                             Id = 5,
                             CategoryId = 2,
-                            CreatedDate = new DateTime(2023, 8, 23, 16, 18, 14, 678, DateTimeKind.Local).AddTicks(117),
-                            Description = "Small Pizza focaccia",
-                            DisplayName = "Pizza focaccia",
+                            CreatedDate = new DateTime(2023, 9, 1, 11, 21, 4, 929, DateTimeKind.Local).AddTicks(9129),
+                            Description = "Large Multigrain focaccia",
+                            DisplayName = "Multigrain focaccia",
                             DisplayOnStore = true,
-                            Image = "https://i.pinimg.com/originals/da/d9/07/dad9070549f1afc882c220e2275f2ccc.png",
-                            Price = 6m
+                            Image = "https://imageproxy.wolt.com/menu/menu-images/6017cfd7eb437443de0a3acd/bcc97bfa-75c3-11eb-ad05-dea929c534dc_dsc00615.jpeg?w=600",
+                            Price = 12m
                         },
                         new
                         {
                             Id = 6,
                             CategoryId = 2,
-                            CreatedDate = new DateTime(2023, 8, 23, 16, 18, 14, 678, DateTimeKind.Local).AddTicks(119),
+                            CreatedDate = new DateTime(2023, 9, 1, 11, 21, 4, 929, DateTimeKind.Local).AddTicks(9131),
                             Description = "Medium Pizza focaccia",
                             DisplayName = "Pizza focaccia",
                             DisplayOnStore = true,
-                            Image = "https://i.pinimg.com/originals/da/d9/07/dad9070549f1afc882c220e2275f2ccc.png",
+                            Image = "https://imageproxy.wolt.com/menu/menu-images/630b63872bf925291e15a301/7020f74a-3374-11ed-a05a-0a35c6057374____________.jpeg?w=600",
                             Price = 15m
                         },
                         new
                         {
                             Id = 7,
                             CategoryId = 2,
-                            CreatedDate = new DateTime(2023, 8, 23, 16, 18, 14, 678, DateTimeKind.Local).AddTicks(121),
+                            CreatedDate = new DateTime(2023, 9, 1, 11, 21, 4, 929, DateTimeKind.Local).AddTicks(9133),
                             Description = "Large Pizza focaccia",
                             DisplayName = "Pizza focaccia",
                             DisplayOnStore = true,
-                            Image = "https://i.pinimg.com/originals/da/d9/07/dad9070549f1afc882c220e2275f2ccc.png",
+                            Image = "https://imageproxy.wolt.com/menu/menu-images/630b63872bf925291e15a301/7020f74a-3374-11ed-a05a-0a35c6057374____________.jpeg?w=600",
                             Price = 22m
                         });
                 });
@@ -297,7 +301,8 @@ namespace api.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -342,8 +347,8 @@ namespace api.Migrations
                         new
                         {
                             Id = 1,
-                            BirthdayDate = new DateTime(2023, 8, 23, 16, 18, 14, 675, DateTimeKind.Local).AddTicks(546),
-                            CreatedDate = new DateTime(2023, 8, 23, 16, 18, 14, 677, DateTimeKind.Local).AddTicks(6951),
+                            BirthdayDate = new DateTime(2023, 9, 1, 11, 21, 4, 926, DateTimeKind.Local).AddTicks(9348),
+                            CreatedDate = new DateTime(2023, 9, 1, 11, 21, 4, 929, DateTimeKind.Local).AddTicks(5754),
                             Email = "admin@admin.com",
                             Firstname = "admin",
                             Image = "https://th.bing.com/th/id/R.19fa7497013a87bd77f7adb96beaf768?rik=144XvMigWWj2bw&riu=http%3a%2f%2fwww.pngall.com%2fwp-content%2fuploads%2f5%2fUser-Profile-PNG-High-Quality-Image.png&ehk=%2bat%2brmqQuJrWL609bAlrUPYgzj%2b%2f7L1ErXRTN6ZyxR0%3d&risl=&pid=ImgRaw&r=0",
@@ -357,8 +362,8 @@ namespace api.Migrations
                         new
                         {
                             Id = 2,
-                            BirthdayDate = new DateTime(2023, 8, 23, 16, 18, 14, 677, DateTimeKind.Local).AddTicks(8019),
-                            CreatedDate = new DateTime(2023, 8, 23, 16, 18, 14, 677, DateTimeKind.Local).AddTicks(8027),
+                            BirthdayDate = new DateTime(2023, 9, 1, 11, 21, 4, 929, DateTimeKind.Local).AddTicks(6796),
+                            CreatedDate = new DateTime(2023, 9, 1, 11, 21, 4, 929, DateTimeKind.Local).AddTicks(6803),
                             Email = "test@test.com",
                             Firstname = "test",
                             Image = "https://th.bing.com/th/id/R.19fa7497013a87bd77f7adb96beaf768?rik=144XvMigWWj2bw&riu=http%3a%2f%2fwww.pngall.com%2fwp-content%2fuploads%2f5%2fUser-Profile-PNG-High-Quality-Image.png&ehk=%2bat%2brmqQuJrWL609bAlrUPYgzj%2b%2f7L1ErXRTN6ZyxR0%3d&risl=&pid=ImgRaw&r=0",
@@ -398,7 +403,15 @@ namespace api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("api.Models.DTO.Product", "Product")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Order");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("api.Models.DTO.Product", b =>
@@ -423,6 +436,11 @@ namespace api.Migrations
                 });
 
             modelBuilder.Entity("api.Models.DTO.Order", b =>
+                {
+                    b.Navigation("OrderItems");
+                });
+
+            modelBuilder.Entity("api.Models.DTO.Product", b =>
                 {
                     b.Navigation("OrderItems");
                 });

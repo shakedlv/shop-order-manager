@@ -38,6 +38,42 @@ namespace api.Controllers
         public IActionResult GetByID(int id)
         {
             var result = _userRepo.FindByCondition(u => u.Id == id).Include(u => u.Orders).FirstOrDefault();
+            if(result == null) return NotFound();
+
+            List<Order> orders = new List<Order>();
+            foreach (var order in result.Orders)
+            {
+                var items = new List<OrderItem>();
+
+                foreach (var item in order.OrderItems)
+                {
+                    Product product = _userRepo.GetProductsRepository().FindByCondition(p => p.Id == item.ProductId).Include(p => p.Category).FirstOrDefault();
+                    items.Add(new OrderItem()
+                    {
+                        Id = item.Id,
+                        ProductId = item.ProductId,
+                        Product = new Product()
+                        {
+                            Id = item.ProductId,
+                            DisplayName = product.DisplayName,
+                            CategoryId = product.CategoryId,
+                            Category = new Category()
+                            {
+                                Id = product.CategoryId,
+                                DisplayName = product.Category.DisplayName,
+
+                            },
+                            Price = product.Price,
+                        },
+                        Amount = item.Amount,
+                        Price = item.Price,
+
+                    });
+                }
+                order.OrderItems = items;
+                orders.Add(order);
+            }
+            result.Orders = orders;
             return Ok(result);
         }
 

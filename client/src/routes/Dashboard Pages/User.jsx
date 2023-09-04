@@ -9,7 +9,7 @@ import { notifyFailed, notifySuccess } from '../../utils/notify';
 import { useFetch } from '../../hooks/hooks';
 
 function Users() {
-    const { data: users, error: error, loading: loading , fetchData : getUsers } = useFetch("Users")
+    const { data: users, error, loading , fetchData : getUsers } = useFetch("Users")
 
     const [admins, setAdmin] = useState([])
     const [notAdmins, setNotAdmins] = useState([])
@@ -20,7 +20,7 @@ function Users() {
         setAdmin(users ? users.filter((user) => user.isAdmin): [])
     }, [users])
     const [currentPage, setCurrentPage] = useState(1)
-    const [usersPerPage, setUsersPerPage] = useState(25)
+    const [usersPerPage,] = useState(25)
 
     const indexOfLastUsers = currentPage * usersPerPage;
     const indexOfFirstUsers = indexOfLastUsers - usersPerPage;
@@ -53,7 +53,6 @@ function Users() {
 
     
     const HandleSetNewAdmin = (user) => {
-        console.log(user)
         user['isAdmin'] = true;
         api.put("Users", user).then((result) => {
             notifySuccess("Admin Updated Succsessfuly !");

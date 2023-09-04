@@ -10,6 +10,7 @@ using api.Models.DTO;
 using api.Repositories.Interfaces;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel;
+using Microsoft.AspNetCore.Authorization;
 
 namespace api.Controllers
 {
@@ -36,6 +37,7 @@ namespace api.Controllers
         public IActionResult GetByID(int id)
         {
             var result = _productRepo.FindByCondition(p => p.Id == id).Include(p=>p.Category).FirstOrDefault();
+            if(result == null) return NotFound();
             result.Category = new Category
             {
                 Id = result.Category.Id,
@@ -46,7 +48,7 @@ namespace api.Controllers
             return Ok(result);
         }
 
-        [HttpPost()]
+        [HttpPost(), Authorize]
         public IActionResult Create(ProductCreateRequest productCreateRequest)
         {
             if (productCreateRequest == null)
@@ -87,7 +89,7 @@ namespace api.Controllers
             return Created("product", result);
         }
         
-        [HttpPut]
+        [HttpPut, Authorize]
         public IActionResult Update(ProductCreateRequest productCreateRequest)
         {
             if (productCreateRequest == null)
@@ -130,7 +132,7 @@ namespace api.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id:int}")]
+        [HttpDelete("{id:int}"), Authorize]
         public IActionResult Delete(int id)
         {
             var product = _productRepo.FindByCondition(p => p.Id == id).FirstOrDefault();

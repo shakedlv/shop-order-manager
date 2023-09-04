@@ -5,9 +5,10 @@ import api from '../../utils/api'
 import { Link, useNavigate } from 'react-router-dom'
 import { Label, Select} from 'flowbite-react'
 import {countryPhoneCodes} from '../../utils/CountryCodes'
+import { Logout } from '../../utils/auth';
 
 function Register() {
-    const [isAuthenticated, setAuthenticated] = useState(Boolean(localStorage.getItem("user_token")));
+    const [isAuthenticated, ] = useState(Boolean(localStorage.getItem("user_token")));
     useEffect(() => {
         if (isAuthenticated) {
             nav("/profile");
@@ -51,17 +52,15 @@ function Register() {
                     nav("/");
 
                 } else {
-                    localStorage.setItem("user_token", "");
-                    localStorage.setItem('login_expires', "")
-                    localStorage.setItem("user_isAdmin", false);
+                    Logout();
+
 
 
                 }
             })
             .catch((ex) => {
-                localStorage.setItem("user_token", "");
-                localStorage.setItem('login_expires', "")
-                localStorage.setItem("user_isAdmin", false);
+                Logout();
+
 
                 console.error(ex);
             });
@@ -107,7 +106,8 @@ function Register() {
             api.post("/Users",userData).then((result) => {
                 handleLogin();
             }).catch((ex) => {
-                console.log(ex)
+                errorsList.push("One or more values are invalid")
+
             })
         }
 

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Pagination, Table } from 'flowbite-react';
-import { HiCheck, HiOutlineExclamationCircle, HiX } from 'react-icons/hi';
+import {HiOutlineExclamationCircle } from 'react-icons/hi';
 import { Button, Modal } from 'flowbite-react';
 import InputGroup from '../../components/UI/InputGroup';
 import api from '../../utils/api';
@@ -9,16 +9,12 @@ import { notifyFailed, notifySuccess } from '../../utils/notify';
 import { useFetch } from '../../hooks/hooks';
 
 
-/* TO-DO
-    handle pictures
-
- */
 function Categories() {
-    const { data: categories, error: c_error, loading: c_loading, fetchData: getCategories } = useFetch("Categories")
+    const { data: categories, loading: c_loading, fetchData: getCategories } = useFetch("Categories")
 
 
     const [currentPage, setCurrentPage] = useState(1)
-    const [categoriesPerPage, setCategoriesPerPage] = useState(25)
+    const [categoriesPerPage, ] = useState(25)
 
     const indexOfLastCategory = currentPage * categoriesPerPage;
     const indexOfFirstCategory = indexOfLastCategory - categoriesPerPage;
@@ -31,11 +27,11 @@ function Categories() {
 
     const [categoryId, setCategoryId] = useState(-1)
     const [displayName, setDisplayName] = useState("")
-
+    const [icon, setIcon] = useState("")
 
     const HandleOpenToEdit = (category) => {
         setOpenEditModal('edit')
-
+        setIcon(category["icon"]);
         setDisplayName(category["displayName"]);
         setCategoryId(category["categoryId"]);
 
@@ -44,6 +40,7 @@ function Categories() {
 
     const HandleClearForm = () => {
         setCategoryId(-1);
+        setIcon("")
         setOpenEditModal("")
         setDisplayName("");
 
@@ -52,16 +49,21 @@ function Categories() {
 
     const HandleSaveOrCreate = () => {
 
+        if(displayName.length < 1 || icon.length < 1)
+        {
+            notifyFailed("Display Name or Icon are not valid");
+            return;
+        }
         var data = {
             id: categoryId > 0 ? categoryId : 0,
             displayName: displayName,
-            icon:""
+            icon:icon
 
         }
         const verb = categoryId > 0 ? "put" : "post";
 
         api[verb]("Categories", data).then((result) => {
-            notifySuccess("Category Updated Succsessfuly!");
+            notifySuccess("Category Updated Successfully!");
             getCategories();
 
             HandleClearForm();
@@ -157,12 +159,15 @@ function Categories() {
                 <Modal.Header>Update Or Create Categoey</Modal.Header>
                 <Modal.Body>
                     <div className="space-y-6">
-                        <InputGroup className={"flex-grow"} id={"name"} label={"Display Name"} value={displayName} type={"text"} onChangeEvent={(e) => { setDisplayName(e.target.value) }} />
-
+                        <InputGroup className={"flex-grow"} id={"name"} label={"Display Name"} value={displayName} type={"text"} onChangeEvent={(e) => { setDisplayName(e.target.value) }} />  
+                    </div>
+                    <div className="space-y-6">
+                        <InputGroup className={"flex-grow"} id={"image"} label={"Category Image"} value={icon} type={"text"} onChangeEvent={(e) => { setIcon(e.target.value) }} />
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button color="green" onClick={() => HandleSaveOrCreate()}>Save</Button>
+                <Button color="green" onClick={() => HandleSaveOrCreate()}>Save</Button>
+
                     <Button color="red" onClick={() => HandleClearForm()}>
                         Cancle
                     </Button>

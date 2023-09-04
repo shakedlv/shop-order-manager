@@ -1,6 +1,7 @@
 {
     "dotnet.defaultSolution": "api/api.sln",
     "cSpell.words": [
-        "flowbite"
+        "flowbite",
+        "Inputmobile"
     ]
 }

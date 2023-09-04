@@ -21,7 +21,7 @@ import Profile from './routes/Store Pages/Profile';
 import ProductInfo from './routes/Store Pages/ProductInfo';
 import Register from './routes/Store Pages/Register';
 import Users from './routes/Dashboard Pages/User';
-import NotFound from './routes/Error Pages/NotFound';
+import NotFound from './routes/Feedback Pages/NotFound';
 import CategoriesDisplay from './routes/Store Pages/CategoriesDisplay';
 import Categories from './routes/Dashboard Pages/Categories';
 import { ShoppingCartProvider } from './context/ShoppingCart';

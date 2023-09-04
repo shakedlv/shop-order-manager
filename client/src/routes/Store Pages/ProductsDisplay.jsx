@@ -51,7 +51,7 @@ function ProductsDisplay() {
         }
         else {
             var list = products ? products.filter((p) => {
-                return categoriesFilter.includes(p['category']) && categoriesFilter.includes(p) === false;
+                return categoriesFilter.includes(p['category']['displayName']) && categoriesFilter.includes(p) === false;
             }) : products
             setCategorizedProducts(list)
         }
@@ -107,7 +107,7 @@ function ProductsDisplay() {
                 <MultiSelectDropdown array={categories} parameter={'displayName'} id={"categories"} placeholder={"All Categories"}
                 initValue={categoriesFilter} onSelectEvent={setCategoriesFilter} />
             </div>
-            <div className='container h-[100vh-112px] p-2 grid grid-cols-2 gap-2 md:grid-cols-5 lg:grid-cols-7 overflow-x-scroll'>
+            <div className='container h-[100vh-112px] p-2 grid  gap-2 lg:grid-cols-7 md:grid-cols-5    overflow-x-scroll'>
                 {  currentProducts?
                     currentProducts.sort((a, b) => {
                         if (priceOrder === "lh") {

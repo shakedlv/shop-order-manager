@@ -9,7 +9,7 @@ import CartItem from './Products/CartItem';
 function Navbar() {
     const [isAuthenticated, setAuthenticated] = useState(Boolean(localStorage.getItem("user_token")));
 
-    const { data: products, error: p_error, loading: p_loading } = useFetch("Products")
+    const { data: products, } = useFetch("Products")
     const [searchQuery, setSearchQuery] = useState("")
 
     var filteredProducts = searchQuery.length > 0 ? products.filter((a) => a['displayName'].toLowerCase().includes(searchQuery.toLowerCase())) : []
@@ -30,21 +30,24 @@ function Navbar() {
 
         search.classList.toggle("hidden");
     }
-
     useEffect(() => {
         setAuthenticated(Boolean(localStorage.getItem("user_token")));
-        document.body.addEventListener("click", (event) => {
-            try {
-                if (event.target.className.includes("search") === false) {
-                    setSearchQuery("")
-                    var search = document.getElementById("searchInput");
-                    if (search !== null) search.value = "";
-                }
-            } catch (error) {
-
+    },[])
+    const onClickEvent = (event) => {
+        try {
+            if (event.target.className.includes("search") === false) {
+                setSearchQuery("")
+                var search = document.getElementById("searchInput");
+                if (search !== null) search.value = "";
             }
+        } catch (error) {
 
-        });
+        }
+
+    }
+    useEffect(() => {
+        document.body.removeEventListener("click",onClickEvent);
+        document.body.addEventListener("click", onClickEvent);
 
     }, [])
 
@@ -54,8 +57,10 @@ function Navbar() {
                 <div className='container h-full flex flex-row px-3'>
                     {/* Left Side */}
                     <div className='flex justify-center items-center'>
-                        <Link to={"/"}>LOGO</Link>
-
+                        <a  href="https://www.linkedin.com/in/shaked-levy/" className="flex ml-2 md:mr-24">
+                                <img src={"/logo192.png"} className="h-8 mr-3" alt="Foodify Logo" />
+                                <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Foodify</span>
+                            </a>
                     </div>
                     {/* Center  */}
 
@@ -64,8 +69,11 @@ function Navbar() {
                         <div
                             className="hidden md:flex relative  flex-row  justify-center items-center  h-full w-3/4 "
                             data-te-dropdown-ref>
-                            <div className='reletive w-full h-[33px]'>
+                            <div className=' w-full h-[33px]'>
                                 <input
+                                    aria-label='search'
+                                    role='search'
+                                    placeholder='Search'
                                     id='searchInput'
                                     onChange={(e) => { setSearchQuery(e.target.value) }}
                                     type="text"
@@ -89,12 +97,13 @@ function Navbar() {
                     </div>
                     {/* Right Side */}
                     <div className='flex justify-center items-center gap-2'>
-                        <Link to={"/login"} className='border border-neutral-300 rounded-full p-2 ease-in-out hover:bg-slate-300 hover:border-black'>
-                            {isAuthenticated == false ? <AiOutlineUser /> :
+                        <Link to={"/login"}  aria-label="login-profile"
+                        className='border border-neutral-300 rounded-full p-2 ease-in-out hover:bg-slate-300 hover:border-black'>
+                            {isAuthenticated === false ? <AiOutlineUser /> :
                                 <img src={localStorage.getItem("user_picture")} alt='Profile Avatar' className='h-4 w-4' />
                             }
                         </Link>
-                        <button onClick={() => HandleCart()}
+                        <button onClick={() => HandleCart()} aria-label="my-cart"
                             className='hidden md:block relative border border-neutral-300 rounded-full p-2 ease-in-out hover:bg-slate-300 hover:border-black'>
                             <AiOutlineShoppingCart />
                             {cartQuantity > 0 ? <span
@@ -110,7 +119,7 @@ function Navbar() {
                 </div>
             </nav>
 
-            <button onClick={() => HandleCart()}
+            <button onClick={() => HandleCart()} aria-label="my-cart"
                 className='fixed bottom-8 right-8  block md:hidden  border border-neutral-300 rounded-full p-2 ease-in-out bg-slate-300 hover:border-black'>
                 <AiOutlineShoppingCart />
                 {cartQuantity > 0 ? <span
@@ -162,9 +171,9 @@ function Navbar() {
                 <div
                     className="flex   flex-row  justify-center items-center   w-full fixed top-9 px-2"
                     data-te-dropdown-ref>
-                    <div className='reletive w-full h-[33px] pr-2'>
+                    <div className=' w-full h-[33px] pr-2'>
                         <input
-                            id='searchInput'
+                            id='searchInputmobile'
                             placeholder='Search For Products'
                             onChange={(e) => { setSearchQuery(e.target.value) }}
                             type="text"

@@ -3,17 +3,10 @@ import api from "../utils/api";
 import axios from "axios";
 
 export const useFetch = (initialUrl) => {
-    const [url, setUrl] = useState(initialUrl)
+    const [url, ] = useState(initialUrl)
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(null);
     const [error, setError] = useState(null);
-
-    useEffect(() => {
-        fetchData()
-
-    }, [url]);
-
-
 
     const fetchData = () => {
         setLoading(true);
@@ -35,6 +28,12 @@ export const useFetch = (initialUrl) => {
             source.cancel();
         }
     }
+
+    useEffect(() => {
+        fetchData()
+
+    }, [url]);
+
 
     return { data, error, loading, fetchData };
 };

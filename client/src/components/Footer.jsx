@@ -10,8 +10,8 @@ function Footer() {
                 <div className="md:flex md:justify-between">
                     <div className="mb-6 md:mb-0">
                         <a href="https://www.linkedin.com/in/shaked-levy/" className="flex items-center">
-                            <img src="https://flowbite.com/docs/images/logo.svg" className="h-8 mr-3" alt="Logo" />
-                            <span className="self-center text-2xl font-semibold whitespace-nowrap ">LOGO</span>
+                            <img src={"/logo192.png"} className="h-8 mr-3" alt="Logo" />
+                            <span className="self-center text-2xl font-semibold whitespace-nowrap ">FOODIFY</span>
                         </a>
                     </div>
                     <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
@@ -21,7 +21,6 @@ function Footer() {
                                 <li className="mb-4">
                                     <Link to={"/about"} className="hover:underline">About</Link>
                                 </li>
-       
                             </ul>
                         </div>
                         <div>

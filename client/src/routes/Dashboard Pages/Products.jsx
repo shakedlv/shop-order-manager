@@ -5,20 +5,17 @@ import { Button, Modal } from 'flowbite-react';
 import InputGroup from '../../components/UI/InputGroup';
 import api from '../../utils/api';
 import { Toaster } from 'react-hot-toast';
-import { notifyFailed as notifyFailed, notifySuccess } from '../../utils/notify';
+import { notifyFailed, notifySuccess } from '../../utils/notify';
 import { useFetch } from '../../hooks/hooks';
 
 
-/* TO-DO   
-    handle pictures
- */
 function Products() {
-    const { data: products, error: p_error, loading: p_loading , fetchData : getProducts } = useFetch("Products")
-    const { data: categories, error: c_error, loading: c_loading ,fetchData : getCategories } = useFetch("Categories")
+    const { data: products , fetchData : getProducts } = useFetch("Products")
+    const { data: categories} = useFetch("Categories")
 
 
     const [currentPage, setCurrentPage] = useState(1)
-    const [productsPerPage, setProductsPerPage] = useState(25)
+    const [productsPerPage, ] = useState(25)
 
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -33,7 +30,7 @@ function Products() {
     const [displayName, setDisplayName] = useState("")
     const [description, setDescription] = useState("")
     const [categoryId, setCategoryId] = useState(1)
-    const [mainPicture, setMainPicture] = useState("")
+    const [icon, setIcon] = useState("")
     const [price, setPrice] = useState(1)
 
     const HandleOpenToEdit = (product) => {
@@ -42,7 +39,7 @@ function Products() {
         setDisplayName(product["displayName"]);
         setDescription(product["description"]);
         setCategoryId(product["categoryId"]);
-        setMainPicture(product["image"]);
+        setIcon(product["image"]);
         setPrice(product["price"]);
 
     }
@@ -53,23 +50,31 @@ function Products() {
         setDisplayName("");
         setDescription("");
         setCategoryId(1);
-        setMainPicture("");
+        setIcon("");
         setPrice(1);
 
     }
 
     const HandleSaveOrCreate = () => {
+
+        if(displayName.length < 1
+            || description.length < 1 
+            || icon.length < 1)
+            {
+                notifyFailed("Displayname , Image or Description is invalid!")
+                return;
+            }
+
         var productData = {
             id: productId > 0 ? productId : 0,
             displayName: displayName,
             description: description,
             categoryId: categoryId,
-            image: mainPicture,
+            image: icon,
             price: price,
         }
         const verb = productId > 0 ? "put" : "post";
-        console.log(verb)
-        console.log(productData)
+
         api[verb]("Products", productData).then((result) => {
             notifySuccess("Product Updated Successfully!");
             getProducts();
@@ -199,6 +204,9 @@ function Products() {
                     <div className="space-y-6">
                         <InputGroup className={"flex-grow"} id={"name"} label={"Display Name"} value={displayName} type={"text"} onChangeEvent={(e) => { setDisplayName(e.target.value) }} />
                         <InputGroup id={"desc"} label={"Description"} value={description} type={"text"} onChangeEvent={(e) => { setDescription(e.target.value) }} />
+                        <div className="space-y-6">
+                        <InputGroup className={"flex-grow"} id={"image"} label={"Product Image"} value={icon} type={"text"} onChangeEvent={(e) => { setIcon(e.target.value) }} />
+                    </div>
                         <select value={categoryId}
                             className='h-2/3 bg-transparent border  border-neutral-300 w-38 rounded-md text-sm p-1 text-center ' onChange={(e) => { setCategoryId(Number.parseInt(e.target.value)) }}>
                             {categories ? categories.map((cat) => {
