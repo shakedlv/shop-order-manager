@@ -27,7 +27,7 @@ function Sidenav() {
                                     <path clipRule="evenodd" fillRule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
                                 </svg>
                             </button>
-                            <a  href="https://www.linkedin.com/in/shaked-levy/" className="flex ml-2 md:mr-24">
+                            <a href="https://www.linkedin.com/in/shaked-levy/" className="flex ml-2 md:mr-24">
                                 <img src={"/logo192.png"} className="h-8 mr-3" alt="Foodify Logo" />
                                 <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Foodify</span>
                             </a>
@@ -63,16 +63,11 @@ function Sidenav() {
                                 </svg>
                             </button>
                             <ul id="dropdown-E-commerce" className="hidden py-2 space-y-2">
+
                                 <li>
-                                    <a href="#" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                                        <span className="flex-1 ml-3 whitespace-nowrap">All orders</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                                        <span className="flex-1 ml-3 whitespace-nowrap">Open Orders</span>
-                                        <span className="inline-flex items-center justify-center w-3 h-3 p-3 ml-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">3</span>
-                                    </a>
+                                    <Link to={"/dashboard/orders"} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                        <span className="flex-1 ml-3 whitespace-nowrap">Orders</span>
+                                        {/*<span className="inline-flex items-center justify-center w-3 h-3 p-3 ml-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">3</span> */}                                        </Link>
                                 </li>
                             </ul>
                         </li>
