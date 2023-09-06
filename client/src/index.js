@@ -28,6 +28,7 @@ import { ShoppingCartProvider } from './context/ShoppingCart';
 import Branches from './routes/Dashboard Pages/Branches';
 import PaymentPage from './routes/Store Pages/PaymentPage';
 import PurchaseCompleted from './routes/Feedback Pages/PurchaseCompleted';
+import Orders from './routes/Dashboard Pages/Orders';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -104,7 +105,11 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/users",
         element: <Users />,
-      }, 
+      },
+      {
+        path: "/dashboard/orders",
+        element: <Orders />,
+      },  
     ],
   }
 ]);

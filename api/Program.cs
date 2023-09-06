@@ -9,6 +9,9 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Http.Json;
 
 var builder = WebApplication.CreateBuilder(args);
+//Overide defaults logging 
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 
 builder.Services.AddAuthentication("Bearer").AddJwtBearer(o => {
     o.TokenValidationParameters = new()
@@ -55,7 +58,12 @@ builder.Services.AddCors((o) => {
     );
 });
 var app = builder.Build();
-
+app.Logger.LogInformation("Sent by logger from program - Starting the app");
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
+}
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<MainContext>();

@@ -98,7 +98,7 @@ function Branches() {
                 <Table>
                     <Table.Head className='border-b border-b-gray-100'>
                         <Table.HeadCell>
-                            Category Name
+                        Branch Name
                         </Table.HeadCell>
                         <Table.HeadCell>
                             Actions

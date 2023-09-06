@@ -18,19 +18,56 @@ namespace api.Controllers
     [ApiController]
     public class OrdersController : ControllerBase
     {
+        private readonly ILogger _logger;
         private readonly IConfiguration _config;
         private readonly IOrderRepository _orderRepo;
 
-        public OrdersController(IConfiguration _config, IOrderRepository _orderRepo)
+        public OrdersController(IConfiguration _config, IOrderRepository _orderRepo, ILoggerFactory logger)
         {
             this._config = _config ?? throw new ArgumentNullException(nameof(_config));
             this._orderRepo = _orderRepo ?? throw new ArgumentNullException(nameof(_orderRepo));
+            this._logger = logger.CreateLogger("OrdersLogger");
+
         }
 
         [HttpGet, Authorize]
         public IActionResult GetAll()
         {
             var result = _orderRepo.GetOrdersWithItems();
+            if(result.Count ==0) return NotFound();
+            foreach (var order in result)
+            {
+                var items = new List<OrderItem>();
+
+                foreach (var item in order.OrderItems)
+                {
+                    Product product = _orderRepo.GetProductsRepository().FindByCondition(p => p.Id == item.ProductId).Include(p => p.Category).FirstOrDefault();
+                    items.Add(new OrderItem()
+                    {
+                        Id = item.Id,
+                        ProductId = item.ProductId,
+                        Product = new Product()
+                        {
+                            Id = item.ProductId,
+                            DisplayName = product.DisplayName,
+                            CategoryId = product.CategoryId,
+                            Category = new Category()
+                            {
+                                Id = product.CategoryId,
+                                DisplayName = product.Category.DisplayName,
+
+                            },
+                            Image = product.Image,
+                            Price = product.Price,
+                        },
+                        Amount = item.Amount,
+                        Price = item.Price,
+
+                    });
+                }
+                order.OrderItems = items;
+
+            }
             return Ok(result);
         }
 
@@ -59,6 +96,7 @@ namespace api.Controllers
                             DisplayName = product.Category.DisplayName,
                              
                         },
+                        Image=product.Image,
                         Price = product.Price,
                     },
                     Amount = item.Amount,
@@ -84,6 +122,8 @@ namespace api.Controllers
         [HttpGet("User/{id:int}"), Authorize]
         public IActionResult GetByUserID(int id)
         {
+            _logger.LogInformation("Getting orders for User with Id - {Id}", id);
+
             List<Order> results = _orderRepo.FindByCondition(p => p.UserId == id).Include(o => o.OrderItems).Include(o => o.Branch).AsQueryable().ToList();
             if (results.Count == 0) return NotFound();
 
@@ -109,6 +149,7 @@ namespace api.Controllers
                                 DisplayName = product.Category.DisplayName,
 
                             },
+                            Image=product.Image,
                             Price = product.Price,
                         },
                         Amount = item.Amount,
