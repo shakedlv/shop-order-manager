@@ -3,8 +3,8 @@ import 'flowbite';
 import { AiOutlineArrowLeft, AiOutlineDashboard, AiOutlineLogout, AiOutlineShop, AiOutlineUser, AiOutlineUsergroupAdd } from 'react-icons/ai'
 import { BsBag } from 'react-icons/bs'
 import { Link, useNavigate } from 'react-router-dom';
-import { CiSettings } from 'react-icons/ci'
 import { Logout } from '../utils/auth';
+import { useFetch } from '../hooks/hooks';
 
 function Sidenav() {
     const nav = useNavigate();
@@ -13,6 +13,7 @@ function Sidenav() {
         Logout()
         nav("/")
     }
+    const { data: orders } = useFetch("Orders")
 
     return (
         <>
@@ -27,10 +28,10 @@ function Sidenav() {
                                     <path clipRule="evenodd" fillRule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
                                 </svg>
                             </button>
-                            <a href="https://www.linkedin.com/in/shaked-levy/" className="flex ml-2 md:mr-24">
+                            <Link to={"/"}  className="flex ml-2 md:mr-24">
                                 <img src={"/logo192.png"} className="h-8 mr-3" alt="Foodify Logo" />
                                 <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Foodify</span>
-                            </a>
+                            </Link>
                         </div>
 
                     </div>
@@ -67,7 +68,8 @@ function Sidenav() {
                                 <li>
                                     <Link to={"/dashboard/orders"} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                         <span className="flex-1 ml-3 whitespace-nowrap">Orders</span>
-                                        {/*<span className="inline-flex items-center justify-center w-3 h-3 p-3 ml-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">3</span> */}                                        </Link>
+                                        {   orders != null ?
+                                            <span className="inline-flex items-center justify-center w-3 h-3 p-3 ml-3 text-sm font-medium text-green-800 bg-green-100 rounded-full">{orders.filter((o)=> o['status'] === 1).length}</span> : <></>}                                        </Link>
                                 </li>
                             </ul>
                         </li>
@@ -108,13 +110,7 @@ function Sidenav() {
                         </li>
                     </ul>
                     <ul className="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
-                        <li>
-                            <a href="#" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                                <CiSettings className='h-[1.5rem] w-[1.5rem]' />
 
-                                <span className="flex-1 ml-3 whitespace-nowrap">Settings</span>
-                            </a>
-                        </li>
                         <li>
                             <Link to={"/profile"} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                 <AiOutlineUser className='h-[1.5rem] w-[1.5rem]' />

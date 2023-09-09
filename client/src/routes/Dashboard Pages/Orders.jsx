@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { Pagination, Table } from 'flowbite-react';
+import { Pagination, Table, TextInput } from 'flowbite-react';
 import { Modal } from 'flowbite-react';
 import { Toaster } from 'react-hot-toast';
 import { useFetch } from '../../hooks/hooks';
 import { HiCheck, HiX } from 'react-icons/hi';
+import { getStatus } from '../../utils/api';
 
 
 
 function Orders() {
-    const { data: orders, loading, fetchData: getOrders } = useFetch("Orders")
+    const { data: orders, loading } = useFetch("Orders")
 
 
     const [currentPage, setCurrentPage] = useState(1)
@@ -25,11 +26,19 @@ function Orders() {
     const [openModal, setOpenModal] = useState("");
     const [openOrderModal, setOpenOrderModal] = useState(null)
 
-
+    const [searchQuery, setSearchQuery] = useState("")
 
     return (
         <div className="sm:ml-[25dvw] overflow-y-hidden">
-            <div className="mt-16 sm:max-w-full sm:w-full px-3 lg:px-0  md:max-w-[70dvw]">
+
+            <div className="mt-16  sm:max-w-full sm:w-full px-3 lg:px-0  md:max-w-[70dvw]">
+                <TextInput
+                    onChange={(e)=>setSearchQuery(e.target.value)}
+                    className='mb-3'
+                    id="search"
+                    placeholder="User Search By Email"
+                    type="text"
+                />
                 <Table>
                     <Table.Head className='border-b border-b-gray-100'>
 
@@ -52,7 +61,11 @@ function Orders() {
                         </Table.HeadCell>
                     </Table.Head>
                     <Table.Body className="divide-y">
-                        {loading === false ? currentOrders.map((o) => {
+                        {loading === false ? currentOrders.filter((o)=>{
+                            if(searchQuery.length === 0) return true;
+                            return o['user']['email'].includes(searchQuery);
+                        })
+                        .map((o) => {
                             var pickUpDate = new Date(o['pickUpDate']);
 
                             return <Table.Row onClick={() => {
@@ -77,7 +90,7 @@ function Orders() {
                                     {o['isPaid'] ? <HiCheck /> : <HiX />}
                                 </Table.Cell>
                                 <Table.Cell>
-                                    {o['status']}
+                                    {getStatus(o['status'])}
                                 </Table.Cell>
                             </Table.Row>
                         }) : <Table.Row><Table.Cell>Loading Orders . . .</Table.Cell></Table.Row>}

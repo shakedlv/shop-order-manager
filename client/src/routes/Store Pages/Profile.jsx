@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
-import { Label, TextInput, Avatar, Table, Pagination, Modal } from 'flowbite-react';
-import api from '../../utils/api';
+import { Label, TextInput, Avatar, Table, Pagination, Modal, Checkbox } from 'flowbite-react';
+import api, { getStatus } from '../../utils/api';
 import { Toaster } from 'react-hot-toast';
 import { notifyFailed, notifySuccess } from '../../utils/notify';
 import { HiCheck, HiX } from 'react-icons/hi';
 import { Logout } from '../../utils/auth';
+import { useFetch } from '../../hooks/hooks';
 
 
 
@@ -21,8 +22,8 @@ function Profile() {
     nav("/")
   }
   const [user, setUser] = useState({})
-  const [orders, setOrders] = useState([])
   const [loading, setLoading] = useState(true)
+  const { data: orders, fetchData: getOrders } = useFetch("Orders/User/" + localStorage.getItem("user_id"))
 
   useEffect(() => {
     var userId = localStorage.getItem("user_id");
@@ -31,12 +32,8 @@ function Profile() {
       .then((result) => {
         if (result.status === 200) {
           setUser(result.data);
-          api.get("Orders/User/" + userId).then(res => {
-            setOrders(res.data);
-            setLoading(prev => false);
-          }).catch(err => {
-            setLoading(prev => true);
-          })
+          setLoading(prev => false);
+
         } else {
           setLoading(prev => true);
         }
@@ -51,6 +48,8 @@ function Profile() {
   const [newPassword, setNewPassword] = useState("")
   const [oldPassword, setOldPassword] = useState("")
 
+  const [showCanceled, setShowCanceled] = useState(false)
+
 
   const [currentPage, setCurrentPage] = useState(1)
   const [ordersPerPage,] = useState(5)
@@ -59,7 +58,6 @@ function Profile() {
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
   const totalPages = orders ? Math.ceil(orders.length / ordersPerPage) : 1;
   const currentOrders = orders ? orders.slice(indexOfFirstOrder, indexOfLastOrder) : [];
-
   const [openModal, setOpenModal] = useState("");
   const [openOrderModal, setOpenOrderModal] = useState(null)
 
@@ -106,8 +104,19 @@ function Profile() {
 
   }
 
+  const HandleCancelOrder = (id) => {
+    api.put("/Orders/Status", {
+      "id": id,
+      "status": 3
+    }).then((res) => {
+      notifySuccess("Closed Order #" + id)
+      getOrders();
+    }).catch((err) => {
+      notifyFailed("Failed to change order status!")
+    });
+    setOpenModal("");
 
-
+  }
 
   return (
     <>
@@ -166,7 +175,12 @@ function Profile() {
 
           </div>}
         <div className='container border-t border-t-gray-300 p-3'>
-          <h3 className='text-2xl font-bold'>My Orderers</h3>
+          <h3 className='text-2xl font-bold'>My Orderers &ensp;
+            <Checkbox id="showCanceled" onChange={(e) => setShowCanceled(prev => !prev)} />
+            <Label htmlFor="showCanceled">
+              &ensp;Show Canceled Orders
+            </Label>
+          </h3>
           <div>
             <Table>
               <Table.Head>
@@ -191,13 +205,18 @@ function Profile() {
                 <Table.HeadCell>
                   Status
                 </Table.HeadCell>
+
               </Table.Head>
               <Table.Body className="divide-y">
-                {currentOrders.map((o) => {
+                {currentOrders.filter((o) => {
+                  if (showCanceled) return true;
+                  return o['status'] !== 3;
+                }).map((o) => {
                   var pickUpDate = new Date(o['pickUpDate']);
                   var createdDate = new Date(o['createdDate']);
 
-                  return <Table.Row onClick={() => {
+                  return <Table.Row  
+                  onClick={() => {
                     setOpenModal('orderDetails');
                     setOpenOrderModal(o);
                   }}
@@ -224,7 +243,7 @@ function Profile() {
                       {o['isPaid'] ? <HiCheck /> : <HiX />}
                     </Table.Cell>
                     <Table.Cell>
-                      {o['status']}
+                      {getStatus(o['status'])}
                     </Table.Cell>
                   </Table.Row>
                 })}
@@ -245,8 +264,18 @@ function Profile() {
       <Modal dismissible show={openModal === 'orderDetails'} onClose={() => setOpenModal("")}>
         {openOrderModal != null ? <>
           <Modal.Header>
-            Order Confirmation Number # {openOrderModal['id']}             <span className={openOrderModal['isPaid'] ? "text-xs text-green-500" : "text-xs text-red-500"}>{openOrderModal['isPaid'] ? "Paid" : "Not Paid"}</span>
-            <span className='text-xs text-gray-400'><br />Created At <span className='text-gray-500'> {new Date(openOrderModal['createdDate']).toDateString()}</span></span>
+            Order Confirmation Number # {openOrderModal['id']}<span className={openOrderModal['isPaid'] ? "text-xs text-green-500" : "text-xs text-red-500"}>{openOrderModal['isPaid'] ? "Paid" : "Not Paid"}</span>
+            <div className='flex flex-row justify-around w-full'>
+            <span className='text-xs text-gray-400'>Created At <span className='text-gray-500'> {new Date(openOrderModal['createdDate']).toDateString()}</span></span>
+
+              {openOrderModal === 3 ? <span className='text-red-400'> Order is Canceled</span> :
+                <button
+                  onClick={() => HandleCancelOrder(openOrderModal['id'])}
+                  className="text-xs text-red-600 hover:underline">
+                  Cancel
+                </button>}
+
+            </div>
 
           </Modal.Header>
           <Modal.Body>
@@ -269,12 +298,12 @@ function Profile() {
             <div className='space-y-6 border-t border-t-gray-300 mt-2'>
               <h1 className='font-bold'>Order Details : <span className='text-gray-300'>Items : {openOrderModal['orderItems'].length}</span></h1>
               <div className='flex flex-col gap-2 max-h-64 overflow-y-scroll'>
-                {openOrderModal['orderItems'].map((item) =>{
+                {openOrderModal['orderItems'].map((item) => {
                   return <div className='flex flex-row rounded-md h-24 border'>
-                    <img  className='h-full  rounded-l-md'
-                    src={item['product']['image']} alt={item['product']['displayName']}/>
+                    <img className='h-full  rounded-l-md'
+                      src={item['product']['image']} alt={item['product']['displayName']} />
                     <div className='flex-grow flex flex-col justify-start p-2'>
-                      <span className='font-bold'>{item['product']['displayName']}</span>                 
+                      <span className='font-bold'>{item['product']['displayName']}</span>
                       <span className='text-sm'> Qyt {item['amount']}</span>
                       <span className='text-sm'> Total {item['price']} $</span>
                     </div>

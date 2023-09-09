@@ -57,10 +57,10 @@ function Navbar() {
                 <div className='container h-full flex flex-row px-3'>
                     {/* Left Side */}
                     <div className='flex justify-center items-center'>
-                        <a  href="https://www.linkedin.com/in/shaked-levy/" className="flex ml-2 md:mr-24">
+                    <Link to={"/"}  className="flex ml-2 md:mr-24">
                                 <img src={"/logo192.png"} className="h-8 mr-3" alt="Foodify Logo" />
                                 <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Foodify</span>
-                            </a>
+                            </Link>
                     </div>
                     {/* Center  */}
 

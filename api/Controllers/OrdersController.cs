@@ -231,6 +231,24 @@ namespace api.Controllers
             return NoContent();
         }
 
+        [HttpPut("Status"), Authorize]
+        public IActionResult UpdateOrderStatus(OrderUpdateStatusRequest request)
+        {
+
+ 
+
+            Order? order = _orderRepo.FindByCondition(c => c.Id == request.Id).AsNoTracking().FirstOrDefault();
+            if (order == null)
+            {
+                return NotFound();
+            }
+  
+            order.Status  = request.Status;
+            _orderRepo.Update(order);
+
+            return NoContent();
+        }
+
         [HttpDelete("{id:int}")]
         public IActionResult Delete(int id)
         {
@@ -246,6 +264,12 @@ namespace api.Controllers
     }
 }
 
+public class OrderUpdateStatusRequest
+{
+    public int Id { get; set; }
+    public OrderStatus Status { get; set; }
+
+}
 
 public class OrderCreateRequest 
 {

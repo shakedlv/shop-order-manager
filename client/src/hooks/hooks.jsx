@@ -32,7 +32,7 @@ export const useFetch = (initialUrl) => {
     useEffect(() => {
         fetchData()
 
-    }, [url]);
+    }, []);
 
 
     return { data, error, loading, fetchData };

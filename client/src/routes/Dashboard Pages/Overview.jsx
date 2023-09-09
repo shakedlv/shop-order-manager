@@ -1,9 +1,10 @@
 import React from 'react'
+import { useFetch } from '../../hooks/hooks';
+import { checkDates } from '../../utils/api';
 
-/* TO-DO
-    Display orders
- */
+
 function Overview() {
+    const { data: orders } = useFetch("Orders")
 
     return (
         <div className="sm:ml-[25dvw] overflow-y-hidden">
@@ -11,13 +12,19 @@ function Overview() {
                 <div className="grid grid-cols-2 gap-3 mb-4">
                     <div className="flex items-center justify-center h-24 rounded  dark:bg-gray-800 bg-red-200">
                         <p className="text-2xl text-gray-400  flex flex-col justify-center items-center">
-                            <span>1</span>
+                            <span>
+                                {orders != null ?
+                                    orders.filter((o) => o['status'] === 1).length : "0"}
+                            </span>
                             <span className='text-center text-sm'>Open Orders</span>
                         </p>
                     </div>
                     <div className="flex items-center justify-center h-24 rounded  dark:bg-gray-800 bg-green-200">
                         <p className="text-2xl text-gray-400  flex flex-col justify-center items-center">
-                            <span>1</span>
+                            <span>
+                                {orders != null ?
+                                    orders.filter((o) => o['status'] === 1 && checkDates(o['pickUpDate'])).length : "0"}
+                            </span>
                             <span className='text-center text-sm'>Pickup Today</span>
                         </p>
                     </div>

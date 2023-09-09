@@ -13,7 +13,7 @@ function PaymentPage() {
 
   const { data: products,  loading: p_loading } = useFetch("Products")
   const { data: branches } = useFetch("Branches")
-  const { cartQuantity, getCart, getCartTotal, clearCart } = useCart()
+  const { cartQuantity, getCart, getCartTotal } = useCart()
   const [branchId, setBranchId] = useState(1)
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
@@ -25,8 +25,7 @@ function PaymentPage() {
     if (cartQuantity <= 0) nav("/")
   },)
 
-  const handlePay = (e) => {
-    e.preventDefault();
+  const handlePay = () => {
 
     var cart = getCart();
     var orderItems = []
@@ -48,7 +47,6 @@ function PaymentPage() {
       "orderItems": orderItems,
     }
     api.post("Orders", orderData).then((result) => {
-      clearCart();
       nav("/thankyou");
 
 
@@ -58,7 +56,7 @@ function PaymentPage() {
   }
 
   if (p_loading) return <div className="flex flex-row justify-center"><Spinner /></div>
-
+  if(cartQuantity <= 0) nav('/')
   return (
     <main className="bg-neutral-50 w-full min-h-[65dvh] pt-14 flex flex-col items-center gap-2">
 
@@ -128,9 +126,11 @@ function PaymentPage() {
 
           </div>
 
-          <div className="flex flex-row justify-center">
+          <div className="flex flex-row justify-center gap-2">
             {userId == null ? <Link to={"/login"} className="bg-blue-500 px-3 py-1  w-fit rounded-md  hover:bg-blue-300 border hover:border-black ">You must login to pay!</Link>
-              : <button onClick={(e) => { handlePay(e) }} className="bg-blue-500 px-3 py-1 rounded-md w-1/5 hover:bg-blue-300 border hover:border-black ">Pay Now!</button>}
+              : <>
+              <button onClick={() => { handlePay() }} className="bg-blue-500 px-3 py-1 rounded-md w-1/5 hover:bg-blue-300 border hover:border-black ">Pay Now!</button>
+              </>}
           </div>
         </div>
 

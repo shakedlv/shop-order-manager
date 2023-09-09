@@ -1,7 +1,15 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useCart } from '../../context/ShoppingCart';
 
 function PurchaseCompleted() {
+  const { cartQuantity, clearCart } = useCart()
+  const nav = useNavigate();
+  useEffect(() => {
+    if(cartQuantity <=0)  nav('/')
+    clearCart();
+  }, )
+  
   return (
     <div className='min-h-screen min-w-full flex flex-col justify-center items-center font-bold gap-y-2'>
       <h1 className='text-8xl text-green-500'>Order Completed !</h1>

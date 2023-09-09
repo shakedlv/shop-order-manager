@@ -9,10 +9,10 @@ function Footer() {
             <div className="mx-auto w-full max-w-screen-xl p-4 px-8 py-6 lg:py-8">
                 <div className="md:flex md:justify-between">
                     <div className="mb-6 md:mb-0">
-                        <a href="https://www.linkedin.com/in/shaked-levy/" className="flex items-center">
+                        <Link to={"/"} className="flex items-center">
                             <img src={"/logo192.png"} className="h-8 mr-3" alt="Logo" />
                             <span className="self-center text-2xl font-semibold whitespace-nowrap ">FOODIFY</span>
-                        </a>
+                        </Link>
                     </div>
                     <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
                         <div>
