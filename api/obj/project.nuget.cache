@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "fA6MShWOpC55F5a26pCMosJssK4nLV019pV3YLWyAZxGSvG4WiB/h60tGw4/Oqa1VaGKGzOzuQqFTm8izAxCZw==",
+  "dgSpecHash": "/12HWKoLCWVoyxHYjrc7vCjuIZeimHUCFvWyvBjeZ500PtVpClODQ03cAdXOu1fl01IYPzWeNFtqt6ab85a43g==",
   "success": true,
-  "projectFilePath": "E:\\fullstackproject\\api\\api.csproj",
+  "projectFilePath": "e:\\fullstackproject\\api\\api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\levys\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\levys\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",

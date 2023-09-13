@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\fullstackproject\\api\\api.csproj": {}
+    "e:\\fullstackproject\\api\\api.csproj": {}
   },
   "projects": {
-    "E:\\fullstackproject\\api\\api.csproj": {
+    "e:\\fullstackproject\\api\\api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\fullstackproject\\api\\api.csproj",
+        "projectUniqueName": "e:\\fullstackproject\\api\\api.csproj",
         "projectName": "api",
-        "projectPath": "E:\\fullstackproject\\api\\api.csproj",
+        "projectPath": "e:\\fullstackproject\\api\\api.csproj",
         "packagesPath": "C:\\Users\\levys\\.nuget\\packages\\",
-        "outputPath": "E:\\fullstackproject\\api\\obj\\",
+        "outputPath": "e:\\fullstackproject\\api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\levys\\AppData\\Roaming\\NuGet\\NuGet.Config"
